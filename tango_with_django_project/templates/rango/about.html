@@ -1,0 +1,37 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+    <div class="page-header">
+        <h1>About</h1>
+    </div>
+    <div>   
+        {% if visits > 1 %}
+        <p> You've visited Rango {{visits}} times!</p>
+        {% else %}
+        <p> You've visited Rango {{visits}} time!</p>
+        {% endif %}
+        <img src={% static "images/backgroundGif3.gif" %} alt = "background gif" />
+
+    </div>
+    <br />
+    <button onClick="alert('You clicked the button using Javascript.');">
+       Click Me - I run Javascript
+    </button>
+    
+    <button id="about-btn">
+        Click Me - I'm Javascript on Speed
+    </button>
+    <p>This is a example</p>
+    <p>This is another example</p>
+    <div id="msg">Hello</div>
+    
+    <div class="count-number" data-from="0" data-to="180" data-speed="1000" style="color:#ff6e00">180</div>
+
+        
+{% endblock %}
+
+

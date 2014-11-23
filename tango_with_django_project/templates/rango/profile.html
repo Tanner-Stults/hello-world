@@ -1,0 +1,53 @@
+{% extends "rango/base.html" %}
+
+{% load staticfiles %}
+{% load static %}
+
+{% block title %}Your Profile{% endblock %}
+
+{% block body_block %}
+
+    <div class="page-header">
+        <h1>Your Profile</h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Profile Picture</th>
+                    <th>Email</th>
+                    <th>Website</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user.username }}</td>
+                    {% if userprofile.picture %}
+                    <td><img src= "{{ userprofile.picture.url }}" alt="User Profile Picture" style = "height:100px;"/></td>
+                    <td>{{ user.email }}</td>
+                    {% endif %}
+                    {% if userprofile.website %}
+                    <td><a href="{{ userprofile.website }}">{{ userprofile.website }}</a></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="hero-unit">
+   	   <h1> Profile <h1> <br/>
+	   <h2>{{ user.username }}</h2>
+       <p>Email: {{ user.email }}</p>
+       
+       {% if userprofile %}
+	   <p>Website: <a href="{{ userprofile.website }}">{{userprofile.website}}</a></p>
+           <br/>
+       {% if userprofile.picture %}
+	   <img src="{{ userprofile.picture.url }}"  />
+	   {% endif %}
+	   {% endif %}
+    </div>  
+
+{% endblock %}
