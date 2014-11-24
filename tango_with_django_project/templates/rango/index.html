@@ -7,29 +7,27 @@
     	<style type="text/css">
             
 		#intro {
-                    	background-image: url('/static/images/office-supplies.jpg');
+                        background-image: url('/static/images/office-supplies.jpg');
                         background-size: cover;
-                        background-position: 50% -250px;
-			/*background: url("/static/images/images/intro.png") 50% 0 fixed; */
-			height: auto;  
+			height: 600px;  
 			margin: 0 auto; 
 		    width: 100%; 
 		    position: relative; 
 		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-		    padding: 100px 0;
+		    padding: 180px 0;
 		}
-		#home { 
-			background: url("/static/images/header_office.jpg") 50% 0 fixed;
-                        background-position: 50% -250px;
-			height: auto;  
-			margin: 0 auto; 
-		    width: 100%; 
-		    position: relative; 
-		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-		    padding: 100px 0;
+                
+                 #filler { 
+                    background: url("/static/images/images/about.png") 50% 0 fixed; 
+                    height: 100px;
+                    margin: 0 auto; 
+		    width: 100%;
+                    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+                    position: relative; 
+
 		}
-		#about { 
-			background: url("/static/images/images/about.png") 50% 0 fixed; 
+		#quote { 
+			background: url("/static/images/paper_light.jpg") 50% 0 fixed; 
 			height: auto;
 			margin: 0 auto; 
 		    width: 100%; 
@@ -38,24 +36,78 @@
 		    padding: 100px 0;
 		    color: #fff;
 		}
+		#pitch { 
+			background: url("/static/images/header_office.jpg") 50% 0 fixed;
+			height: 600px;  
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 120px 0;
+		}
+		#about { 
+			background: url("/static/images/images/about.png") 50% 0 fixed; 
+			height: auto;
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 10px 0;
+		    color: #fff;
+		}
 
 		/* Non-essential demo stuff */
 		.jumbotron {
 		    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                    text-align: center;
 		}
+                .jumbotron p {
+                    color: #444;
+                    font-size: 24px;
+		}
+                
+                #pitch p {
+                    font-size: 16px;
+		}
+                
+                .headerWidth{
+                    width: 820px;
+                }
+                
                 .well {
-		    padding-left:10px;
-                    padding-right:10px;
-		    
+		    padding-left: 20px;
+                    padding-right: 20px;
+                    background-color: #FFFFFD;
 		}
+                
+                .justify{
+                    text-align: justify;
+                }
 		.media-object {
-                    width: 64px; height: 64px; padding-bottom: 30px
+                    width: 34px; height: 64px; padding-bottom: 30px
                 }
                 
                 .col-centered{
                     float: none;
                     margin: 0 auto;
                 }
+                .jumbotron:not(.text){
+                    opacity: .97
+                }
+                .quote{
+                    position:relative;
+                    height: 75px;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    color: white;
+                    text-align: center;
+                    margin-top:0;
+                    margin-bottom:0;
+                    font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+                    font-size: 48px;
+                }
+
 	</style>
 {% endblock %}
 
@@ -84,29 +136,42 @@
 {% endblock %}
     
 {% block body_block %}
-    <section id="intro" data-speed="6" data-type="background" >
-        <div class="container">
+    <section id="intro" data-speed="1.9" data-type="background" >
+        <div class="container headerWidth">
 
-            <div class="jumbotron">
-                <h2>XPJobs</h2>
-                <p>We have been connecting experienced workers with thier dream jobs since 2014.</p>
+            <div class="jumbotron well">
+                <div class="text">
+                <h1>XPJobs</h1>
+                <p>Connecting experienced workers with their dream jobs</p>
+                </div>
             </div>
         </div>
     </section>
-
+    <section id="filler" data-speed="1.5" data-type="background">
+    </section>
+    </section>
+    <section id="quote" data-speed="1.25" data-type="background" >
+            <div class="container quote">
+            <p>Getting a job has never been easier.</p>
+        </div>
+    </section>
+    <section id="filler" data-speed="1.5" data-type="background">
+    </section>
 	<!-- Section #2 -->
-    <section id="home" data-speed="4" data-type="background">
+    <section id="pitch" data-speed="4" data-type="background">
         <div class="container">
             <div class="row-fluid">
-                <div class="col-sm-5 col-md-5 col-md-offset-0 well">
-                  <h2>Heading</h2>
-                  <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque cursus nisl consectetur et.</p>
-                  <p><a class="btn btn-success" href="#">View details &raquo;</a></p>
+                <div class="col-sm-5 col-md-5 col-md-offset-0 well justify">
+                  <h2>Job-Seekers</h2>
+                  <p>Jumping back into the job market has never been easier. Upload your resume and let potential employers know that your ready to work with your detailed XPJobs profile. Portions of your resume will automatically be highlighted depending on which employer is viewing your profile so you can be sure you're always placing your best foot forward.</p>
+                  <p>Seemlessly search curated job listing that are the best match for you and get the inside-scoop about each job. Connect with recruiters and other employees to get a 360&deg view of each employment oportunity.</p>
+                  <p><a class="btn btn-success" href="#">Learn More &raquo;</a></p>
                 </div><!-- /.span4 -->
-                <div class="col-sm-5 col-md-5 col-md-offset-2 well">
-                  <h2>Heading</h2>
-                  <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                  <p><a class="btn btn-success" href="#">View details &raquo;</a></p>
+                <div class="col-sm-5 col-md-5 col-md-offset-2 well justify">
+                  <h2>Employers</h2>
+                    <p>Looking for experienced workers to expand your business? Search XPJobs for qualified candidates with years of experience to join your workforce. </p>
+                    <p>Get access to powerful filtering tools to easily and effecitely focus your recruiting efforts on not only the most qualified candidates, but also the candidates who would fit best your your businesses culture. Once you find your ideal employee, reaching out to them has never been easier. Let XPJobs make the first introduction and track the application process from start to finish.</p>
+                    <p><a class="btn btn-success" href="#">Learn more &raquo;</a></p>
                 </div>
             </div>
         </div>
@@ -116,47 +181,48 @@
     <section id="about" data-speed="2" data-type="background">
         <div class="container">
             <div class="page-header">
-                <h1>Final Section Headline <small>Some subtext goes here...</small></h1>
+                <h1>Premium <small>&nbspSupercharge your recruitment efforts</small></h1>
             </div>
             <div class="row-fluid">
                 <div class="col-sm-4 col-md-4">
-                    <h2>More Details</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque cursus nisl consectetur et.</p>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque cursus nisl consectetur et.</p>
+                    <h2>Pricing Plan</h2>
+                    <p>Our wide range of price plans offers something for everyone. <b>Starting from 0$</b>, individuals and businesses alike can customize thier plan to fit each of their needs.</p>
+                    <p>Plus, we don't get a dime until you get results, guaranteed.</p>
                     <p><a class="btn btn-success">View details &raquo;</a></p>
                 </div><!-- /.span4 -->
                 <div class="col-sm-4 col-md-4">
-                    <h2>Heading</h2>
+                    <h2>Features</h2>
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="images/check.png">
+                            <img class="media-object" src="/static/images/images/check.png">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.
+                            <h4 class="media-heading">Promoted Listing</h4>
+                            <p>Get in front of the people who matter.</p>
                         </div>
                     </div>
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="images/check.png">
+                            <img class="media-object" src="/static/images/images/check.png">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.
+                            <h4 class="media-heading">Profile Activity</h4>
+                            <p>See detailed reports on who has been viewing your profile.</p>
                         </div>
                     </div>
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="images/check.png">
+                            <img class="media-object" src="/static/images/images/check.png">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.
+                            <h4 class="media-heading">Get Connected</h4>
+                            <p>Leverage your connections to get in contact with employers.</p>
                         </div>
                     </div>
                 </div><!-- /.span4 -->
                 <div class="col-sm-4 col-md-4">
-                    <h2>Log In</h2>
+
+                    <h2>Sign Up for Free</h2>
                     <form class="form">
                         <div class="control-group">
                             <label class="control-label" for="inputEmail">Email</label>
@@ -172,10 +238,8 @@
                         </div>
                         <div class="control-group">
                             <div class="controls">
-                                <label class="checkbox">
-                                    <input type="checkbox"> Remember me <br><br>
-                                </label>
-                                <button type="submit" class="btn btn-success">Sign in</button>
+                                <br />
+                                <button type="submit" class="btn btn-success">Sign Up</button>
                             </div>
                         </div>
                     </form>
