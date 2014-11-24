@@ -21,7 +21,7 @@
     <![endif]-->
   </head>
 
-  <body style="padding-top: 70px;">
+  <body>
     {% block header %}
     {% endblock %}
     {% block nav %}
@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/rango/">Rango</a>
+          <a class="navbar-brand" href="/rango/">XPJobs</a>
         </div>
         <div class="hidden-xs">
             <ul class="nav navbar-nav navbar-left">
@@ -64,11 +64,12 @@
         </div>
       </div>
     </div>
-
+        {% block side_block %}
     <div class="container-fluid">
       <div class="row">
+
         <div class="col-sm-3 col-md-2 sidebar">
-                {% block side_block %}
+                
                 {% load rango_extras %}
             <ul class="nav nav-list">
                 <li class="nav-header">Find a Category</li>
@@ -84,23 +85,24 @@
                 {% endblock %}
 
         </div>
+        {% block body_width %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% endblock %}
            <div>
                 {% block body_block %}{% endblock %}
             </div>
         </div>
       </div>
     </div>
-    
+    {% block footer %}
     <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container" style="width:100%">
             <p class= "navbar-text pull-left">Site Powered By Over-Paid Elves</p>
-            <a class= " navbar-btn btn-danger btn pull-right mybtn" href= "https://www.linkedin.com/pub/tanner-stults/54/b58/510" target="_blank">Connect with me</a>
-            
+            <a class= " navbar-btn btn-danger btn pull-right mybtn" href= "https://www.linkedin.com/pub/tanner-stults/54/b58/510" target="_blank">Connect with me</a>   
         </div>
     </div>
     <hr />
-
+    {% endblock %}
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -114,5 +116,6 @@
     <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
     <script src="{% static 'js/rango-jquery.js' %}"></script>
     <script src="{% static 'js/rango-ajax.js' %}"></script>
+    <script src="{% static 'js/js/init.js' %}"></script>
   </body>
 </html>
