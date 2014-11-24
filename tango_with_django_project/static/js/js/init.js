@@ -9,9 +9,9 @@ $(document).ready(function(){
       $(window).scroll(function() {
         // HTML5 proves useful for helping with creating JS functions!
         // also, negative value because we're scrolling upwards
-        console.log($scroll.data('speed'))
+        //console.log($scroll.data('speed'))
         var yPos = -($window.scrollTop() / $scroll.data('speed'));
-         console.log(yPos)
+         //console.log(yPos)
         // background position
         var coords = '50% '+ (yPos) + 'px';
  
@@ -19,6 +19,7 @@ $(document).ready(function(){
         $scroll.css({ backgroundPosition: coords });   
       }); // end window scroll
    });  // end section function
+   
 }); // close out script
 
 /* Create HTML5 element for IE */

@@ -3,51 +3,156 @@
 {% load staticfiles %}
 {% load static %}
 
+{% block stylesheet %}
+    	<style type="text/css">
+            
+	    .subcontainer {
+		    background-color: #E6E6E6;
+		    border-radius: 20px;
+		position: relative; 
+		box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		padding: 0px 0;
+		padding-bottom: 50px;
+    
+	    }
+	    .base-card {
+		max-width:700px;
+		width: 100%;
+		background: rgba(255,255,255,0.9);
+		padding: 10px 30px;
+		padding-top: 20px;
+		padding-bottom: 0px;
+		margin: 0 auto;
+		
+	    }
+	    .base-feed {
+		max-width:900px;
+		width: 100%;
+		margin: 0 auto;
+		background: rgba(255,255,255,1);
+		padding: 20px 30px;
+		padding-top: 40px;
+	    }
+	    .thumb {
+		width:100%;
+		max-width: 275px;
+		border-radius: 20px;
+	    }
+	    .name {
+		font-size: 32px;
+	    }
+	    .title {
+		font-size: 26px;
+	    }
+	    .location {
+		font-size: 18px;
+	    }
+	    .detail {
+		font-size: 14px;
+	    }
+	    
+	    .back-thumb {
+		background: url('http://defwalls.com/wallpapers/cool-background-textures-gr_textures.Jpg') 50% 0 fixed;
+                        background-size: cover;
+			-moz-border-radius: 0px;
+			-webkit-border-radius: 20px 20px 0px 0px;
+			border-radius: 20px 20px 0px 0px; 
+			height: 100%;  
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 10px 10px -10px rgba(0,0,0,0.8);
+		    padding: 40px 0;
+	    }
+	    hr.soften {
+		margin: 0 0px;
+		margin-bottom: 10px;
+		height: 2px;
+		background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+		background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+		background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+		background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+		border: 0;
+		}
+	    div#fadeout {
+		height:120px;
+		width:100%;
+		position:fixed;
+		bottom:0;
+		background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 95%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(98%,rgba(255,255,255,1)));
+		background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+		background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+		background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+		background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+	    }
+	</style>
+{% endblock %}
+		
 {% block title %}Your Profile{% endblock %}
+
+{% block side_block %}
+{% endblock %}
+
+{% block body_width %}
+    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
 
 {% block body_block %}
 
     <div class="page-header">
         <h1>Your Profile</h1>
     </div>
+    <div class="row">
+    <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1 subcontainer">
+	    <section class="back-thumb" data-speed="1.15" data-type="background">
+		<div class="base-card container">
+		    
+		    <div class="row">
+			<div class="col-sm-4 col-md-4 col-md-offset-0 col-sm-offset-0 text-center base-left">
+			    {% if userprofile.picture %}
+			    <img class='thumb' src="{{ userprofile.picture.url }}" />
+			    
+			    {% endif %}
+			    <p class="name">{{ user.username }}</p>
+			</div>
+			<div class="col-sm-7 col-md-7 col-md-offset-1 col-sm-offset-1  base-left">			
+			    <p class="name">{{ user.username }}</p><hr class="soften"/>
+			    <p class="title">Student at Cornell University</p>
+			    <p class="location">Sarasota, Florida | Venture Capital and Private Equity</p>
+			    <p class="detail">Previous: Wanderu.com</p>
+			    <p class="detail">Education: Cornell University</p>
+			</div>
+		 
+		    </div>
+		</div>
+	    </section>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Profile Picture</th>
-                    <th>Email</th>
-                    <th>Website</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ user.username }}</td>
-                    {% if userprofile.picture %}
-                    <td><img src= "{{ userprofile.picture.url }}" alt="User Profile Picture" style = "height:100px;"/></td>
-                    <td>{{ user.email }}</td>
-                    {% endif %}
-                    {% if userprofile.website %}
-                    <td><a href="{{ userprofile.website }}">{{ userprofile.website }}</a></td>
-                    {% endif %}
-                </tr>
-            </tbody>
-        </table>
+	<div class='feed'>
+	    <div class="base-feed">
+	       
+    
+	   {% if userprofile.picture %}
+
+	       
+	   {% endif %}
+	   <p class="name">{{ user.username }}</p>
+	   <p class="title">{{ user.username }}</p>
+	    <p class="name">{{ user.username }}</p>
+	   <p class="title">{{ user.username }}</p>
+	    <p class="name">{{ user.username }}</p>
+	   <p class="title">{{ user.username }}</p>
+	    <p class="name">{{ user.username }}</p>
+	   <p class="title">{{ user.username }}</p>
+	   
+	   </div>
+	</div> 
+    </div>
+    </div>
+    <div id="fadeout">
     </div>
     
-    <div class="hero-unit">
-   	   <h1> Profile <h1> <br/>
-	   <h2>{{ user.username }}</h2>
-       <p>Email: {{ user.email }}</p>
-       
-       {% if userprofile %}
-	   <p>Website: <a href="{{ userprofile.website }}">{{userprofile.website}}</a></p>
-           <br/>
-       {% if userprofile.picture %}
-	   <img src="{{ userprofile.picture.url }}"  />
-	   {% endif %}
-	   {% endif %}
-    </div>  
-
+    {% block footer %}
+    {% endblock %}
 {% endblock %}
