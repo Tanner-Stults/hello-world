@@ -9,15 +9,15 @@
             <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
                 <div class="col-xs-6 col-sm-3 placeholder inactive">
             {% if up.picture %}
-                <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  id = 'img-add{% widthratio forloop.counter 1 1 %}' class="img-add {% widthratio forloop.counter 1 1 %}" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  id = '{% widthratio forloop.counter 1 1 %}' class="img-add" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
         
             <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
             -->
             {% else %}
-            <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-add" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+            <img src= {% static 'images/unknown_person.jpg' %} id = '{% widthratio forloop.counter 1 1 %}' class="img-add" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
             {% endif %}
             <a href="/rango/send_email/{{u.id}}/">
-		<div class = 'change_pic'>
+		<div class = 'change_pic' id = 'change_pic_{% widthratio forloop.counter 1 1 %}'>
 		    <img class='change_pic_img' src = {% static 'images/plus-white.gif' %} style='height:20px;margin-top:2px;margin-bottom:2px'/>
 		</div>
 	    </a>
@@ -33,22 +33,30 @@
     {% endfor %}
     </div>
 <div class="row placeholders mobile">
-     {% for up in ups %}
+     {% for u, up in zipped2 %}
             <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
- 
-            <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
+             <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
                 <div class="col-xs-6 col-sm-3 placeholder inactive">
             {% if up.picture %}
-                <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-add" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                    <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  id = '{% widthratio forloop.counter 1 1 %}' class="img-add-mobile" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
         
-            <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
-            -->
+                    <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                    -->
             {% else %}
-            <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-add" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                    <img src= {% static 'images/unknown_person.jpg' %} id = '{% widthratio forloop.counter 1 1 %}' class="img-add-mobile" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
             {% endif %}
-            <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+                    <a href="/rango/send_email/{{u.id}}/">
+                        <div class = 'change_pic' id = 'change_pic_mobile_{% widthratio forloop.counter 1 1 %}'>
+                            <img class='change_pic_img' src = {% static 'images/plus-white.gif' %} style='height:20px;margin-top:2px;margin-bottom:2px'/>
+                        </div>
+                    </a>
+                    <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+                    {% if u|looking_for_group %}
+                    <h5>Looking for Group</h5>
+                    {% else %}
+                    <h5>In group with: {{ u|get_group_names:ou }}</h5>  
+                    {% endif %}
+                </div>
             </div>
-        </div>
-
         {% endfor %}
         </div>

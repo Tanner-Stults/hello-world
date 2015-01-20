@@ -67,6 +67,7 @@ def index(request):
 
     return response
 
+@login_required
 def group(request):
     context_dict = {}
 
@@ -100,46 +101,50 @@ def group(request):
     else:
         addForm = AddGroupForm()
         context_dict['addForm'] = addForm
-        u = User.objects.get(id=request.user.id)
         try:
-            up = UserProfile.objects.get(user=u)
-        except UserProfile.DoesNotExist:
-            up = None
-        if up:
-            if u.groups.all().count() > 0:
-                group = u.groups.get()
-                users = group.user_set.all()
-                context_dict['users'] = users
-                up = []
-                uwe = []
-                uedu = []
-                for us in users:
-                    if us.username != 'AnonymousUser':
-                        try:
-                            uprofile = UserProfile.objects.get(user=us)
-                            up.append(uprofile)
-                        except UserProfile.DoesNotExist:
-                            uprofile = None
-                        we = WorkExperience.objects.filter(user=us).order_by('-endDate', 'startDate')
-                        if we:
-                            uwe.append(we[0])
-                        else:
-                            uwe.append(None)
-                        edu = Education.objects.filter(user=us).order_by('-endDate', 'startDate')
-                        if edu:
-                            uedu.append(edu[0])
-                        else:
-                            uedu.append(None)
-
-                zipped = itertools.izip(users, up, uwe, uedu)
-                zipped2 = itertools.izip(users, up, uwe, uedu)
-                context_dict['udict'] = zipped
-                context_dict['udict2'] = zipped2
+            u = User.objects.get(id=request.user.id)
+        except User.DoesNotExist:
+            u = None
+        if u:
+            try:
+                up = UserProfile.objects.get(user=u)
+            except UserProfile.DoesNotExist:
+                up = None
+            if up:
+                if u.groups.all().count() > 0:
+                    group = u.groups.get()
+                    users = group.user_set.all()
+                    context_dict['users'] = users
+                    up = []
+                    uwe = []
+                    uedu = []
+                    for us in users:
+                        if us.username != 'AnonymousUser':
+                            try:
+                                uprofile = UserProfile.objects.get(user=us)
+                                up.append(uprofile)
+                            except UserProfile.DoesNotExist:
+                                uprofile = None
+                            we = WorkExperience.objects.filter(user=us).order_by('-endDate', 'startDate')
+                            if we:
+                                uwe.append(we[0])
+                            else:
+                                uwe.append(None)
+                            edu = Education.objects.filter(user=us).order_by('-endDate', 'startDate')
+                            if edu:
+                                uedu.append(edu[0])
+                            else:
+                                uedu.append(None)
+    
+                    zipped = itertools.izip(users, up, uwe, uedu)
+                    zipped2 = itertools.izip(users, up, uwe, uedu)
+                    context_dict['udict'] = zipped
+                    context_dict['udict2'] = zipped2
+                else:
+                    group = None
+                context_dict['group'] = group
             else:
-                group = None
-            context_dict['group'] = group
-        else:
-            return HttpResponseRedirect("/rango/add_profile/")
+                return HttpResponseRedirect("/rango/add_profile/")
 
     return render(request,'rango/group.html', context_dict)
 
@@ -397,6 +402,7 @@ def crop_profile(coords, img, name, profile):
         f.seek(0)
         f.close()
 
+@login_required
 def profile(request):
     print 'in profile'
     context_dict = {}
@@ -479,7 +485,7 @@ def profile(request):
             else:
                 # The supplied form contained errors - just print them to the terminal.
                 print profile.errors
-        #user = User.objects.get(username = request.user)
+        update_profile(request.user)
         return HttpResponseRedirect("/rango/profile/#close")
 
 def update_profile(user):
@@ -645,8 +651,7 @@ def delete_education(request, id):
 
 def save_workExperience(request, id):
     workExperience_to_save = WorkExperience.objects.get(id=id)
-    #+some code to check if this object belongs to the logged in user
-
+   
     if request.method == 'POST':
         form = WorkExperienceForm(request.POST, request.FILES, instance=workExperience_to_save)
 
@@ -842,14 +847,19 @@ def user_login(request):
         login_form = UserLoginForm();
         context_dict['login_form'] = login_form
         if request.GET.get('next', False):
+            print 'got next'
             redirect = request.GET['next']
-            context_dict['redirect'] = redirect
-            userIdNum = int(redirect[:-1].rfind("/"))
-            userIdNum2 = int(redirect[:userIdNum].rfind("/")) + 1
-            userId = redirect[userIdNum2:userIdNum]
-            user = User.objects.get(id=userId)
-            userProfile = UserProfile.objects.get(user=user)
-            context_dict['up'] = userProfile
+           
+            try:
+                userIdNum = int(redirect[:-1].rfind("/"))
+                userIdNum2 = int(redirect[:userIdNum].rfind("/")) + 1
+                userId = redirect[userIdNum2:userIdNum]
+                user = User.objects.get(id=userId)
+                userProfile = UserProfile.objects.get(user=user)
+                context_dict['up'] = userProfile
+                context_dict['redirect'] = redirect
+            except:
+                pass
             print redirect
         return render(request, 'registration/login.html', context_dict)
 
@@ -884,12 +894,14 @@ def ajax_user_search(request):
         us.append(User.objects.get(username=user.user))
 
     zipped = itertools.izip(us, ups)
+    zipped2 = itertools.izip(us, ups)
     try:
         ou = User.objects.get(id = request.user.id)
-    except:
+    except User.DoesNotExist:
         ou = None
     context_dict['ou'] = ou
     context_dict['zipped'] = zipped
+    context_dict['zipped2'] = zipped2
     print 'q: ' + q
     context_dict['length'] = results.count()
     return_str = render_to_string( 'rango/results.html', context_dict)
