@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,7 +46,7 @@
                 <!--<a href="/rango/"><img style="height:47px; margin-top:3px" src="/static/images/web_con.png" /></a>-->
             </ul>
         </div>
-        
+
         <div class="navbar-collapse collapse">
 
             <ul class="nav navbar-nav navbar-right">
@@ -63,10 +63,10 @@
                 <li><a href="{% url 'user_login' %}">Login</a></li>
             {% endif %}
                 <!-- <li><a href="{% url 'search' %}">Search</a></li> -->
-                
+
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <!--<li><a href="{% url 'about' %}">About</a></li>-->
-        
+
             </ul>
         </div>
       </div>
@@ -76,7 +76,7 @@
       <div class="row">
 
         <div class="col-sm-3 col-md-2 sidebar">
-                
+
                 {% load rango_extras %}
             <ul class="nav nav-list">
                 <li class="nav-header">Find a Category</li>
@@ -104,7 +104,7 @@
     <!-- <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container" style="width:100%">
             <p class= "navbar-text pull-left">Site Powered By Over-Paid Elves</p>
-            <a class= " navbar-btn btn-danger btn pull-right mybtn" href= "https://www.linkedin.com/pub/tanner-stults/54/b58/510" target="_blank">Connect with me</a>   
+            <a class= " navbar-btn btn-danger btn pull-right mybtn" href= "https://www.linkedin.com/pub/tanner-stults/54/b58/510" target="_blank">Connect with me</a>
         </div>
     </div>
     <hr />-->
@@ -113,14 +113,14 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster-->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-        <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
     <script src="{% static 'js/rango-ajax.js' %}"></script>
     <script src="{% static 'js/js/init.js' %}"></script>
     <script src="{% static 'js/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-    
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+
 
 
     {% block scripts %} {% endblock %}
