@@ -94,6 +94,5 @@ class AddGroupForm(forms.Form):
     user = forms.CharField(
         label='Type the name of a classmate',
         widget=selectable.AutoComboboxSelectWidget(UserProfileLookup,  allow_new=True),
-       
         required=False,
     )
