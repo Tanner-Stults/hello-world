@@ -1,5 +1,6 @@
 {% load thumbnail %}
 {% load staticfiles %}
+{% load rango_extras %}
 <br/>
 <div class="row placeholders desk">
      {% for u, up in zipped %}
@@ -21,6 +22,11 @@
 		</div>
 	    </a>
             <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+            {% if u|looking_for_group %}
+            <h5>Looking for Group</h5>
+            {% else %}
+            <h5>In group with: {{ u|get_group_names:ou }}</h5>  
+            {% endif %}
             </div>
         </div>
 

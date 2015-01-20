@@ -19,6 +19,7 @@ def has_group(user):
 
 @register.filter(name='looking_for_group')
 def looking_for_group(user):
+    print 'looking_for_group'
     try:
         group = user.groups.get()
         user_set = group.user_set.all().count()
@@ -39,7 +40,7 @@ def full_group(user, arg = None):
     return True if group and user_set >= 4 else False
 
 @register.filter(name='in_group')
-def in_group(user, arg):
+def in_group(user, originalUser):
     try:
         group = user.groups.get()
     except Group.DoesNotExist:
@@ -47,7 +48,7 @@ def in_group(user, arg):
     if group:
         inGroup = False
         for users in group.user_set.all():
-            if users == arg:
+            if users == originalUser:
                 inGroup = True
         return True if inGroup else False
 

@@ -262,7 +262,8 @@
             if ($('.img-add')[0]) {
                 var position = $('.img-add').position();
                 var height= $('.img-add').height();
-                var height2= $('.placeholder').height();
+                var height2= $('.img-add').parent().height();
+                console.log('pic height: '+height+'div height: '+height2)
                 console.log(position.left)
                 $(".change_pic").css({ "left":position.left, "bottom":height2-height});
             }
