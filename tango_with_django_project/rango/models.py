@@ -6,7 +6,6 @@ import os
 from django.conf import settings
 import datetime
 
-from image_cropping import ImageCroppingMixin
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
     views = models.IntegerField(default=0)
@@ -25,7 +24,7 @@ class Page(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     views = models.IntegerField(default=0)
-    
+
     def __unicode__(self):
         return self.title
 
@@ -34,12 +33,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, editable=False)
 
     # The additional attributes we wish to include.
-    
+
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     picture = models.ImageField(upload_to='profile_images', blank=True,)
     coords = models.CharField(max_length=100, blank=True,)
-    bgPicture = models.ImageField(upload_to='profile_bgimages', blank=True, default=os.path.join(settings.MEDIA_ROOT,'profile_bgimages','default.jpg'),)
+    bgPicture = models.ImageField(upload_to='profile_bgimages', blank=True,)
     industry = models.CharField(max_length=200, blank=True,)
     currentCompany = models.CharField(max_length=200, blank=True,)
     currentPosition = models.CharField(max_length=200, blank=True,)
@@ -47,7 +46,7 @@ class UserProfile(models.Model):
     previousCompany = models.CharField(max_length=200, blank=True,)
     previousPosition = models.CharField(max_length=200, blank=True,)
     education = models.CharField(max_length=400, blank=True,)
-    
+
     class Meta:
         ordering = ['user']
 
@@ -66,7 +65,7 @@ class WorkExperience(models.Model):
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today)
     info = models.CharField(max_length=1000)
-    
+
     class Meta:
         ordering = ['user']
 
@@ -79,7 +78,7 @@ class Education(models.Model):
     user = models.ForeignKey(User, editable = False)
 
 
-    SCHOOL_CHOICES = (('1','High School'), ('2', 'Community College'), ('3', 'College'), ('4', 'Technical Institute')) 
+    SCHOOL_CHOICES = (('1','High School'), ('2', 'Community College'), ('3', 'College'), ('4', 'Technical Institute'))
     DEGREE_CHOICES = (('1', 'Ph. D'), ('2', 'BA'), ('3','BS'), ('4', 'Master\'s'), ('5', 'AA'))
     # The additional attributes we wish to include.
     schoolType = models.CharField(max_length=200, choices=SCHOOL_CHOICES)
@@ -96,7 +95,7 @@ class Education(models.Model):
     class Meta:
         verbose_name_plural = "Education"
         ordering = ['user']
-        
+
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.school

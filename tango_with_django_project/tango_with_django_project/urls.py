@@ -21,8 +21,8 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.backends.simple.urls')),
     #url(r'^autocomplete/', include('autocomplete_light.urls')),
     (r'^selectable/', include('selectable.urls')),
-    url(r'^search/', include('haystack.urls')),
-    
+    #url(r'^search/', include('haystack.urls')),
+
 )
 
 if settings.DEBUG:

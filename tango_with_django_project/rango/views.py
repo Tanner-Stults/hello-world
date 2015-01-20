@@ -17,7 +17,7 @@ import os, itertools
 from rango.bing_search import run_query
 
 def index(request):
-    
+
     # Query the database for a list of ALL categories currently stored.
     # Order the categories by # likes in descending order.
     # Retrieve the top 5 only - or all if less than 5.
@@ -26,7 +26,7 @@ def index(request):
     context_dict = {'categories': category_list}
     page_list = Page.objects.order_by('-views')[:5]
     context_dict['pages'] = page_list
-    
+
     # Get the number of visits to the site.
     # We use the session.get() function to obtain the visits cookie from the server-side database.
     # If the cookie doesn't exist, we default to zero.
@@ -34,7 +34,7 @@ def index(request):
     visits = request.session.get('visits')
     if not visits:
         visits = 0
-    
+
     # This is a I/O varible to see if we need to update the last_visit_time cookie
     # We need to set this to true if it's been more than a day or if the cookie hasn't been set
     reset_last_visit_time = False
@@ -53,7 +53,7 @@ def index(request):
 
     # update the visits cookie with the new about about visits
     request.session['visits'] = visits
-    
+
     # add the visits to the context_dict to pass to views
     context_dict['visits'] = visits
 
@@ -74,7 +74,7 @@ def group(request):
         print 'in POST'
         if request.POST.get('create_group'):
             u = User.objects.get(id=request.user.id)
-            
+
             up = UserProfile.objects.get(user = u)
             if u.groups.all().count() == 0:
                 group = Group.objects.create(name=up.firstName)
@@ -130,7 +130,7 @@ def group(request):
                             uedu.append(edu[0])
                         else:
                             uedu.append(None)
-                
+
                 zipped = itertools.izip(users, up, uwe, uedu)
                 zipped2 = itertools.izip(users, up, uwe, uedu)
                 context_dict['udict'] = zipped
@@ -149,17 +149,17 @@ def pubProfile(request, id):
 
     if request.method == 'GET':
         # If the request was not a POST, display the form to enter details.
-        
+
         u = User.objects.get(id=id)
         user_profile = UserProfile.objects.get(user=u)
         context_dict['up'] = user_profile
-        
+
         education = Education.objects.filter(user=u)
         context_dict['edu'] = education
-        
+
         we = WorkExperience.objects.filter(user=u)
         context_dict['we'] = we
-        
+
         return render(request, 'rango/pub-profile.html', context_dict)
 
 def about(request):
@@ -200,7 +200,7 @@ def category(request, category_name_slug):
         if query:
             # Run our Bing function to get the results list!
             result_list = run_query(query)
-            
+
             context_dict['result_list'] = result_list
             context_dict['query'] = query
 
@@ -233,13 +233,13 @@ def add_category(request):
     return render(request, 'rango/add_category.html', {'form': form})
 
 def add_page(request, category_name_slug):
-    
+
     context_dict = {}
     try:
             cat = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
             cat = None
-    
+
     if request.method == 'POST':
         form = PageForm(request.POST)
         if form.is_valid():
@@ -252,9 +252,9 @@ def add_page(request, category_name_slug):
                 return category(request, category_name_slug)
         else:
             print form.errors
-    else:   
+    else:
         form = PageForm()
-            
+
     context_dict['form'] = form
     context_dict['category'] = cat
     context_dict['category_name_slug'] = cat.slug
@@ -280,10 +280,10 @@ def search(request):
     return render(request, 'rango/search.html', {'result_list': result_list})
 
 def track_views(request):
-    
+
     page_id = None
     url = '/rango/'
-    
+
     if request.method == 'GET':
         print "is get"
         if 'page_id' in request.GET:
@@ -300,13 +300,13 @@ def track_views(request):
     return HttpResponseRedirect(url)
 
 def register_profile(request):
-    
+
 # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         user_profile_form = UserProfileForm(request.POST, request.FILES)
-        
+
         # If the two forms are valid...
         if user_profile_form.is_valid():
             # Now sort out the UserProfile instance.
@@ -322,10 +322,10 @@ def register_profile(request):
 
             # Did the user provide a profile picture?
             # If so, we need to get it from the input form and put it in the UserProfile model.
-            if request.FILES['picture']:
+            if request.FILES.get('picture'):
                 print 'picture'
                 #profile.picture = request.FILES['picture']
-                        
+
                 if request.POST['coords']:
                     print request.POST['coords']
                     crop_profile(request.POST['coords'], request.FILES['picture'], request.FILES['picture'].name, profile)
@@ -335,14 +335,14 @@ def register_profile(request):
 
             # Now we save the UserProfile model instance.
             profile.save()
-            
+
             return HttpResponseRedirect('/rango/profile/')
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
         # They'll also be shown to the user.
         else:
             print user_profile_form.errors
-            
+
             return render(request,
                 'rango/profile_registration.html',
                 {'user_profile_form': user_profile_form} )
@@ -367,13 +367,13 @@ def crop_profile(coords, img, name, profile):
         else:
             box.append(int(float(boxStr[num:])))
         num = boxStr.find(" ", num)+1
-    
+
     from PIL import Image
     from django.core.files.base import ContentFile
     from cStringIO import StringIO
     im = Image.open(img)
     (width, height) = im.size
-    
+
     if abs(box[2]-box[0]) > 300:
         x = (250./abs(box[2]-box[0]))
         y = (300./abs(box[3]-box[1]))
@@ -382,9 +382,9 @@ def crop_profile(coords, img, name, profile):
         box[1] = int(box[1]*y)
         box[2] = int(box[2]*x)
         box[3] = int(box[3]*y)
-        
+
         im.thumbnail((int(x*width), int(y*height)), Image.ANTIALIAS);
-    
+
     resized = im.crop(box)
     try:
         f = StringIO()
@@ -392,7 +392,7 @@ def crop_profile(coords, img, name, profile):
         s = f.getvalue()
         if name :  #TO-DO
             profile.picture.save(name, ContentFile(s))
-        
+
     finally:
         f.seek(0)
         f.close()
@@ -405,10 +405,10 @@ def profile(request):
         # If the request was not a POST, display the form to enter details.
         form = WorkExperienceForm()
         context_dict['form'] = form
-        
+
         eduForm = EducationForm()
         context_dict['eduForm'] = eduForm
-        
+
         u = User.objects.get(username=request.user)
         try:
             up = UserProfile.objects.get(user=u)
@@ -423,7 +423,7 @@ def profile(request):
                 exEduForm = EducationForm(instance = edu)
                 existingEduForm.append(exEduForm)
             zippedEdu = zip(education, existingEduForm)
-            
+
             we = WorkExperience.objects.filter(user=u).order_by('-endDate', 'startDate')
             existingExpForm = []
             for exp in we:
@@ -438,11 +438,11 @@ def profile(request):
             return render(request, 'rango/profile.html', context_dict)
         else:
             return HttpResponseRedirect("/rango/add_profile/")
-        
+
     else:
         if "jobTitle" in request.POST: # Bad way for handling multiple forms, could cause trouble if user input "jobTitle" Fix with other views
             form = WorkExperienceForm(request.POST, request.FILES)
-    
+
             # Have we been provided with a valid form?
             if form.is_valid():
                 workExperience = form.save(commit=False)
@@ -454,7 +454,7 @@ def profile(request):
             else:
             # The supplied form contained errors - just print them to the terminal.
                 print form.errors
-                
+
         elif "schoolType" in request.POST:
             eduForm = EducationForm(request.POST)
             if eduForm.is_valid():
@@ -481,7 +481,7 @@ def profile(request):
                 print profile.errors
         #user = User.objects.get(username = request.user)
         return HttpResponseRedirect("/rango/profile/#close")
-            
+
 def update_profile(user):
     print "in update_profile"
     up = UserProfile.objects.get(user = user)
@@ -510,10 +510,10 @@ def paintings(request):
     if request.method == 'GET':
         paintingList = Painting.objects.all()
         length = len(paintingList)
-        
+
         context_dict['paintingList'] = paintingList
         context_dict['length'] = length
-        
+
     return render(request, 'rango/paintings.html', context_dict)
 
 def users(request):
@@ -526,11 +526,11 @@ def users(request):
             x = UserProfile.objects.get(user=u)
             up.append(x)
         length = len(u)
-        
+
         udict = {'userdict' : u, 'userprofiledict' : up}
         context_dict['udict'] = zip(u, up)
         context_dict['length'] = length
-        
+
     return render(request, 'rango/users.html', context_dict)
 
 def xpusers(request):
@@ -566,7 +566,7 @@ def xpusers(request):
         zipped2 = itertools.izip(u, up, uwe, uedu)
         context_dict['udict'] = zipped
         context_dict['udict2'] = zipped2
-        
+
     return render(request, 'rango/xpusers.html', context_dict)
 
 
@@ -617,16 +617,16 @@ def auto_add_page(request):
         cat_id = request.GET['category_id']
         url = request.GET['url']
         title = request.GET['title']
-        
+
         if cat_id:
             category = Category.objects.get(id=int(cat_id))
             p = Page.objects.get_or_create(category=category, title=title, url=url)
 
             pages = Page.objects.filter(category=category).order_by('-views')
-            
+
             # Adds our results list to the template context under name pages.
             context_dict['pages'] = pages
-    
+
     return render(request, 'rango/page_list.html', context_dict)
 
 def delete_workExperience(request, id):
@@ -646,10 +646,10 @@ def delete_education(request, id):
 def save_workExperience(request, id):
     workExperience_to_save = WorkExperience.objects.get(id=id)
     #+some code to check if this object belongs to the logged in user
-    
+
     if request.method == 'POST':
         form = WorkExperienceForm(request.POST, request.FILES, instance=workExperience_to_save)
-        
+
         if form.is_valid(): # checks CSRF
             workExperience = form.save(commit = False)
             for filename, file in request.FILES.iteritems():
@@ -684,7 +684,7 @@ def send_email(request, id):
         u = User.objects.get(id=request.user.id)
         u2 = User.objects.get(id=id)
         up = UserProfile.objects.get(user = u)
-        
+
         url = request.build_absolute_uri()
         url = url[:url.rfind('/', 0, (url.rfind('/', 0, -1)))]
         url = url+'/accept_invite/'+str(u2.id)+'?ou='+str(u.id)
@@ -692,7 +692,7 @@ def send_email(request, id):
         print u.email
         print u2.email
         send_mail(up.firstName+' has invited you to join their group', up.firstName+' has invited you to join their group. Click here to accept the invite: '+url+'.' , u.email, [u2.email], fail_silently=False)
-    
+
     return HttpResponseRedirect("/rango/users/")
 
 @login_required
@@ -787,7 +787,7 @@ def accept_invite(request, id):
                     group.save()
                 context_dict['group'] = group
             return HttpResponseRedirect('/rango/group/')
-       
+
 def no_user(request):
     if request.method == 'GET':
         return HttpResponseRedirect("/rango/no_user/")
@@ -803,7 +803,7 @@ def user_login(request):
         print password
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
-        
+
         if request.GET.get('next', False):
             nextUrl = request.GET['next']
             print nextUrl
@@ -832,7 +832,7 @@ def user_login(request):
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
             return render(request, 'registration/login.html', context_dict)
-        
+
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:

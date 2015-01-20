@@ -86,7 +86,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'guardian',
     #'autocomplete_light',
-    'haystack',
+    #'haystack',
     'selectable',
 
 )

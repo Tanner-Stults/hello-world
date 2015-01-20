@@ -18,7 +18,7 @@ def has_group(user):
     return True if group else False
 
 @register.filter(name='looking_for_group')
-def has_group(user):
+def looking_for_group(user):
     try:
         group = user.groups.get()
         user_set = group.user_set.all().count()
@@ -35,7 +35,7 @@ def full_group(user, arg = None):
     except Group.DoesNotExist:
             group = None
             user_set = 0
-                
+
     return True if group and user_set >= 4 else False
 
 @register.filter(name='in_group')
@@ -56,17 +56,22 @@ def get_group_names(user, arg = None):
     names = ''
     group = user.groups.get()
     user_set = group.user_set.all()
+    count = group.user_set.all().count()
     for users in user_set:
         if users != user:
             if arg == users:
                 names += 'You, '
             else:
-                up = UserProfile.objects.get(user=users)
-                names += up.firstName +', '
+                try:
+                    up = UserProfile.objects.get(user=users)
+                except UserProfile.DoesNotExist:
+                    up = None
+                    count -= 1
+                if up:
+                    names += up.firstName +', '
             num = names[:-2].rfind(',') + 1
 
-    if group.user_set.all().count() > 2:
+    if count > 2:
         return names[:num - 1] + " and" + names[num:-2]
     else:
         return names[0:-2]
-    

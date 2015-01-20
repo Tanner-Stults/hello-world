@@ -15,11 +15,11 @@
     }
     </style>
     <style type="text/css">
-	
+
 	.subcontainer {
 	    background-color: #E6E6E6;
 	    border-radius: 20px;
-	    position: relative; 
+	    position: relative;
 	    box-shadow: 0 0 50px rgba(0,0,0,0.8);
 	    padding: 0px 0;
 	    padding-bottom: 50px;
@@ -74,7 +74,7 @@
 	.green {
 	    background-color: #C0E6CC;
 	}
-	
+
 	.base-feed {
 	    max-width:900px;
 	    width: 100%;
@@ -136,17 +136,21 @@
 	.info-input {
 	    height: 120px;
 	}
-	
+
 	.back-thumb {
-	    background: url({{ userprofile.bgPicture.url }}) 50% 0 fixed;
+	    {% if userprofile.bgPicture %}
+	    background: url( {{ userprofile.bgPicture.url }} ) 50% 0 fixed;
+	    {% else %}
+	    background: url({% static 'images/default-compressed.jpg' %}) 50% 0 fixed;
+	    {% endif %}
 		    background-size: cover;
 		    -moz-border-radius: 0px;
 		    -webkit-border-radius: 20px 20px 0px 0px;
-		    border-radius: 20px 20px 0px 0px; 
-		    height: 100%;  
-		    margin: 0 auto; 
-		width: 100%; 
-		position: relative; 
+		    border-radius: 20px 20px 0px 0px;
+		    height: 100%;
+		    margin: 0 auto;
+		width: 100%;
+		position: relative;
 		box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.4);
 		padding: 40px 0;
 	}
@@ -184,7 +188,7 @@
 	    top: 0px;
 	    right: 65px;
 	}
-	
+
 	.work_experience_cancel, .education_cancel {
 	    position: absolute;
 	    top: 0px;
@@ -200,7 +204,7 @@
 		background-size: cover;
 		-moz-border-radius: 0px;
 		-webkit-border-radius: 0px 0px 20px 20px;
-		border-radius: 0px 0px 20px 20px; 
+		border-radius: 0px 0px 20px 20px;
 	    position: absolute;
 		bottom: 0px;
 	    margin-left: 5px;
@@ -208,7 +212,7 @@
 	    width: 200px;
 	    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.4);
 	}
-	
+
 	.change_pic_text{
 	    display: inline-block;
 	    color: #E6E6E6;
@@ -267,7 +271,7 @@
 	}
 	</style>
 {% endblock %}
-		
+
 {% block title %}My Profile{% endblock %}
 
 {% block side_block %}
@@ -288,7 +292,7 @@
 	    <a class="close" href="#close">&times;</a>
 	    <form id="user_profile_form" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		
+
 		{{ user_profile_form.firstName|attr:"class:hidden1" }}
 		{{ user_profile_form.lastName|attr:"class:hidden1" }}
 		{{ user_profile_form.picture.errors }}
@@ -296,27 +300,27 @@
 		<button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
 		<img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
 		<img id="img_id" src="#" alt="your image" style = "display: none;"/>
-	
+
 		{{ user_profile_form.coords|attr:"class:hidden1" }}
-       
+
 		<!-- Provide a button to click to submit the form. -->
 		<br/>
 		<input class='hidden1' id='upload' type="submit" name="submit" value="Upload"/>
 	    </form>
 	    <p class = "coords"></p>
-	</div>   
+	</div>
     </div>
     <div class="row">
     <div class="col-sm-10 col-md-10 col-md-offset-0 col-sm-offset-0 subcontainer">
 	<!--<a href="" type="button" class="btn btn-primary edit">Edit</a>-->
 	    <section class="back-thumb" data-speed="1.25" data-type="background">
 		<div class="base-card container">
-		    
+
 		    <div class="row">
 			<div class="col-md-4 col-md-offset-0 col-sm-offset-0 text-center base-left">
 			    {% if userprofile.picture %}
-			    <!--<img class='thumb' src="{% thumbnail userprofile.picture 250x300 quality=95 %}" />-->
-			    <img class='thumb' src="{{ userprofile.picture.url }}" />
+			    <img class='thumb' src="{% thumbnail userprofile.picture 250x300 quality=95 %}" />
+			    <!--<img class='thumb' src="{{ userprofile.picture.url }}" />-->
 			    <a href="#openModal">
 			    <div class = 'change_pic'>
 				<img class='change_pic_img' src = "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/PuyR8Oy6W1C.png" />
@@ -331,10 +335,10 @@
 				</div>
 			    </a>
 			    {% endif %}
-			    
+
 			</div>
-			
-			<div class="col-sm-7 col-md-7 col-md-offset-1 col-sm-offset-1  base-left">			
+
+			<div class="col-sm-7 col-md-7 col-md-offset-1 col-sm-offset-1  base-left">
 			    <p class="name">{{ userprofile.firstName }} {{ userprofile.lastName }} </p>
 			    <hr class="soften"/>
 			    {% if userprofile.currentPosition %}
@@ -355,7 +359,7 @@
 			{% endif %}
 			    <p>View your <a href ="/rango/pub-profile/{{user.id}}/" target="_blank">Public Profile</a></p>
 			</div>
-		 
+
 		    </div>
 		</div>
 	    </section>
@@ -364,7 +368,7 @@
 	    <div class="base-feed">
 	    {% if education %}
 	    {% for edu, eduForm in zippedEdu %}
-	    
+
 		{% if forloop.counter|divisibleby:"2" %}
 		<div class="feed-card container green display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
 		{% else %}
@@ -381,7 +385,7 @@
 				<p class="detail">{{ edu.info }}</p>
 			    </div>
 			</div>
-		    </div>	 
+		    </div>
 		</div>
 		    {% if forloop.counter|divisibleby:"2" %}
 		<div class="feed-card container grey edit_education_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
@@ -433,7 +437,7 @@
 			</div>
 		    </div>
 		</div>
-		    
+
 		<div class="text-center education_submit">
 		    <button id="education_success" type="submit" name="submit" class="btn btn-success">
 			Submit Education Experience
@@ -443,12 +447,12 @@
 		    </button>
 
 		</div>
-	    
-		    
+
+
 
 	    {% if zippedExp %}
 	    {% for we, eForm in zippedExp %}
-	    
+
 		{% if forloop.counter|divisibleby:"2" %}
 		<div class="feed-card container lightblue display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
 		{% else %}
@@ -465,7 +469,7 @@
 				<p class="detail">{{ we.info }}</p>
 			    </div>
 			</div>
-		    </div>	 
+		    </div>
 		</div>
 		    {% if forloop.counter|divisibleby:"2" %}
 		<div class="feed-card container grey edit_work_experience_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
@@ -479,7 +483,7 @@
 				<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning work_experience_cancel">Cancel</button>
 
 			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success work_experience_save">Save</button>
-			    
+
 			    <form role="form" id="editWorkExperience_form{% widthratio forloop.counter 1 1 %}" method="post" action="/rango/save_workExperience/{{we.id}}/">
 			{% csrf_token %}
 			<br/>
@@ -489,7 +493,7 @@
 		    </div>
 		</div>
 	    {% endfor %}
-	    
+
 	    	<div class="text-center">
 		    <button id="work_experience_add" type="button" class="btn btn-success">Add Work Experience</button>
 		</div>
@@ -515,7 +519,7 @@
 			</div>
 		    </div>
 		</div>
-		    
+
 		<div class="text-center work_experience_submit">
 		    <button id="work_experience_success" type="submit" name="submit" class="btn btn-success">
 			Submit Work Experience
@@ -525,7 +529,7 @@
 		    </button>
 		</div>
 	    </div>
-	
+
     {% else %}
 		<div class="feed-card container orange">
 		    <div class="row">
@@ -581,12 +585,12 @@
 	$("select").combobox();
 	});
 	var change_pic_resize = function() {
-	    
+
 	    var divSize = $('.base-left').width();
 	    var right = (divSize - $(".change_pic").width() + 15) / 2.0;
 	    var position = $('.thumb').position();
 	    $(".change_pic").css({ "left":position.left});
-	    
+
 	    console.log(right);
 	    console.log(divSize);
 	    console.log($(".change_pic").width());
@@ -598,12 +602,12 @@
 	    $(document.body).css({'overflow-y':'hidden'})
 	};
 	$('#openModal').click(hideScroll);
-	
+
 	var showScroll = function() {
 	    $(document.body).css({'overflow-y':'scroll'})
 	};
 	$('.close').click(showScroll);
-	
+
 	var imgClear = function() {
 	    if($("#picture-clear_id").is(':checked')){
 		$('#upload').show()  // checked
@@ -619,7 +623,7 @@
             $('#reset_button').hide();
 	    $('#upload').hide()
             input.wrap('<form>').closest('form').get(0).reset();
-            input.unwrap();    
+            input.unwrap();
         }
         function upload_img(input) {
             console.log("in upload_img");
@@ -641,7 +645,7 @@
                     //
                 }
                 reader.readAsDataURL(input.files[0])
-            }     
+            }
         };
         var jcrop_api;
         function img_crop(input) {
