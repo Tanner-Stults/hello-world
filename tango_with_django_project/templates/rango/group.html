@@ -1,0 +1,315 @@
+{% extends 'rango/base.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load rango_extras %}
+{% load thumbnail %}
+
+{% block stylesheet %}
+    {{ addForm.media.css }}
+    <link rel="stylesheet" href="{% static 'css/users.css' %}" type="text/css" />
+        <style type="text/css">
+            
+            #leave_group_div {
+                float: right;
+            }
+            #leave_group_div2 {
+            float: right;
+            display: None;
+            }
+            #create_group_div {
+                float: left;
+            }
+            #create_group_div2 {
+            float: left;
+            display: None;
+            }
+            .img-add{
+                border-radius: 20px;
+                height: 150px;
+            }
+	.change_pic{
+	    background-color: rgba(0, 0, 0, 0.5);
+		background-size: cover;
+		-moz-border-radius: 0px;
+		-webkit-border-radius: 0px 0px 20px 20px;
+		border-radius: 0px 0px 20px 20px; 
+	    position: absolute;
+		bottom: -10px;
+	    margin-left: 0px;
+	    margin-right: 0px;
+	    width: 125px;
+	    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.4);
+	}
+	
+	.change_pic_text{
+	    display: inline-block;
+	    color: #E6E6E6;
+	    margin: 0px 0;
+	}
+                
+        </style>
+{% endblock %}
+
+{% block title %}Profile Regristration{% endblock %}
+{% block side_block %}
+{% endblock %}
+{% block body_width %}
+    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
+{% block body_block %}
+    <div class="page-header">
+            <h1>Manage your group below</h1>
+    </div>
+    
+    {% if group %}
+        <div id="leave_group_div">
+            <button id="leave_group" type="button" class="btn btn-danger">
+                Leave Group
+            </button>
+        </div>
+        <div id="leave_group_div2">
+                <form role="form" method="post" action="/rango/group/">
+                        {% csrf_token %}
+                        <button id="leave_group2" type="submit" name="leave_group" value="leave_group" class="btn btn-success">
+                            Yes, Leave
+                        </button>
+                        <button id="leave_group3" type="button" class="btn btn-danger">
+                            No, Don't Leave
+                        </button>
+                </form>
+        </div>
+     <h4>Current Group Members:</h4>
+        <br/>
+        <div class="hidden-row row row-centered desk" id ="row0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders desk">
+           
+    {% for user, up, uwe, uedu in udict%}
+
+            <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-3' 4 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+
+                    {% if up.picture %}
+                        <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                
+                    <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                    -->
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+                </div>
+                {% if uwe.company %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ uwe.company }}</p>
+                    <p>{{ uwe.jobTitle }}</p>
+                    <p>{{ uedu.school }}</p>
+                    <p>{{ uedu.get_degree_display }} - {{ uedu.major }}</p>
+                    <a href ="/rango/pub-profile/{{user.id}}/">View Profile</a>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"4" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row desk" id="row{% widthratio forloop.counter 4 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders desk">
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+        
+        <div class="hidden-row row row-centered mobile" id ="mobilerow0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders mobile">
+            {% for user, up, uwe, uedu in udict2%}
+            <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if up.picture %}
+                    <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ u.username }}</h4>
+                </div>
+                {% if up.info %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ up.info }}</p>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"2" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row mobile" id="mobilerow{% widthratio forloop.counter 2 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders mobile">
+        {% endif %}
+
+    {% endif %}
+{% endfor %}
+<h4>Add to Your Group:</h4>
+ <form role="addForm" id="initial_workExperience_form" method="post">
+			{% csrf_token %}
+    {{ addForm.as_p }}
+    	<button id="addFormSubmit" type="button" name="submit" class="btn btn-success">
+			Search for User
+		</button>
+ </form>
+    <div id='results'>
+        
+    </div>
+    {% else %}
+    <h4>Create a group below</h4>
+<div id="create_group_div">
+            <button id="create_group" type="button" class="btn btn-success">
+                Create Group
+            </button>
+        </div>
+        <div id="create_group_div2">
+                <form role="form" method="post" action="/rango/group/">
+                        {% csrf_token %}
+                        <button id="create_group2" type="submit" name="create_group" value="create_group" class="btn btn-success">
+                            Yes, Create
+                        </button>
+                        <button id="create_group3" type="button" class="btn btn-danger">
+                            No, Don't Create
+                        </button>
+                </form>
+        </div>  
+    {% endif %}
+      
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block scripts %}
+    {{ addForm.media.js }}
+    <script src="{% static 'js/rango-jquery.js' %}"></script>
+    <script language="Javascript">
+   /* $(document).ready(function() {
+        $('#id_user_0').keyup(function(e) {
+            q = encodeURI($('#id_user_0').val());
+            console.log(q);
+            if (q === '' || q === ' ') {
+                return false;
+            }else {
+            $('#results').html('&nbsp;').load('{% url 'ajax_user_search' %}?q=' + q);
+                return false;
+
+            }
+        });
+    });*/
+    $(document).ready(function() {
+        $('#id_user_0').keyup(function(e) {
+            q = encodeURI($('#id_user_0').val());
+            console.log(q);
+            $.ajax({
+                url : '{% url 'ajax_user_search' %}?q=' + q, // the endpoint
+                type : "GET", // http method
+                data : { }, // data sent with the post request
+        
+                // handle a successful response
+                success : function(json) {
+                    $('#results').html(json); // log the returned json to the console
+                    change_pic_resize();
+                    $('.change_pic, .img-add').mouseenter(function(){
+                        console.log('mouseenter');
+                        $('.change_pic').stop().animate({
+                         backgroundColor: 'rgba(0,0,0,0.8)'},300);
+                        $('<p class="change_pic_text">&nbspAdd&nbsp</p>').insertBefore('.change_pic_img')
+                        $('<p class="change_pic_text">&nbspUser</p>').insertAfter('.change_pic_img')
+                    });
+                    $('.change_pic, .img-add').mouseleave(function(){
+                        $('.change_pic').stop().animate({
+                         backgroundColor: 'rgba(0,0,0,0.5)'},300);
+                        $('.change_pic_text').remove();
+                        
+                    });
+                }
+            }); 
+        });
+    });
+    $(document).ready(function() {
+
+    });
+        var change_pic_resize = function() {
+            if ($('.img-add')[0]) {
+                var position = $('.img-add').position();
+                var height= $('.img-add').height();
+                var height2= $('.placeholder').height();
+                console.log(position.left)
+                $(".change_pic").css({ "left":position.left, "bottom":height2-height});
+            }
+	   
+	};
+	$(window).resize(change_pic_resize);
+	$(document).ready(change_pic_resize);
+    
+
+    $(document).ajaxStart(function() {
+        $('#spinner').show();
+    }).ajaxStop(function() {
+        $('#spinner').hide();});
+    $(document).ready(
+        function () {
+            $('#leave_group_div').click(function () {
+                $(this).hide('slide', {
+                    direction: 'right'
+                }, 200, function(){
+                $('#leave_group_div2').show('slide', {
+                    direction: 'right'
+                }, 300);});
+            });
+            $('#leave_group3').click(function () {
+                $('#leave_group_div2').hide('slide', {
+                    direction: 'right'
+                }, 300, function(){
+                $('#leave_group_div').show('slide', {
+                    direction: 'right'
+                }, 300);});
+            });
+            $('#create_group_div').click(function () {
+                $(this).hide('slide', {
+                    direction: 'left'
+                }, 200, function(){
+                $('#create_group_div2').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+            $('#create_group3').click(function () {
+                $('#create_group_div2').hide('slide', {
+                    direction: 'left'
+                }, 300, function(){
+                $('#create_group_div').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+        });
+    </script>
+{% endblock %}

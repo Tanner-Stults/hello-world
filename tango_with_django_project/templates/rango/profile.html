@@ -1,158 +1,668 @@
 {% extends "rango/base.html" %}
-
 {% load staticfiles %}
 {% load static %}
 
+{% load thumbnail %}
+{% load widget_tweaks %}
+
 {% block stylesheet %}
-    	<style type="text/css">
-            
+    {{ eduForm.media.css }}
+
+        <link href="{% static 'css/jquery.Jcrop.css' %}" rel="stylesheet">
+    <style type="text/css">
+    .hidden1 {
+        display: None;
+    }
+    </style>
+    <style type="text/css">
+	
+	.subcontainer {
+	    background-color: #E6E6E6;
+	    border-radius: 20px;
+	    position: relative; 
+	    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+	    padding: 0px 0;
+	    padding-bottom: 50px;
+	    margin-left: 40px;
+	    margin-right: 40px;
+	    margin-bottom: 40px;
+	    overflow-x: scroll;
+	}
+	@media (max-width: 767px) {
 	    .subcontainer {
-		    background-color: #E6E6E6;
-		    border-radius: 20px;
+		margin-left: 0px;
+	    margin-right: 0px;
+	    min-width: 700px;
+	    }
+	}
+	.base-card {
+	    max-width:750px;
+	    width: 90%;
+	    background: rgba(255,255,255,0.94);
+	    padding: 10px 30px;
+	    padding-top: 20px;
+	    padding-bottom: 20px;
+	    margin: 0 auto;
+	    border-radius: 5px;
+	}
+	.feed-card {
+	    max-width:750px;
+	    width: 100%;
+	    padding: 10px 30px;
+	    padding-top: 20px;
+	    padding-bottom: 20px;
+	    margin: 0 auto;
+	    margin-bottom: 10px;
+	    border-radius: 5px;
+	}
+	.feed {
+	    padding: 0 30px;
+
+	}
+	.blue {
+	    background-color: #A6C9FF;
+	}
+	.lightblue {
+	    background-color: #D6E6FF;
+	}
+	.grey {
+	    background-color: #D8D8D8;
+	}
+	.orange {
+	    background-color: #FF9D5C;
+	}
+	.green {
+	    background-color: #C0E6CC;
+	}
+	
+	.base-feed {
+	    max-width:900px;
+	    width: 100%;
+	    margin: 0 auto;
+	    background: rgba(255,255,255,1);
+	    padding: 20px 30px;
+	    padding-top: 40px;
+	}
+	.thumb {
+	    width:200px;
+	    max-width: 200px;
+	    border-radius: 20px;
+	    margin: 0 5px;
+	}
+	.name {
+	    font-size: 32px;
+	}
+	.title {
+	    font-size: 22px;
+	}
+	.location {
+	    font-size: 20px;
+	    margin-top: 10px;
+	}
+	.detail {
+	    font-size: 18px;
+	    color: #474747;
+	    margin-top: 10px;
+	}
+	.warning {
+	    font-size: 18px;
+	    color: black;
+	    margin-top: 10px;
+	}
+	.fill-form {
+	    font-size: 13px;
+	    color: black;
+	    margin-bottom: 2px;
+	    margin-top: 10px;
+	    font-weight: bold;
+	}
+	.date {
+	    font-size: 18px;
+	    color: #5F5F5F;
+	    margin-top: 0px;
+	}
+	.name, .title, .location, .date, .detail{
+	    margin-bottom: 2px;
+	}
+	.edit {
+	    position: absolute;
+	    top: 15px;
+	    right: 15px;
+	    z-index: 1;
+	}
+	.special-input {
+	    width: 100%;
+	}
+	.info-input {
+	    height: 120px;
+	}
+	
+	.back-thumb {
+	    background: url({{ userprofile.bgPicture.url }}) 50% 0 fixed;
+		    background-size: cover;
+		    -moz-border-radius: 0px;
+		    -webkit-border-radius: 20px 20px 0px 0px;
+		    border-radius: 20px 20px 0px 0px; 
+		    height: 100%;  
+		    margin: 0 auto; 
+		width: 100%; 
 		position: relative; 
-		box-shadow: 0 0 50px rgba(0,0,0,0.8);
-		padding: 0px 0;
-		padding-bottom: 50px;
-    
+		box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.4);
+		padding: 40px 0;
+	}
+	hr.soften {
+	    margin: 0 0px;
+	    margin-bottom: 10px;
+	    height: 2px;
+	    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+	    background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+	    background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+	    background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
+	    border: 0;
 	    }
-	    .base-card {
-		max-width:700px;
-		width: 100%;
-		background: rgba(255,255,255,0.9);
-		padding: 10px 30px;
-		padding-top: 20px;
-		padding-bottom: 0px;
-		margin: 0 auto;
-		
-	    }
-	    .base-feed {
-		max-width:900px;
-		width: 100%;
-		margin: 0 auto;
-		background: rgba(255,255,255,1);
-		padding: 20px 30px;
-		padding-top: 40px;
-	    }
-	    .thumb {
-		width:100%;
-		max-width: 275px;
-		border-radius: 20px;
-	    }
-	    .name {
-		font-size: 32px;
-	    }
-	    .title {
-		font-size: 26px;
-	    }
-	    .location {
-		font-size: 18px;
-	    }
-	    .detail {
-		font-size: 14px;
-	    }
-	    
-	    .back-thumb {
-		background: url('http://defwalls.com/wallpapers/cool-background-textures-gr_textures.Jpg') 50% 0 fixed;
-                        background-size: cover;
-			-moz-border-radius: 0px;
-			-webkit-border-radius: 20px 20px 0px 0px;
-			border-radius: 20px 20px 0px 0px; 
-			height: 100%;  
-			margin: 0 auto; 
-		    width: 100%; 
-		    position: relative; 
-		    box-shadow: 0 10px 10px -10px rgba(0,0,0,0.8);
-		    padding: 40px 0;
-	    }
-	    hr.soften {
-		margin: 0 0px;
-		margin-bottom: 10px;
-		height: 2px;
-		background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
-		background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
-		background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
-		background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.8), rgba(0,0,0,0));
-		border: 0;
-		}
-	    div#fadeout {
-		height:120px;
-		width:100%;
-		position:fixed;
-		bottom:0;
-		background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 95%);
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(98%,rgba(255,255,255,1)));
-		background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
-		background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
-		background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
-		background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
-	    }
+	div#fadeout {
+	    height:80px;
+	    width:100%;
+	    position:fixed;
+	    bottom:0;
+	    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 95%);
+	    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(98%,rgba(255,255,255,1)));
+	    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+	    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+	    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+	    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%);
+	    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+	}
+	#work_experience_add, #education_add, #work_experience_cancel, #education_cancel, #education_success, #work_experience_success{
+	    margin-bottom: 10px;
+	}
+	.work_experience_form, .work_experience_submit, .education_form, .education_submit {
+	    display: none;
+	}
+	.work_experience_delete, .education_delete{
+	    position: absolute;
+	    top: 0px;
+	    right: 65px;
+	}
+	
+	.work_experience_cancel, .education_cancel {
+	    position: absolute;
+	    top: 0px;
+	    right: 70px;
+	}
+	.work_experience_edit, .work_experience_save, .education_edit, .education_save{
+	    position: absolute;
+	    top: 0px;
+	    right: 5px;
+	}
+	.change_pic{
+	    background-color: rgba(0, 0, 0, 0.5);
+		background-size: cover;
+		-moz-border-radius: 0px;
+		-webkit-border-radius: 0px 0px 20px 20px;
+		border-radius: 0px 0px 20px 20px; 
+	    position: absolute;
+		bottom: 0px;
+	    margin-left: 5px;
+	    margin-right: 5px;
+	    width: 200px;
+	    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.4);
+	}
+	
+	.change_pic_text{
+	    display: inline-block;
+	    color: #E6E6E6;
+	    margin: 0px 0;
+	}
+	.modalDialog {
+	    position: fixed;
+	    font-family: Arial, Helvetica, sans-serif;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    background: rgba(0,0,0,0.8);
+	    z-index: 99999;
+	    opacity:0;
+	    -webkit-transition: opacity 400ms ease-in;
+	    -moz-transition: opacity 400ms ease-in;
+	    transition: opacity 400ms ease-in;
+	    pointer-events: none;
+	}
+	.modalDialog:target {
+	    opacity:1;
+	    pointer-events: auto;
+	}
+	#openModal{
+	    overflow-y: scroll;
+	}
+	.modalDialog > div {
+	    width: 90%;
+	    position: relative;
+	    margin: 10% auto;
+	    padding: 5px 20px 13px 20px;
+	    border-radius: 10px;
+	    background: #fff;
+	    background: -moz-linear-gradient(#fff, #999);
+	    background: -webkit-linear-gradient(#fff, #999);
+	    background: -o-linear-gradient(#fff, #999);
+	    min-width: 600px;
+	}
+	.close {
+	    font-size: 28px;
+	    font-weight: bold;
+	    line-height: 18px;
+	    color: #FF0202;
+	    text-shadow: 0 1px 0 #F08E8E;
+	    opacity: 0.6;
+	    filter: alpha(opacity=60);
+	    text-decoration: none;
+	}
+	.close:hover {
+	    color: #FF0202;
+	    text-decoration: none;
+	    opacity: 0.95;
+	    filter: alpha(opacity=95);
+	    cursor: pointer;
+	}
 	</style>
 {% endblock %}
 		
-{% block title %}Your Profile{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block side_block %}
 {% endblock %}
 
 {% block body_width %}
-    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+    <div class="col-md-12 col-md-offset-0">
 {% endblock %}
 
 {% block body_block %}
 
     <div class="page-header">
-        <h1>Your Profile</h1>
+        <h1>My Profile</h1>
+    </div>
+
+    <div id="openModal" class="modalDialog">
+	<div>
+	    <a class="close" href="#close">&times;</a>
+	    <form id="user_profile_form" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		
+		{{ user_profile_form.firstName|attr:"class:hidden1" }}
+		{{ user_profile_form.lastName|attr:"class:hidden1" }}
+		{{ user_profile_form.picture.errors }}
+		{{ user_profile_form.picture|attr:"onchange:upload_img(this);" }}
+		<button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
+		<img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
+		<img id="img_id" src="#" alt="your image" style = "display: none;"/>
+	
+		{{ user_profile_form.coords|attr:"class:hidden1" }}
+       
+		<!-- Provide a button to click to submit the form. -->
+		<br/>
+		<input class='hidden1' id='upload' type="submit" name="submit" value="Upload"/>
+	    </form>
+	    <p class = "coords"></p>
+	</div>   
     </div>
     <div class="row">
-    <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1 subcontainer">
-	    <section class="back-thumb" data-speed="1.15" data-type="background">
+    <div class="col-sm-10 col-md-10 col-md-offset-0 col-sm-offset-0 subcontainer">
+	<!--<a href="" type="button" class="btn btn-primary edit">Edit</a>-->
+	    <section class="back-thumb" data-speed="1.25" data-type="background">
 		<div class="base-card container">
 		    
 		    <div class="row">
-			<div class="col-sm-4 col-md-4 col-md-offset-0 col-sm-offset-0 text-center base-left">
+			<div class="col-md-4 col-md-offset-0 col-sm-offset-0 text-center base-left">
 			    {% if userprofile.picture %}
+			    <!--<img class='thumb' src="{% thumbnail userprofile.picture 250x300 quality=95 %}" />-->
 			    <img class='thumb' src="{{ userprofile.picture.url }}" />
-			    
+			    <a href="#openModal">
+			    <div class = 'change_pic'>
+				<img class='change_pic_img' src = "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/PuyR8Oy6W1C.png" />
+			    </div>
+			    </a>
+			    {% else %}
+
+			    <img class='thumb' src="{% static 'images/unknown_person.jpg' %}" />
+			    <a href="#openModal">
+				<div class = 'change_pic'>
+				    <img class='change_pic_img' src = "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/PuyR8Oy6W1C.png" />
+				</div>
+			    </a>
 			    {% endif %}
-			    <p class="name">{{ user.username }}</p>
+			    
 			</div>
+			
 			<div class="col-sm-7 col-md-7 col-md-offset-1 col-sm-offset-1  base-left">			
-			    <p class="name">{{ user.username }}</p><hr class="soften"/>
-			    <p class="title">Student at Cornell University</p>
-			    <p class="location">Sarasota, Florida | Venture Capital and Private Equity</p>
-			    <p class="detail">Previous: Wanderu.com</p>
-			    <p class="detail">Education: Cornell University</p>
+			    <p class="name">{{ userprofile.firstName }} {{ userprofile.lastName }} </p>
+			    <hr class="soften"/>
+			    {% if userprofile.currentPosition %}
+			    <p class="title">Current: {{ userprofile.currentPosition }} at {{ userprofile.currentCompany }} </p>
+			    {% else %}
+			    <p class="title"> Current: Add work experiences below to display your lastest job here </p>
+			    {% endif %}
+			    <!-- <p class="location">Location: {{ userprofile.currentLocation }} </p> -->
+			    {% if userprofile.previousPosition %}
+			    <p class="detail">Previous: {{ userprofile.previousPosition }} at {{ userprofile.previousCompany }}</p>
+			    {% else %}
+			    <p class="detail"> Previous: Add work experiences below to display your previous jobs here </p>
+			    {% endif %}
+			    {% if userprofile.education %}
+			    <p class="detail">Education: {{ userprofile.education }}</p>
+			    {% else %}
+			    <p class="detail"> Education: Add education below to display your education here </p>
+			{% endif %}
+			    <p>View your <a href ="/rango/pub-profile/{{user.id}}/" target="_blank">Public Profile</a></p>
 			</div>
 		 
 		    </div>
 		</div>
 	    </section>
 
-	<div class='feed'>
+	    <div class='feed'>
 	    <div class="base-feed">
-	       
-    
-	   {% if userprofile.picture %}
+	    {% if education %}
+	    {% for edu, eduForm in zippedEdu %}
+	    
+		{% if forloop.counter|divisibleby:"2" %}
+		<div class="feed-card container green display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
+		{% else %}
+		<div class="feed-card container green display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
+		{% endif %}
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+			    <button id= "{{edu.id}}" type="button" class="btn btn-danger education_delete">Delete</button>
+			    <button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning education_edit">Edit</button>
+			    <div class = "old-info">
+				<p class="name">{{ edu.school }}</p>
+				<p class="title">{{ edu.get_degree_display }} | {{edu.major}}</p>
+				<p class="date">{{ edu.startDate|date:"m/Y" }} - {{ edu.endDate|date:"m/Y" }} ({{ edu.startDate|timesince:edu.endDate }})</p>
+				<p class="detail">{{ edu.info }}</p>
+			    </div>
+			</div>
+		    </div>	 
+		</div>
+		    {% if forloop.counter|divisibleby:"2" %}
+		<div class="feed-card container grey edit_education_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
+		    {% else %}
+		<div class="feed-card container grey edit_education_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
+		    {% endif %}
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+				<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning education_cancel">Cancel</button>
 
-	       
-	   {% endif %}
-	   <p class="name">{{ user.username }}</p>
-	   <p class="title">{{ user.username }}</p>
-	    <p class="name">{{ user.username }}</p>
-	   <p class="title">{{ user.username }}</p>
-	    <p class="name">{{ user.username }}</p>
-	   <p class="title">{{ user.username }}</p>
-	    <p class="name">{{ user.username }}</p>
-	   <p class="title">{{ user.username }}</p>
-	   
-	   </div>
-	</div> 
+			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success education_save">Save</button>
+
+			    <form role="form" id="editEducation_form{% widthratio forloop.counter 1 1 %}" method="post" action="/rango/save_education/{{edu.id}}/">
+			{% csrf_token %}
+			<br/>
+			{{ eduForm.as_p }}
+			    </form>
+			</div>
+		    </div>
+		</div>
+
+		{% endfor %}
+		     {% else %}
+	{% endif %}
+		<div class="text-center">
+		    <button id="education_add" type="button" class="btn btn-success">Add Education Experience</button>
+		</div>
+		<div class="feed-card container grey education_form">
+
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+			    <form role="form" id="education_form" method="post" action="/rango/profile/">
+			{% csrf_token %}
+				<p class="fill-form">Type of School:</p>
+				{{ eduForm.schoolType }}
+				<p class="fill-form">School:</p>
+				{{ eduForm.school }}
+				<p class="fill-form">Degree:</p>
+				{{ eduForm.degree }}
+				<p class="fill-form">Major:</p>
+				{{ eduForm.major }}
+				<p class="fill-form">Minor:</p>
+				{{ eduForm.minor }}
+				<p class="fill-form">Start Date:</p>
+				{{ eduForm.endDate }}
+				<p class="fill-form">End Date:</p>
+				{{ eduForm.startDate }}
+			    </form>
+			</div>
+		    </div>
+		</div>
+		    
+		<div class="text-center education_submit">
+		    <button id="education_success" type="submit" name="submit" class="btn btn-success">
+			Submit Education Experience
+		    </button>
+		    <button id="education_cancel" type="submit" name="submit" class="btn btn-danger">
+			Cancel
+		    </button>
+
+		</div>
+	    
+		    
+
+	    {% if zippedExp %}
+	    {% for we, eForm in zippedExp %}
+	    
+		{% if forloop.counter|divisibleby:"2" %}
+		<div class="feed-card container lightblue display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
+		{% else %}
+		<div class="feed-card container blue display" data-no-edit = "{% widthratio forloop.counter 1 1 %}">
+		{% endif %}
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+			    <button id= "{{ we.id }}" type="button" class="btn btn-danger work_experience_delete">Delete</button>
+			    <button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning work_experience_edit">Edit</button>
+			    <div class = "old-info">
+				<p class="name">{{ we.company }}</p>
+				<p class="title">{{ we.jobTitle }}</p>
+				<p class="date">{{ we.startDate|date:"m/Y" }} - {{ we.endDate|date:"m/Y" }} ({{ we.startDate|timesince:we.endDate }}) | {{ we.location }}</p>
+				<p class="detail">{{ we.info }}</p>
+			    </div>
+			</div>
+		    </div>	 
+		</div>
+		    {% if forloop.counter|divisibleby:"2" %}
+		<div class="feed-card container grey edit_work_experience_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
+		    {% else %}
+		<div class="feed-card container grey edit_work_experience_form hide" data-edit = "{% widthratio forloop.counter 1 1 %}">
+		    {% endif %}
+
+
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+				<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning work_experience_cancel">Cancel</button>
+
+			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success work_experience_save">Save</button>
+			    
+			    <form role="form" id="editWorkExperience_form{% widthratio forloop.counter 1 1 %}" method="post" action="/rango/save_workExperience/{{we.id}}/">
+			{% csrf_token %}
+			<br/>
+			{{ eForm.as_p }}
+			    </form>
+			</div>
+		    </div>
+		</div>
+	    {% endfor %}
+	    
+	    	<div class="text-center">
+		    <button id="work_experience_add" type="button" class="btn btn-success">Add Work Experience</button>
+		</div>
+		<div class="feed-card container grey work_experience_form">
+
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+			    <form role="form" id="workExperience_form" method="post" action="/rango/profile/">
+			{% csrf_token %}
+				<p class="fill-form">Company:</p>
+				{{ form.company }}
+				<p class="fill-form">Position:</p>
+				{{ form.jobTitle }}
+				<p class="fill-form">Start Date:</p>
+				{{ form.startDate }}
+				<p class="fill-form">End Date:</p>
+				{{ form.endDate }}
+				<p class="fill-form">Location:</p>
+				{{ form.location }}
+				<p class="fill-form">Description:</p>
+				{{ form.info }}
+			    </form>
+			</div>
+		    </div>
+		</div>
+		    
+		<div class="text-center work_experience_submit">
+		    <button id="work_experience_success" type="submit" name="submit" class="btn btn-success">
+			Submit Work Experience
+		    </button>
+		    <button id="work_experience_cancel" type="submit" name="submit" class="btn btn-danger">
+			Cancel
+		    </button>
+		</div>
+	    </div>
+	
+    {% else %}
+		<div class="feed-card container orange">
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left text-center">
+			    <p class="warning">Looks like you haven't added any experiences to your profile yet, add one below!</p>
+			</div>
+		    </div>
+		</div>
+		<div class="feed-card container blue initial_work_experience_form">
+		    <div class="row">
+			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
+			    <form role="form" id="initial_workExperience_form" method="post" action="/rango/profile/">
+			{% csrf_token %}
+				<br/>
+				<p class="fill-form">Company:</p>
+				{{ form.company }}
+				<p class="fill-form">Position:</p>
+				{{ form.jobTitle }}
+				<p class="fill-form">Start Date:</p>
+				{{ form.startDate }}
+				<p class="fill-form">End Date:</p>
+				{{ form.endDate }}
+				<p class="fill-form">Location:</p>
+				{{ form.location }}
+				<p class="fill-form">Description:</p>
+				{{ form.info }}
+			    </form>
+			    <br />
+			</div>
+		    </div>
+		</div>
+		<div class="text-center initial_work_experience_submit">
+		    <button id="initial_work_experience_success" type="submit" name="submit" class="btn btn-success">
+			Submit Work Experience
+		    </button>
+		</div>
+    {% endif %}
+	</div>
     </div>
-    </div>
-    <div id="fadeout">
-    </div>
-    
-    {% block footer %}
+    <!--<div id="fadeout">
+    </div>-->
     {% endblock %}
+    {% block footer %}
+
+    {% endblock %}
+
+{% block scripts %}
+    {{ eduForm.media.js }}
+    <script src="{% static 'js/jquery-profile.js' %}"></script>
+    <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+        <script language="Javascript">
+	$(document).ready(function(){
+	$("select").combobox();
+	});
+	var change_pic_resize = function() {
+	    
+	    var divSize = $('.base-left').width();
+	    var right = (divSize - $(".change_pic").width() + 15) / 2.0;
+	    var position = $('.thumb').position();
+	    $(".change_pic").css({ "left":position.left});
+	    
+	    console.log(right);
+	    console.log(divSize);
+	    console.log($(".change_pic").width());
+	};
+	$(window).resize(change_pic_resize);
+	$(document).ready(change_pic_resize);
+
+	var hideScroll = function() {
+	    $(document.body).css({'overflow-y':'hidden'})
+	};
+	$('#openModal').click(hideScroll);
+	
+	var showScroll = function() {
+	    $(document.body).css({'overflow-y':'scroll'})
+	};
+	$('.close').click(showScroll);
+	
+	var imgClear = function() {
+	    if($("#picture-clear_id").is(':checked')){
+		$('#upload').show()  // checked
+	    }
+	};
+	$( "#picture-clear_id" ).on( "click", imgClear );
+
+       function resetFile(input) {
+            console.log('hi')
+            jcrop_api.destroy();
+            $('#img_id').attr('src','#').css({'visibility':'hidden'})
+            $('#crop_holder').show();
+            $('#reset_button').hide();
+	    $('#upload').hide()
+            input.wrap('<form>').closest('form').get(0).reset();
+            input.unwrap();    
+        }
+        function upload_img(input) {
+            console.log("in upload_img");
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img_id').attr('src', e.target.result);
+                    $('#crop_holder').hide();
+                    $('#reset_button').show();
+		    $('#upload').show()
+                    if ($('.jcrop-tracker').length) {
+                        jcrop_api.setImage(e.target.result);
+                        jcrop_api.animateTo([ 100, 100, 300, 340 ])
+                    }
+                    else{
+                        img_crop($('#img_id'));
+                    }
+                    //
+                }
+                reader.readAsDataURL(input.files[0])
+            }     
+        };
+        var jcrop_api;
+        function img_crop(input) {
+        $(input).Jcrop({
+            onChange: showCoords,
+                onSelect: showCoords,
+                bgColor: "white",
+                bgOpacity: .4,
+                setSelect: [ 100, 100, 300, 340 ],
+                minSize: [ 100, 100 ],
+                aspectRatio: 5 / 6,
+                boxWidth: 600,
+                boxHeight: 400,
+                },
+                function(){ jcrop_api = this; })
+        };
+
+        function showCoords(c)
+            { // variables can be accessed here as
+            // c.x, c.y, c.x2, c.y2, c.w, c.h
+            $('#id_coords').val( c.x.toFixed(2)+" " + c.y.toFixed(2) +" " + c.x2.toFixed(2) +" " + c.y2.toFixed(2) +" ");
+            };
+        </script>
 {% endblock %}

@@ -1,27 +1,175 @@
 {% extends 'rango/base.html' %}
-
+{% load widget_tweaks %}
 {% load staticfiles %}
+{% block head %}
+    <link href="{% static 'css/jquery.Jcrop.css' %}" rel="stylesheet">
+    <style type="text/css">
+    .hidden1 {
+        display: none;
+    }
+    #id_picture{
+        display: inline-block;
+    }
+    #reset_button{
+        display: block;
+    }
+    #crop_holder{
+        display: block;
+    }
+        
+        .signupDiv {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 40px; 
+            padding-top: 10px;
+            margin: 50px auto;
+            width: 800px;
+        }
+        .form-group {
+            width: 80%;
+            margin: 10px auto;
+        }
+        .form-button {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+{% endblock%}
 
 {% block title %}Profile Regristration{% endblock %}
 
 {% block body_block %}
-    <div class="page-header"
+    <div class="page-header">
             <h1>Profile Regristration</h1>
     </div>
+    <h3>Thanks for signing up! Please fill out the information below to start building your profile.</h3>
+    <br/>
+    <h4>*You can choose to do this later, but you won't be able to create your profile or groups until you fill out the information below.</h4>
     
-     <form id="user_profile_form" method="post" action="/rango/add_profile/"
+        <div class="signupDiv">
+    <form class= "signupForm" role="form"  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!--<h2 class="form-signin-heading">Sign Up Here</h2>-->
+        
+        <div class="form-group">
+            <p class="required"><label for="id_email">First Name:</label>
+                
+            {{ user_profile_form.firstName|attr:"class:form-control"|attr:"placeholder:First Name"|attr:"autofocus:''"|attr:"required" }}
+            {{ user_profile_form.firstName.errors}}
+        </div>
+                
+        <div class="form-group">
+            <p class="required"> <label for="id_username">Last Name:</label>
+            {{ user_profile_form.lastName|attr:"class:form-control"|attr:"placeholder:Enter Username"|attr:"required"  }}
+            {{ user_profile_form.lastName.errors}}
+        </div>
+        <div class="form-group">
+            <p class="required"><label for="id_password1">Picture:</label>
+            {{ user_profile_form.picture|attr:"onchange:upload_img(this);" }}
+            {{ user_profile_form.picture.errors}}
+            <button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
+            <img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
+            <img id="img_id" src="#" alt="your image" style = "display: none;"/>
+            {{ user_profile_form.coords|attr:"class:hidden1" }}
+        </div>
+
+        <div class="form-button text-center">
+            <button type="sumbit" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+        </div>
+    
+    
+     <!--<form id="user_profile_form" method="post" action="/rango/add_profile/"
             enctype="multipart/form-data">
 
         {% csrf_token %}
 
-        <!-- Display each form. The as_p method wraps each element in a paragraph
-             (<p>) element. This ensures each element appears on a new line,
-             making everything look neater. -->
 
-        {{ user_profile_form.as_p }}
-
-        <!-- Provide a button to click to submit the form. -->
+        {{ user_profile_form.firstName.label_tag }}
+        {{ user_profile_form.firstName }}
+        {{ user_profile_form.firstName.errors }}
+        <br/>
+        {{ user_profile_form.lastName.label_tag }}
+        {{ user_profile_form.lastName }}
+        {{ user_profile_form.lastName.errors }}
+        <br/>
+        {{ user_profile_form.picture.label_tag }}
+        {{ user_profile_form.picture|attr:"onchange:upload_img(this);" }}
+        {{ user_profile_form.picture.errors }}
+        <button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
+        <img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
+        <img id="img_id" src="#" alt="your image" style = "display: none;"/>
+        
+        {{ user_profile_form.coords|attr:"class:hidden1" }}
+        <br/>
 
         <input type="submit" name="submit" value="Register" />
     </form>
+    <p class = "coords"></p>-->
+      
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+        <script language="Javascript">
+       function resetFile(input) {
+            console.log('hi')
+            jcrop_api.destroy();
+            $('#img_id').attr('src','#').css({'visibility':'hidden','width':'0','height':'0'})
+            $('#crop_holder').show();
+            $('#reset_button').hide();
+            input.wrap('<form>').closest('form').get(0).reset();
+            input.unwrap();    
+        }
+        
+        function upload_img(input) {
+            console.log("in upload_img");
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img_id').attr('src', e.target.result);
+                    $('#crop_holder').hide();
+                    $('#reset_button').show();
+                    if ($('.jcrop-tracker').length) {
+                        jcrop_api.setImage(e.target.result);
+                        jcrop_api.animateTo([ 100, 100, 500, 540 ])
+                    }
+                    else{
+                        img_crop($('#img_id'));
+                    }
+                    //
+                }
+                reader.readAsDataURL(input.files[0])
+            }     
+        };
+        
+        var jcrop_api;
+        function img_crop(input) {
+        $(input).Jcrop({
+            onChange: showCoords,
+                onSelect: showCoords,
+                bgColor: "white",
+                bgOpacity: .4,
+                setSelect: [ 100, 100, 500, 580 ],
+                minSize: [ 100, 100 ],
+                aspectRatio: 5 / 6,
+                boxWidth: 600,
+                boxHeight: 400,
+                },
+                function(){ jcrop_api = this; })
+        };
+
+        function showCoords(c)
+            { // variables can be accessed here as
+            // c.x, c.y, c.x2, c.y2, c.w, c.h
+            $('#id_coords').val( c.x.toFixed(2)+" " + c.y.toFixed(2) +" " + c.x2.toFixed(2) +" " + c.y2.toFixed(2) +" ");
+            };
+        </script>
+
 {% endblock %}

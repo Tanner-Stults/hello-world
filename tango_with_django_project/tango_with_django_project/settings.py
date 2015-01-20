@@ -35,6 +35,17 @@ TEMPLATE_DIRS = [
                  TEMPLATE_PATH,
                  ]
 
+TEMPLATE_CONTEXT_PROCESSORS = [
+                 "django.core.context_processors.request",
+                 "django.contrib.auth.context_processors.auth",
+                 "django.core.context_processors.debug",
+                 "django.core.context_processors.i18n",
+                 "django.core.context_processors.media",
+                 "django.core.context_processors.static",
+                 "django.core.context_processors.tz",
+                 "django.contrib.messages.context_processors.messages"]
+
+
 # Static Directory
 
 STATIC_PATH = os.path.join(BASE_DIR,'static')
@@ -56,7 +67,7 @@ REGISTRATION_OPEN = True        # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
 LOGIN_REDIRECT_URL = '/rango/'  # The page you want users to arrive at after they successful log in
-LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
+LOGIN_URL = '/rango/user_login/'  # The page users are directed to if they are not logged in,
                                 # and are trying to access pages requiring authentication
 
 # Application definition
@@ -69,8 +80,38 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rango',
-    'registration'
+    'registration',
+    'easy_thumbnails',
+    'image_cropping',
+    'widget_tweaks',
+    'guardian',
+    #'autocomplete_light',
+    'haystack',
+    'selectable',
+
 )
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr'
+        # ...or for multicore...
+        # 'URL': 'http://127.0.0.1:8983/solr/mysite',
+    },
+}
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+
+ANONYMOUS_USER_ID = -1
+
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -96,6 +137,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jts274@cornell.edu'
+EMAIL_HOST_PASSWORD = 'Jts070594'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

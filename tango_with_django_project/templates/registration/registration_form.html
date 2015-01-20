@@ -1,7 +1,7 @@
 {% extends "rango/base.html" %}
 
 {% load staticfiles %}
-
+{% load widget_tweaks %}
 {% block stylesheet %}
     <style type="text/css">
         
@@ -19,6 +19,16 @@
         .form-button {
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+        #check{
+            display: none;
+            color: #FF3300;
+            margin-left: 5px;
+            width: 200px;
+
+        }
+        .ui-effects-wrapper {
+        display:inline;
         }
     </style>
     
@@ -39,20 +49,26 @@
         
         <div class="form-group">
             <p class="required"><label for="id_email">E-mail:</label>
-            <input class="form-control" id="id_email" name="email" type="email" placeholder="Enter email" /></p>
+                
+            {{ form.email|attr:"class:form-control"|attr:"placeholder:Enter Email"|attr:"autofocus:''"|attr:"required" }}
+            {{ form.email.errors}}
         </div>
-
+                
         <div class="form-group">
             <p class="required"> <label for="id_username">Username:</label>
-            <input class="form-control"  id="id_username" maxlength="30" name="username" type="text"  placeholder="Enter username"/></p>
+            {{ form.username|attr:"class:form-control"|attr:"placeholder:Enter Username"|attr:"required"  }}
+            {{ form.username.errors}}
         </div>
         <div class="form-group">
             <p class="required"><label for="id_password1">Password:</label>
-            <input class="form-control" id="id_password1" name="password1" type="password" placeholder="Enter password" /></p>
+            {{ form.password1|attr:"class:form-control"|attr:"placeholder:Enter Password"|attr:"required"  }}
+            {{ form.password1.errors}}
         </div>
         <div class="form-group">
-            <p class="required"><label for="id_password2">Password (again):</label>
-            <input class="form-control" id="id_password2" name="password2" type="password" placeholder="Enter password again" /></p>
+            <p class="required"><label for="id_password2">Password (again):</label> <span id = 'check'><strong>Passwords do not match </strong></span>
+            {{ form.password2|attr:"class:form-control"|attr:"placeholder:Enter Password Again"|attr:"required"  }}
+            {{ form.password2.errors}}
+            {{ form.non_field_errors}}
         </div>
         <div class="form-button text-center">
             <button type="submit" class="btn btn-success">Submit</button>
@@ -61,3 +77,33 @@
     </div>
 
 {% endblock %}
+{% block scripts %}
+
+
+        <script language="Javascript">
+        $('#id_password1, #id_password2').keyup( function(){
+            console.log($('#id_password1').val());
+            console.log($('#id_password2').val());
+            if($('#id_password2').val() == ""){
+                
+            }else{
+
+                if($('#id_password1').val()!=$('#id_password2').val()){
+                    $('#check').css({'display':'inline-block'});
+                }
+                else{
+                    $('#check').css({'display':'none'});
+                }
+            }
+         });
+            $('.btn-success').click( function(){
+            if($('#id_password1').val()==$('#id_password2').val()){
+                return true
+            } else {
+                $( "#check" ).effect( "shake", { direction: "left", times: 2, distance: 5}, 500);
+                return false
+            }
+         });
+         </script>
+{% endblock %}
+       

@@ -69,6 +69,10 @@
     display: block;
 }
 
+.placeholder img{
+    border-radius: 20px;
+}
+
 @media (max-width: 767px) {
     .mobile {
         display: block;

@@ -1,0 +1,126 @@
+{% extends "rango/base.html" %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/paintings.css' %}" type="text/css" />
+{% endblock %}
+
+{% block title %}Paintings{% endblock %}
+{% block side_block %}
+{% endblock %}
+
+{% block body_width %}
+    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
+{% block body_block %}
+
+    <div class="page-header">
+        <h1>Paintings</h1>
+    </div>
+
+        <div class="hidden-row row row-centered desk" id ="row0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+                            <div class="hideClose">
+                        <a class="close">&times;</a>
+                    </div>
+        </div>
+
+        <div class="row placeholders desk">
+            {% for painting in paintingList %}
+
+            <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-3' 4 1 %}">
+                <div class="col-xs-8 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if painting.art %}
+                    <img src= "{{ painting.art.url }}"  class="img-responsive" alt=" {{ painting.title }} Profile Picture" style = "height:150px;"/> 
+                    
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ painting.title }}</h4>
+                </div>
+                {% if painting.info %}
+                <div class="col-xs-4 col-md-4 col-md-offset-0 myhide">
+
+                    <h2 class = "title">{{ painting.title }}</h2>
+                    <h4>{{ painting.location }}</h4>
+                    <h4>{{ painting.date }}</h4>
+                    <h4>{{ painting.medium }}</h4>
+                    <hr/>
+                    <p>{{ painting.info }}</p>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"4" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row desk" id="row{% widthratio forloop.counter 4 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders desk">
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+        
+        <div class="hidden-row row row-centered mobile" id ="mobilerow0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders mobile">
+            {% for painting in paintingList %}
+            <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if painting.art %}
+                    <img src= "{{ painting.art.url }}"  class="img-responsive" alt=" {{ painting.title }} Profile Picture" style = "height:150px;"/> 
+                    
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ painting.title }}</h4>
+                </div>
+                {% if painting.info %}
+                <div class="col-xs-12 col-md-6 col-md-offset-0 myhide">
+                    <h2 class = "title">{{ painting.title }}</h2>
+                    <h4>{{ painting.location }}</h4>
+                    <h4>{{ painting.date }}</h4>
+                    <h4>{{ painting.medium }}</h4>
+                    <hr/>
+                    <p>{{ painting.info }}</p>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"2" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row mobile" id="mobilerow{% widthratio forloop.counter 2 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders mobile">
+        {% endif %}
+
+    {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+    {% block footer %}
+
+    {% endblock %}
+{% block scripts %}
+    
+    <script src="{% static 'js/rango-painting.js' %}"></script>
+{% endblock %}

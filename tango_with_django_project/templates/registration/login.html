@@ -1,25 +1,61 @@
 {% extends "rango/base.html" %}
-
+    {% load widget_tweaks %}
+    {% load staticfiles %}
+    {% load thumbnail %}
 {% block stylesheet %}
-<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+
+<link href="{% static 'css/signin.css' %}" rel="stylesheet">
+    <style type="text/css">
+        .img-responsive:hover {
+    cursor: pointer; cursor: hand;
+    }
+    .img-responsive{
+        border-radius: 20px;
+    }
+    .center{
+    margin: 0 auto;
+    }
+    </style>
 {% endblock %}
 
 
 {% block title %}Login{% endblock %}
 
+{% block side_block %}
+{% endblock %}
+
+{% block body_width %}
+    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
+
 {% block body_block %}
 
 
-    <form class="form-signin" role="form" method="post" action=".">
-        {% csrf_token %}
-        
-        <h2 class="form-signin-heading text-center">Please Sign In</h2>
-        <br \>
 
-        <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus="" />
-        <input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
+    {% if redirect %}
+    <h2 class="form-signin-heading text-center">{{up.firstName}}, please sign in to join this group </h2>
+
+        <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive center" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+
+    <br/>
+    <h4 class="text-center">Not {{up.firstName}} {{up.lastName}}? Please login<a href= {% url 'user_login' %}> here</a>.</h4>
+    <form class="form-signin" role="form" method="post" action="./?next={{ redirect }}">
+    {% else %}
+    <h2 class="form-signin-heading text-center">Please Sign In</h2>
+    <br \>
+    <form class="form-signin" role="form" method="post" action=".">
+    {% endif %}
+    {% if failed %}
+        <p>Username/Password supplied was incorrect</p>
+    {% endif %}
+    {% csrf_token %}
+        {{ login_form.username|attr:"class:form-control"|attr:"placeholder:Username"|attr:"autofocus:''"|attr:"required" }}
+        {{ login_form.username.errors}}
+        {{ login_form.password|attr:"class:form-control"|attr:"placeholder:Password"|attr:"required"  }}
+        {{ login_form.password.errors}}
         <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />Sign in</button>
     </form>
     <br />
     <p class="text-center">Not  a member? <a href="{% url 'registration_register' %}">Sign up here</a>!</p>
+    <p class="text-center">Forgot you password? <a href="{% url 'auth_password_reset' %}">Reset Password</a></p>
 {% endblock %}

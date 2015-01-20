@@ -1,6 +1,14 @@
+#import autocomplete_light
+import selectable.forms as selectable
+from django.forms.models import modelformset_factory
+from rango.lookups import UserProfileLookup
+#autocomplete_light.autodiscover()
 from django import forms
 from django.contrib.auth.models import User
-from rango.models import Category, Page, UserProfile
+from django.forms.widgets import HiddenInput
+from rango.models import Category, Page, UserProfile, WorkExperience, Education
+import datetime
+from image_cropping import ImageCropWidget
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=128, help_text="Please enter the category name:")
@@ -46,16 +54,46 @@ class PageForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
-
     class Meta:
         model = User
-        fields = ('username', 'password', 'email')
+        fields = ('password', 'email')
+
+class UserLoginForm(forms.Form):
+    username = forms.CharField(max_length=30)
+    password = forms.CharField(widget=forms.PasswordInput())
 
 class UserProfileForm(forms.ModelForm):
-
-    website = forms.URLField(help_text="Please enter your website.", required=False)
-    picture = forms.ImageField(help_text="Select a profile image to upload.", required=False)
-
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['firstName'].label = "First Name"
+        self.fields['lastName'].label = "Last Name"
     class Meta:
         model = UserProfile
-        fields = ('website', 'picture')
+        
+
+class UserRegistrationForm(forms.ModelForm):
+    
+    class meta:
+        model = User
+
+class WorkExperienceForm(forms.ModelForm):
+    company = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':'special-input'}))
+    jobTitle = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':'special-input'}))
+    location = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':'special-input'}))
+    info = forms.CharField(max_length=1000, widget= forms.Textarea(attrs={'class':'special-input info-input'}))
+    
+    class Meta:
+        model = WorkExperience
+
+class EducationForm(forms.ModelForm):
+    
+    class Meta:
+        model = Education
+
+class AddGroupForm(forms.Form):
+    user = forms.CharField(
+        label='Type the name of a classmate',
+        widget=selectable.AutoComboboxSelectWidget(UserProfileLookup,  allow_new=True),
+       
+        required=False,
+    )

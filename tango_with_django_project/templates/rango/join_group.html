@@ -1,0 +1,223 @@
+{% extends 'rango/base.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% load rango_extras %}
+{% load thumbnail %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users.css' %}" type="text/css" />
+        <style type="text/css">
+            #leave_group_div {
+                float: left;
+            }
+            #leave_group_div2 {
+                float: left;
+                display: None;
+            }
+            #join_group_div {
+                float: left;
+            }
+            #join_group_div2 {
+                float: left;
+                display: None;
+            }   
+        </style>
+{% endblock %}
+
+{% block title %}Profile Regristration{% endblock %}
+{% block side_block %}
+{% endblock %}
+{% block body_width %}
+    <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
+{% block body_block %}
+    <div class="page-header">
+    <h1>Join a group</h1>
+    </div>
+    {% if group %}
+    <h3>You've been invited by {{oup.firstName}} to join thier group!</h3>
+
+
+     <h4>Current members in {{oup.firstName}}'s group:</h4>
+        <br/>
+        <div class="hidden-row row row-centered desk" id ="row0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders desk">
+           
+    {% for user, up, uwe, uedu in udict%}
+
+            <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-3' 4 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+
+                    {% if up.picture %}
+                        <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                
+                    <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+                    -->
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+                </div>
+                {% if uwe.company %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ uwe.company }}</p>
+                    <p>{{ uwe.jobTitle }}</p>
+                    <p>{{ uedu.school }}</p>
+                    <p>{{ uedu.get_degree_display }} - {{ uedu.major }}</p>
+                    <a href ="/rango/pub-profile/{{u.id}}/">View Profile</a>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"4" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row desk" id="row{% widthratio forloop.counter 4 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders desk">
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+        
+        <div class="hidden-row row row-centered mobile" id ="mobilerow0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders mobile">
+            {% for user, up, uwe, uedu in udict2%}
+            <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if up.picture %}
+                    <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ u.username }}</h4>
+                </div>
+                {% if up.info %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ up.info }}</p>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"2" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row mobile" id="mobilerow{% widthratio forloop.counter 2 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders mobile">
+        {% endif %}
+
+    {% endif %}
+{% endfor %}
+{% if u|has_group %}
+    <h4>But to join {{oup.firstName}}'s group you need to leave your current group first.</h4>
+            <div id="leave_group_div">
+            <button id="leave_group" type="button" class="btn btn-danger">
+                Leave Current Group
+            </button>
+        </div>
+        <div id="leave_group_div2">
+                <form role="form" method="post" action="./?ou={{ouId}}">
+                        {% csrf_token %}
+                        <button id="leave_group2" type="submit" name="leave_group" value="leave_group" class="btn btn-success">
+                            Yes, Leave
+                        </button>
+                        <button id="leave_group3" type="button" class="btn btn-danger">
+                            No, Don't Leave
+                        </button>
+                </form>
+        </div>
+{% else %}
+    <h4>Join {{oup.firstName}}'s group?</h4>
+        <div id="join_group_div">
+            <button id="join_group" type="button" class="btn btn-success">
+                Join Group
+            </button>
+        </div>
+        <div id="join_group_div2">
+                <form role="form" method="post" action="./?ou={{ouId}}">
+                        {% csrf_token %}
+                        <button id="join_group2" type="submit" name="join_group" value="join_group" class="btn btn-success">
+                            Yes, Join
+                        </button>
+                        <button id="join_group3" type="button" class="btn btn-danger">
+                            No, Don't Join
+                        </button>
+                </form>
+        </div>
+{% endif %}
+<br/>
+
+{% else %}
+<h3>Oops! {{oup.firstName}}'s group has disbanded. Return to <a href="{% url 'profile' %}"> your profile</a>.</h3>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block scripts %}
+    
+    <script src="{% static 'js/rango-jquery.js' %}"></script>
+    <script language="Javascript">
+    $(document).ready(
+
+        function () {
+            $('#leave_group_div').click(function () {
+                $(this).hide('slide', {
+                    direction: 'left'
+                }, 200, function(){
+                $('#leave_group_div2').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+            $('#leave_group3').click(function () {
+                $('#leave_group_div2').hide('slide', {
+                    direction: 'left'
+                }, 300, function(){
+                $('#leave_group_div').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+            $('#join_group_div').click(function () {
+                $(this).hide('slide', {
+                    direction: 'left'
+                }, 200, function(){
+                $('#join_group_div2').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+            $('#join_group3').click(function () {
+                $('#join_group_div2').hide('slide', {
+                    direction: 'left'
+                }, 300, function(){
+                $('#join_group_div').show('slide', {
+                    direction: 'left'
+                }, 300);});
+            });
+        });
+    </script>
+{% endblock %}
