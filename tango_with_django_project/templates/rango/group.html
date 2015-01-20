@@ -175,9 +175,6 @@
  <form role="addForm" id="initial_workExperience_form" method="post">
 			{% csrf_token %}
     {{ addForm.as_p }}
-    	<button id="addFormSubmit" type="button" name="submit" class="btn btn-success">
-			Search for User
-		</button>
  </form>
     <div id='results'>
         
@@ -238,15 +235,38 @@
                 success : function(json) {
                     $('#results').html(json); // log the returned json to the console
                     change_pic_resize();
-                    $('.change_pic, .img-add').mouseenter(function(){
-                        console.log('mouseenter');
-                        $('.change_pic').stop().animate({
+                    $('.change_pic, .img-add, .change_pic, .img-add-mobile ').mouseenter(function(){
+                        class1 = $(this).attr('class')
+                        console.log('class1: ' +class1)
+                        if (class1 === "change_pic"){
+                            id = '#'+$(this).attr('id')
+                        } else if(class1 === "img-add") {
+                            id = '#change_pic_'+ $(this).attr('id')
+                        }
+                        else if (class1 === "img-add-mobile") {
+                            id = '#change_pic_mobile_'+ $(this).attr('id')
+                        }
+                        else{
+                            id = null
+                        }
+                        console.log(id)
+                        
+                        $(id).stop().animate({
                          backgroundColor: 'rgba(0,0,0,0.8)'},300);
-                        $('<p class="change_pic_text">&nbspAdd&nbsp</p>').insertBefore('.change_pic_img')
-                        $('<p class="change_pic_text">&nbspUser</p>').insertAfter('.change_pic_img')
+                        $('<p class="change_pic_text">&nbspAdd&nbsp</p>').insertBefore($(id).children('img'))
+                        $('<p class="change_pic_text">&nbspUser</p>').insertAfter($(id).children('img'))
                     });
-                    $('.change_pic, .img-add').mouseleave(function(){
-                        $('.change_pic').stop().animate({
+                    $('.change_pic, .img-add, .change_pic, .img-add-mobile').mouseleave(function(){
+                        if (class1 === "change_pic"){
+                            id = '#'+$(this).attr('id')
+                        } else if(class1 === "img-add" || class1 === "img-add-mobile") {
+                            id = '#change_pic_'+ $(this).attr('id')
+                        }
+                        else{
+                            id = null
+                        }
+                        console.log($(id).attr('class'))
+                        $(id).stop().animate({
                          backgroundColor: 'rgba(0,0,0,0.5)'},300);
                         $('.change_pic_text').remove();
                         
@@ -259,14 +279,19 @@
 
     });
         var change_pic_resize = function() {
-            if ($('.img-add')[0]) {
-                var position = $('.img-add').position();
-                var height= $('.img-add').height();
-                var height2= $('.img-add').parent().height();
-                console.log('pic height: '+height+'div height: '+height2)
-                console.log(position.left)
-                $(".change_pic").css({ "left":position.left, "bottom":height2-height});
+            if ($('.desk').css('display') != 'none') {
+                var imgClass = '.img-add';
             }
+            else {
+                var imgClass = '.img-add-mobile';
+            }
+            
+            console.log(imgClass)
+            var position = $(imgClass).position();
+            var height= $(imgClass).height();
+            var height2= $(imgClass).parent().height();
+            console.log('pic height: '+height+' div height2: '+height2)
+            $(".change_pic").css({ "left":position.left, "bottom":height2-height});
 	   
 	};
 	$(window).resize(change_pic_resize);

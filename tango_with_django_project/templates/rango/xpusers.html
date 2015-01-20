@@ -46,7 +46,7 @@
                     <!--<img src= "{{ up.picture.url }}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
                     -->
                     {% else %}
-                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    <img src= {% static 'images/unknown_person.jpg' %} class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
                     {% if u|looking_for_group %}
@@ -117,7 +117,7 @@
                         <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
                 
                     {% else %}
-                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    <img src= {% static 'images/unknown_person.jpg' %} class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
                 {% if up.user|has_group %}
