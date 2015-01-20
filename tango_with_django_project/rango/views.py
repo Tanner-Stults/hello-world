@@ -884,7 +884,10 @@ def ajax_user_search(request):
         us.append(User.objects.get(username=user.user))
 
     zipped = itertools.izip(us, ups)
-    ou = User.objects.get(id = request.user.id)
+    try:
+        ou = User.objects.get(id = request.user.id)
+    except:
+        ou = None
     context_dict['ou'] = ou
     context_dict['zipped'] = zipped
     print 'q: ' + q
