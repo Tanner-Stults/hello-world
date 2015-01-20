@@ -6,7 +6,9 @@
 
 {% block stylesheet %}
     {{ addForm.media.css }}
+    {% autoescape on %}
     <link rel="stylesheet" href="{% static 'css/dj.selectable.css?v=0.9.0' %}" type="text/css" />
+    {% endautoescape %}
     <link rel="stylesheet" href="{% static 'css/users.css' %}" type="text/css" />
         <style type="text/css">
             
