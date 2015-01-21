@@ -81,7 +81,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rango',
     'registration',
-    #'easy_thumbnails',
+    'easy_thumbnails',
     'image_cropping',
     'widget_tweaks',
     'guardian',
