@@ -16,7 +16,7 @@
             {% else %}
             <img src= {% static 'images/unknown_person.jpg' %} id = '{% widthratio forloop.counter 1 1 %}' class="img-add" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
             {% endif %}
-            <a href="/rango/send_email/{{u.id}}/">
+            <a href="/cornell/send_email/{{u.id}}/">
 		<div class = 'change_pic' id = 'change_pic_{% widthratio forloop.counter 1 1 %}'>
 		    <img class='change_pic_img' src = {% static 'images/plus-white.gif' %} style='height:20px;margin-top:2px;margin-bottom:2px'/>
 		</div>
@@ -45,7 +45,7 @@
             {% else %}
                     <img src= {% static 'images/unknown_person.jpg' %} id = '{% widthratio forloop.counter 1 1 %}' class="img-add-mobile" alt=" {{ up.firstName }} Profile Picture" style = "height:150px;"/> 
             {% endif %}
-                    <a href="/rango/send_email/{{u.id}}/">
+                    <a href="/cornell/send_email/{{u.id}}/">
                         <div class = 'change_pic' id = 'change_pic_mobile_{% widthratio forloop.counter 1 1 %}'>
                             <img class='change_pic_img' src = {% static 'images/plus-white.gif' %} style='height:20px;margin-top:2px;margin-bottom:2px'/>
                         </div>

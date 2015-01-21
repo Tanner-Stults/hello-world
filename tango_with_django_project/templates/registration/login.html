@@ -1,5 +1,6 @@
 {% extends "rango/base.html" %}
     {% load widget_tweaks %}
+        {% load static %}
     {% load staticfiles %}
     {% load thumbnail %}
 {% block stylesheet %}
@@ -34,9 +35,11 @@
 
     {% if redirect %}
     <h2 class="form-signin-heading text-center">{{up.firstName}}, please sign in to join this group </h2>
-
+        {% if up.picture %}
         <img src= "{% thumbnail up.picture 250x300 quality=95 %}"  class="img-responsive center" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
-
+        {% else %}
+        <img src="{% static 'images/unknown_person.jpg' %}"  class="img-responsive center" alt="{{ up.firstName }} Profile Picture" style = "height:150px;"/> 
+        {% endif %}
     <br/>
     <h4 class="text-center">Not {{up.firstName}} {{up.lastName}}? Please login<a href= {% url 'user_login' %}> here</a>.</h4>
     <form class="form-signin" role="form" method="post" action="./?next={{ redirect }}">

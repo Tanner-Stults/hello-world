@@ -347,7 +347,7 @@
 			    {% else %}
 			    <p class="detail"> Education: Add education below to display your education here </p>
 			{% endif %}
-			    <p>View your <a href ="/rango/pub-profile/{{user.id}}/" target="_blank">Public Profile</a></p>
+			    <p>View your <a href ="/cornell/pub-profile/{{user.id}}/" target="_blank">Public Profile</a></p>
 			    <!-- <p>Your supplied <a href ="{{userprofile.linkedIn}}/" target="_blank">LinkedIn Public Profile URL</a></p> -->
 			</div>
 
@@ -389,7 +389,7 @@
 
 			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success education_save">Save</button>
 
-			    <form role="form" id="editEducation_form{% widthratio forloop.counter 1 1 %}" method="post" action="/rango/save_education/{{edu.id}}/">
+			    <form role="form" id="editEducation_form{% widthratio forloop.counter 1 1 %}" method="post" action="/cornell/save_education/{{edu.id}}/">
 			{% csrf_token %}
 			<br/>
 			{{ eduForm.as_p }}
@@ -408,7 +408,7 @@
 
 		    <div class="row">
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
-			    <form role="form" id="education_form" method="post" action="/rango/profile/">
+			    <form role="form" id="education_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
 				<p class="fill-form">Type of School:</p>
 				{{ eduForm.schoolType }}
@@ -475,7 +475,7 @@
 
 			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success work_experience_save">Save</button>
 
-			    <form role="form" id="editWorkExperience_form{% widthratio forloop.counter 1 1 %}" method="post" action="/rango/save_workExperience/{{we.id}}/">
+			    <form role="form" id="editWorkExperience_form{% widthratio forloop.counter 1 1 %}" method="post" action="/cornell/save_workExperience/{{we.id}}/">
 			{% csrf_token %}
 			<br/>
 			{{ eForm.as_p }}
@@ -492,7 +492,7 @@
 
 		    <div class="row">
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
-			    <form role="form" id="workExperience_form" method="post" action="/rango/profile/">
+			    <form role="form" id="workExperience_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
 				<p class="fill-form">Company:</p>
 				{{ form.company }}
@@ -532,7 +532,7 @@
 		<div class="feed-card container blue initial_work_experience_form">
 		    <div class="row">
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
-			    <form role="form" id="initial_workExperience_form" method="post" action="/rango/profile/">
+			    <form role="form" id="initial_workExperience_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
 				<br/>
 				<p class="fill-form">Company:</p>

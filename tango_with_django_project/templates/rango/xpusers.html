@@ -13,6 +13,16 @@
 	    margin-right: 0px;
 	    min-width: 700px;
 	    }
+        }
+        	.title {
+	    font-size: 22px;
+	}
+
+	.detail {
+	    font-size: 18px;
+	    color: #474747;
+	    margin-top: 10px;
+	}
     </style>
 {% endblock %}
 
@@ -56,13 +66,24 @@
                     
                     {% endif %}
                 </div>
-                {% if uwe.company %}
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
-                    <p>{{ uwe.company }}</p>
-                    <p>{{ uwe.jobTitle }}</p>
-                    <p>{{ uedu.school }}</p>
-                    <p>{{ uedu.get_degree_display }} - {{ uedu.major }}</p>
-                    <a href ="/rango/pub-profile/{{u.id}}/">View Profile</a>
+                    	    {% if up.currentPosition %}
+			    <p class="title">Current: {{ up.currentPosition }} at {{ up.currentCompany }} </p>
+			    {% else %}
+			    <p class="title"> Current: This user hasn't provided this information</p>
+			    {% endif %}
+			    <!-- <p class="location">Location: {{ userprofile.currentLocation }} </p> -->
+			    {% if up.previousPosition %}
+			    <p class="detail">Previous: {{ up.previousPosition }} at {{ up.previousCompany }}</p>
+			    {% else %}
+			    <p class="detail"> Previous: This user hasn't provided this information </p>
+			    {% endif %}
+			    {% if up.education %}
+			    <p class="detail">Education: {{ up.education }}</p>
+			    {% else %}
+			    <p class="detail"> Education: This user hasn't provided this information </p>
+			{% endif %}
+                    <a href ="/cornell/pub-profile/{{u.id}}/">View Profile</a>
                     {% if request.user|looking_for_group %}
                     {% else %}
                     {% if request.user|in_group:up.user %}
@@ -74,7 +95,7 @@
                                 <p>Your group is full. Remove a member from your group first.</p>
                             {% else %}
                                 <br />
-                                <a href ="/rango/send_email/{{u.id}}/">Add to Group</a>
+                                <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
                         {% endif %}
                     {% endif %}
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
@@ -82,7 +103,6 @@
                     {% endif %}
 
                 </div>
-                {% endif %}
             </div>
                 
         {% if forloop.last %}
@@ -123,27 +143,37 @@
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
                 {% if up.user|has_group %}
-                    <h5>In group with: {{ up.user|get_group_names }}</h5>
+                    <h5>In group with: {{ up.user|get_group_names:request.user }}</h5>
                     {% else %}
                     <h5>Looking for Group</h5>
                 {% endif %}
                     
                 </div>
-                {% if uwe.company %}
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
-                    <p>{{ uwe.company }}</p>
-                    <p>{{ uwe.jobTitle }}</p>
-                    <p>{{ uedu.school }}</p>
-                    <p>{{ uedu.get_degree_display }} - {{ uedu.major }}</p>
-                    <a href ="/rango/pub-profile/{{u.id}}/">View Profile</a>
+                    {% if up.currentPosition %}
+			    <p class="title">Current: {{ up.currentPosition }} at {{ up.currentCompany }} </p>
+			    {% else %}
+			    <p class="title"> Current: This user hasn't provided this information</p>
+			    {% endif %}
+			    <!-- <p class="location">Location: {{ userprofile.currentLocation }} </p> -->
+			    {% if up.previousPosition %}
+			    <p class="detail">Previous: {{ up.previousPosition }} at {{ up.previousCompany }}</p>
+			    {% else %}
+			    <p class="detail"> Previous: This user hasn't provided this information </p>
+			    {% endif %}
+			    {% if up.education %}
+			    <p class="detail">Education: {{ up.education }}</p>
+			    {% else %}
+			    <p class="detail"> Education: This user hasn't provided this information </p>
+			{% endif %}
+                    <a href ="/cornell/pub-profile/{{u.id}}/">View Profile</a>
                     {% if request.user|has_group %}
                     <br />
-                    <a href ="/rango/send_email/{{u.id}}/">Add to Group</a>
+                    <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
                     {% endif %}
 
                 </div>
-                {% endif %}
             </div>
                 
         {% if forloop.last %}

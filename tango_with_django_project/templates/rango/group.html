@@ -46,6 +46,15 @@
 	    color: #E6E6E6;
 	    margin: 0px 0;
 	}
+            	.title {
+	    font-size: 22px;
+	}
+
+	.detail {
+	    font-size: 18px;
+	    color: #474747;
+	    margin-top: 10px;
+	}
 
         </style>
 {% endblock %}
@@ -68,7 +77,7 @@
             </button>
         </div>
         <div id="leave_group_div2">
-                <form role="form" method="post" action="/rango/group/">
+                <form role="form" method="post" action="/cornell/group/">
                         {% csrf_token %}
                         <button id="leave_group2" type="submit" name="leave_group" value="leave_group" class="btn btn-success">
                             Yes, Leave
@@ -103,15 +112,25 @@
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
                 </div>
-                {% if uwe.company %}
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
-                    <p>{{ uwe.company }}</p>
-                    <p>{{ uwe.jobTitle }}</p>
-                    <p>{{ uedu.school }}</p>
-                    <p>{{ uedu.get_degree_display }} - {{ uedu.major }}</p>
-                    <a href ="/rango/pub-profile/{{user.id}}/">View Profile</a>
+                        	    {% if up.currentPosition %}
+			    <p class="title">Current: {{ up.currentPosition }} at {{ up.currentCompany }} </p>
+			    {% else %}
+			    <p class="title"> Current: This user hasn't provided this information</p>
+			    {% endif %}
+			    <!-- <p class="location">Location: {{ userprofile.currentLocation }} </p> -->
+			    {% if up.previousPosition %}
+			    <p class="detail">Previous: {{ up.previousPosition }} at {{ up.previousCompany }}</p>
+			    {% else %}
+			    <p class="detail"> Previous: This user hasn't provided this information </p>
+			    {% endif %}
+			    {% if up.education %}
+			    <p class="detail">Education: {{ up.education }}</p>
+			    {% else %}
+			    <p class="detail"> Education: This user hasn't provided this information </p>
+			{% endif %}
+                    <a href ="/cornell/pub-profile/{{user.id}}/">View Profile</a>
                 </div>
-                {% endif %}
             </div>
 
         {% if forloop.last %}
@@ -148,11 +167,25 @@
                     {% endif %}
                     <h4>{{ u.username }}</h4>
                 </div>
-                {% if up.info %}
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
-                    <p>{{ up.info }}</p>
+                                        	    {% if up.currentPosition %}
+			    <p class="title">Current: {{ up.currentPosition }} at {{ up.currentCompany }} </p>
+			    {% else %}
+			    <p class="title"> Current: This user hasn't provided this information</p>
+			    {% endif %}
+			    <!-- <p class="location">Location: {{ userprofile.currentLocation }} </p> -->
+			    {% if up.previousPosition %}
+			    <p class="detail">Previous: {{ up.previousPosition }} at {{ up.previousCompany }}</p>
+			    {% else %}
+			    <p class="detail"> Previous: This user hasn't provided this information </p>
+			    {% endif %}
+			    {% if up.education %}
+			    <p class="detail">Education: {{ up.education }}</p>
+			    {% else %}
+			    <p class="detail"> Education: This user hasn't provided this information </p>
+			{% endif %}
                 </div>
-                {% endif %}
+
             </div>
 
         {% if forloop.last %}
@@ -187,7 +220,7 @@
             </button>
         </div>
         <div id="create_group_div2">
-                <form role="form" method="post" action="/rango/group/">
+                <form role="form" method="post" action="/cornell/group/">
                         {% csrf_token %}
                         <button id="create_group2" type="submit" name="create_group" value="create_group" class="btn btn-success">
                             Yes, Create
@@ -278,7 +311,10 @@
             var height= $(imgClass).height();
             var height2= $(imgClass).parent().height();
             console.log('pic height: '+height+' div height2: '+height2)
-            $(".change_pic").css({ "left":position.left, "bottom":height2-height});
+            if (typeof position !== 'undefined') {
+                $(".change_pic").css({ "left":position.left, "bottom":height2-height});
+            }
+            
 
 	};
 	$(window).resize(change_pic_resize);
