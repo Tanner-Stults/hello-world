@@ -46,6 +46,7 @@ class UserProfile(models.Model):
     previousCompany = models.CharField(max_length=200, blank=True,)
     previousPosition = models.CharField(max_length=200, blank=True,)
     education = models.CharField(max_length=400, blank=True,)
+    linkedIn = models.URLField(blank=True)
 
     class Meta:
         ordering = ['user']

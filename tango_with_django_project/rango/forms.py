@@ -67,6 +67,7 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['firstName'].label = "First Name"
         self.fields['lastName'].label = "Last Name"
+        self.fields['linkedIn'].label = "LinkedIn (Optional)"
     class Meta:
         model = UserProfile
         

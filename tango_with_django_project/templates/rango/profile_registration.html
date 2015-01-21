@@ -63,8 +63,13 @@
             {{ user_profile_form.lastName|attr:"class:form-control"|attr:"placeholder:Enter Username"|attr:"required"  }}
             {{ user_profile_form.lastName.errors}}
         </div>
+       <!-- <div class="form-group">
+            <p class="optional"> <label for="id_username">LinkedIn (Optional):</label>
+            {{ user_profile_form.linkedIn|attr:"class:form-control"|attr:"placeholder:Enter Your LinkedIn Public Profile URL"|attr:"optional"  }}
+            {{ user_profile_form.linkedIn.errors}}
+        </div> -->
         <div class="form-group">
-            <p class="required"><label for="id_password1">Picture:</label>
+            <p class="required"><label for="id_password1">Picture (Optional):</label>
             {{ user_profile_form.picture|attr:"onchange:upload_img(this);" }}
             {{ user_profile_form.picture.errors}}
             <button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>

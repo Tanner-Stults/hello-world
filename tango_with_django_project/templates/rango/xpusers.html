@@ -76,7 +76,9 @@
                                 <br />
                                 <a href ="/rango/send_email/{{u.id}}/">Add to Group</a>
                         {% endif %}
-                        {% endif %}
+                    {% endif %}
+                    <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
+
                     {% endif %}
 
                 </div>
@@ -124,7 +126,8 @@
                     <h5>In group with: {{ up.user|get_group_names }}</h5>
                     {% else %}
                     <h5>Looking for Group</h5>
-                    {% endif %}
+                {% endif %}
+                    
                 </div>
                 {% if uwe.company %}
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
@@ -136,6 +139,7 @@
                     {% if request.user|has_group %}
                     <br />
                     <a href ="/rango/send_email/{{u.id}}/">Add to Group</a>
+                    <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
                     {% endif %}
 
                 </div>

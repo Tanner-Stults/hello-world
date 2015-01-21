@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views.generic.edit import UpdateView
 
@@ -63,7 +62,7 @@ def index(request):
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use
-    response = render(request,'rango/index.html', context_dict)
+    response = render(request,'rango/nba3000.html', context_dict)
 
     return response
 

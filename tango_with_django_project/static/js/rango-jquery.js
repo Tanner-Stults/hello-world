@@ -167,8 +167,8 @@ original div that the user clicked on.*/
         var rowDiv = $("#row".concat(rowNum)); // get row number
         };
         //Will have to add this to html as hidden, so we can see if user has linkedin
-        $(userProfilePic ).append( '<a href="#"><img src="https://cdn3.iconfinder.com/data/icons/sociocons/256/linkedin-sociocon.png" class="button1" style="height:33px;margin-right:10px" /></a>' );
-        $(userProfilePic ).append( '<a href="#"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>' );
+        
+        $(userProfileInfo).children('.email').appendTo(userProfilePic);
 
 
         $(rowDiv).children('.hideClose').css("display", "block")

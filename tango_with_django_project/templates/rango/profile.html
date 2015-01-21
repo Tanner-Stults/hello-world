@@ -271,10 +271,6 @@
 {% block side_block %}
 {% endblock %}
 
-{% block body_width %}
-    <div class="col-md-12 col-md-offset-0">
-{% endblock %}
-
 {% block body_block %}
 
     <div class="page-header">
@@ -352,6 +348,7 @@
 			    <p class="detail"> Education: Add education below to display your education here </p>
 			{% endif %}
 			    <p>View your <a href ="/rango/pub-profile/{{user.id}}/" target="_blank">Public Profile</a></p>
+			    <!-- <p>Your supplied <a href ="{{userprofile.linkedIn}}/" target="_blank">LinkedIn Public Profile URL</a></p> -->
 			</div>
 
 		    </div>
