@@ -1,0 +1,176 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css" />
+    	<style type="text/css">
+            
+		#intro {
+			background-image: url('/static/images/office-supplies.jpg');
+			background-size: cover;
+			height: 600px;  
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 180px 0;
+		}
+                
+		#filler { 
+		   background: url("/static/images/images/about.png") 50% 0 fixed; 
+		   height: 100px;
+		   margin: 0 auto; 
+		    width: 100%;
+			box-shadow: 0 0 50px rgba(0,0,0,0.8);
+			position: relative; 
+		}
+		#quote { 
+			background: url("/static/images/paper_light.jpg") 50% 0 fixed; 
+			height: auto;
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 100px 0;
+		    color: #fff;
+		}
+		#pitch { 
+			background: url("/static/images/header_office.jpg") 50% 0 fixed;
+			min-height:520px;
+                        height: 100%;  
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 60px 0;
+		}
+		#about { 
+			background: url("/static/images/images/about.png") 50% 0 fixed; 
+			height: auto;
+			margin: 0 auto; 
+		    width: 100%; 
+		    position: relative; 
+		    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+		    padding: 10px 0;
+		    color: #fff;
+		}
+
+		/* Non-essential demo stuff */
+		.jumbotron {
+		    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+		}
+		.jumbotron p {
+			color: #444;
+			font-size: 24px;
+		}
+                
+		#pitch p {
+			font-size: 16px;
+		}
+                
+		.headerWidth{
+			max-width: 820px;
+		}
+		
+        .well {
+		    padding-left: 20px;
+			padding-right: 20px;
+			background-color: #FFFFFD;
+		}
+                
+		.justify{
+			text-align: justify;
+		}
+		.media-object {
+			width: 34px; height: 64px; padding-bottom: 30px
+		}
+                
+		.col-centered{
+			float: none;
+			margin: 0 auto;
+		}
+		  
+		.no-padding{
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+		.jumbotron:not(.text){
+			opacity: .97
+		}
+		.quote{
+			position:relative;
+			height: 75px;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			color: white;
+			text-align: center;
+			margin-top:0;
+			margin-bottom:0;
+			font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+			font-size: 48px;
+		}
+		.plain_a{
+		color: #fff;
+		}
+		.plain_a:hover{
+		color: #00CC99;
+		text-decoration: none;
+		}
+                
+
+	</style>
+{% endblock %}
+
+{% block title %} - Home{% endblock %}
+
+{% block header %}
+<!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="jumbotron">
+        <img class='jumboImg' src='http://jomax-international.com/files/products/images/Office-4.jpg' />
+        <h1> XPJobs </h1>
+        <h3>Jobs for the Experienced</h3>
+        <p class="lead">Connecting experienced workers with dream jobs since 2014</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+    </div>
+</div>-->
+{% endblock %}
+
+{% block nav %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+{% endblock %}
+{% block side_block %}
+{% endblock %}
+
+{% block body_width %}
+    <div class="col-sm-12 col-md-12 no-padding">
+{% endblock %}
+    
+{% block body_block %}
+    <section id="intro" data-speed="1.9" data-type="background" >
+        <div class="container headerWidth">
+
+            <div class="jumbotron well">
+                <div class="text">
+                <h1>NBA3000</h1>
+                <p>Entrepreneurship and Private Equity with Professor BenDaniel</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="filler" data-speed="1.5" data-type="background">
+    </section>
+    <section id="quote" data-speed="1.25" data-type="background" >
+            <div class="container quote">
+            <p><a href = {% url 'registration_register' %} class='plain_a'>Sign Up</a> | <a href = {% url 'user_login' %} class='plain_a'>Log In</a></p>
+        </div>
+    </section>
+
+	<!-- Section #2 -->
+    
+    {% block footer %}
+    {% endblock %}
+
+{% endblock %}
