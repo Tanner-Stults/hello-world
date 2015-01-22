@@ -27,7 +27,7 @@
                     {% else %}
                         {% if u|has_group %}
                             {% if u|looking_for_group %}
-                        <h5>In group with: {{ u|get_group_names:request.user }}</h5>
+                        <h5>In group with: {{ u|get_group_names:ou }}</h5>
                             {% else %}
                             <h5>Looking for Group</h5>
                             {% endif %}
@@ -62,7 +62,7 @@
                     {% else %}
                         {% if u|has_group %}
                             {% if u|looking_for_group %}
-                        <h5>In group with: {{ u|get_group_names:request.user }}</h5>
+                        <h5>In group with: {{ u|get_group_names:ou }}</h5>
                             {% else %}
                             <h5>Looking for Group</h5>
                             {% endif %}
