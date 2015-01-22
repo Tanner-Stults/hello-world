@@ -17,7 +17,6 @@ def has_group(user):
         group = None
     return True if group else False
 
-
 @register.filter(name='looking_for_group')
 def looking_for_group(user):
     print 'looking_for_group'
@@ -27,8 +26,7 @@ def looking_for_group(user):
     except Group.DoesNotExist:
         group = None
         user_set = 0
-
-    return False if group and user_set > 1 else True
+    return True if group and user_set > 1 else False
 
 @register.filter(name='full_group')
 def full_group(user, arg = None):

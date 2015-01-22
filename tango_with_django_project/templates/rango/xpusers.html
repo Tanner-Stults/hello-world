@@ -62,10 +62,12 @@
                     {% if u.is_staff or u.is_superuser %}
                         <h5>Teacher's Assistant</h5>
                     {% else %}
-                        {% if u|looking_for_group %}
-                        <h5>Looking for Group</h5>
-                        {% else %}
+                        {% if u|has_group %}
+                            {% if u|looking_for_group %}
                         <h5>In group with: {{ u|get_group_names:request.user }}</h5>
+                            {% else %}
+                            <h5>Looking for Group</h5>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </div>
@@ -91,21 +93,22 @@
                         <h5>Teacher's Assistant</h5>
                     {% else %}
 
-                    {% if request.user|looking_for_group %}
-                    {% else %}
-                    {% if request.user|in_group:up.user %}
-                                <br />
-                                <p>{{up.firstName}} is already in your group.</p>
-                        {% else %}
-                            {% if request.user|full_group %}
-                                <br />
-                                <p>Your group is full. Remove a member from your group first.</p>
+                        {% if request.user|has_group %}
+
+                            {% if request.user|in_group:up.user %}
+                        <br />
+                        <p>{{up.firstName}} is already in your group.</p>
                             {% else %}
-                                <br />
-                                <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
+                                {% if request.user|full_group %}
+                        <br />
+                        <p>Your group is full. Remove a member from your group first.</p>
+                                {% else %}
+                        <br />
+                        <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
                         {% endif %}
-                    {% endif %}
-                    {% endif %}
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
 
                     {% endif %}
@@ -153,11 +156,15 @@
                     {% if u.is_staff or u.is_superuser %}
                         <h5>Teacher's Assistant</h5>
                     {% else %}
-                        {% if up.user|has_group %}
-                            <h5>In group with: {{ up.user|get_group_names:request.user }}</h5>
-                            {% else %}
-                            <h5>Looking for Group</h5>
+                        {% if u.is_staff or u.is_superuser %}
+                        <h5>Teacher's Assistant</h5>
+                    {% else %}
+                        {% if u|looking_for_group %}
+                        <h5>Looking for Group</h5>
+                        {% else %}
+                        <h5>In group with: {{ u|get_group_names:request.user }}</h5>
                         {% endif %}
+                    {% endif %}
                 {% endif %}
                 </div>
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
@@ -182,8 +189,8 @@
                         <h5>Teacher's Assistant</h5>
                     {% else %}
 
-                    {% if request.user|looking_for_group %}
-                    {% else %}
+                    {% if request.user|has_group %}
+
                     {% if request.user|in_group:up.user %}
                                 <br />
                                 <p>{{up.firstName}} is already in your group.</p>
@@ -195,7 +202,9 @@
                                 <br />
                                 <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
                         {% endif %}
-                    {% endif %}
+
+                {% endif %}
+                    {% else %}
                     {% endif %}
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
 

@@ -157,6 +157,7 @@ def pubProfile(request, id):
         # If the request was not a POST, display the form to enter details.
 
         u = User.objects.get(id=id)
+        context_dict['u'] = u
         user_profile = UserProfile.objects.get(user=u)
         context_dict['up'] = user_profile
 
