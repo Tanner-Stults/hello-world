@@ -249,7 +249,7 @@
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
 			    <div class = "old-info">
 				<p class="name">{{ edu.school }}</p>
-				<p class="title">{{ edu.get_degree_display }} | {{edu.major}}</p>
+				<p class="title">{% if edu.degree %}{{ edu.get_degree_display }} {% if edu.major %}| {% endif %} {% endif %}{{edu.major}}</p>
 				<p class="date">{{ edu.startDate|date:"m/Y" }} - {{ edu.endDate|date:"m/Y" }} ({{ edu.startDate|timesince:edu.endDate }})</p>
 				<p class="detail">{{ edu.info }}</p>
 			    </div>
