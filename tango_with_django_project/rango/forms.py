@@ -99,7 +99,8 @@ class WorkExperienceForm(forms.ModelForm):
 
 class EducationForm(forms.ModelForm):
     endDate = forms.DateField(initial=datetime.date.today, input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));
-    startDate = forms.DateField(input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));  
+    startDate = forms.DateField(input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));
+    info = forms.CharField(max_length=1000, widget= forms.Textarea(attrs={'class':'special-input info-input'}))
     def __init__(self, *args, **kwargs):
         super(EducationForm, self).__init__(*args, **kwargs)
         self.fields['schoolType'].label = "School Level"
@@ -111,6 +112,8 @@ class EducationForm(forms.ModelForm):
         self.fields['endDate'].label = "End Date"
         self.fields['endDate'].required = False
         self.fields['current'].label = 'Current Student'
+        self.fields['info'].label = 'Info (Optional)'
+        self.fields['info'].required = False
         
     class Meta:
         model = Education
