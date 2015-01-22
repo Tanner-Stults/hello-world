@@ -64,11 +64,13 @@ class WorkExperience(models.Model):
     jobTitle = models.CharField(max_length=1000)
     location = models.CharField(max_length=1000)
     startDate = models.DateField(default=datetime.date.today)
-    endDate = models.DateField(default=datetime.date.today)
-    info = models.CharField(max_length=1000)
+    endDate = models.DateField(default=datetime.date.today, null=True)
+    current = models.BooleanField(blank=True)
+    info = models.CharField(max_length=1000, blank=True)
 
     class Meta:
         ordering = ['user']
+        
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
@@ -84,11 +86,12 @@ class Education(models.Model):
     # The additional attributes we wish to include.
     schoolType = models.CharField(max_length=200, choices=SCHOOL_CHOICES)
     school = models.CharField(max_length=200)
-    degree = models.CharField(max_length=200, choices = DEGREE_CHOICES)
+    degree = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
     major = models.CharField(max_length=200, blank = True)
     minor = models.CharField(max_length=200, blank = True)
     startDate = models.DateField(default=datetime.date.today)
-    endDate = models.DateField(default=datetime.date.today)
+    endDate = models.DateField(default=datetime.date.today, null=True)
+    current = models.BooleanField(blank=True)
     grade = models.CharField(max_length=100, blank = True)
     info = models.CharField(max_length=1000, blank = True)
     activities = models.CharField(max_length=1000, blank = True)

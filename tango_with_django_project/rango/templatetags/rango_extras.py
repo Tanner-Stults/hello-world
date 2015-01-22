@@ -37,7 +37,7 @@ def full_group(user, arg = None):
             group = None
             user_set = 0
 
-    return True if group and user_set >= 4 else False
+    return True if group and user_set >= 5 else False
 
 @register.filter(name='in_group')
 def in_group(user, originalUser):

@@ -67,7 +67,7 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['firstName'].label = "First Name"
         self.fields['lastName'].label = "Last Name"
-        self.fields['linkedIn'].label = "LinkedIn (Optional)"
+        self.fields['picture'].label = "Picture (Optional)"
     class Meta:
         model = UserProfile
         
@@ -82,12 +82,36 @@ class WorkExperienceForm(forms.ModelForm):
     jobTitle = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':'special-input'}))
     location = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':'special-input'}))
     info = forms.CharField(max_length=1000, widget= forms.Textarea(attrs={'class':'special-input info-input'}))
-    
+    startDate = forms.DateField(input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));
+    endDate = forms.DateField(initial=datetime.date.today, input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));  
+    def __init__(self, *args, **kwargs):
+        super(WorkExperienceForm, self).__init__(*args, **kwargs)
+        self.fields['jobTitle'].label = "Job Title"
+        self.fields['startDate'].label = "Start Date"
+        self.fields['endDate'].label = "End Date"
+        self.fields['endDate'].required = False
+        self.fields['info'].label = 'Info (Optional)'
+        self.fields['info'].required = False
+        self.fields['current'].label = 'Currently Employed'
     class Meta:
         model = WorkExperience
 
+
 class EducationForm(forms.ModelForm):
-    
+    endDate = forms.DateField(initial=datetime.date.today, input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));
+    startDate = forms.DateField(input_formats=['%m/%Y'], widget=forms.DateInput(format = '%m/%Y'));  
+    def __init__(self, *args, **kwargs):
+        super(EducationForm, self).__init__(*args, **kwargs)
+        self.fields['schoolType'].label = "School Level"
+        self.fields['school'].label = "School Name"
+        self.fields['degree'].label = "Degree (Optional)"
+        self.fields['major'].label = "Major (Optional)"
+        self.fields['minor'].label = "Minor (Optional)"
+        self.fields['startDate'].label = "Start Date"
+        self.fields['endDate'].label = "End Date"
+        self.fields['endDate'].required = False
+        self.fields['current'].label = 'Current Student'
+        
     class Meta:
         model = Education
 

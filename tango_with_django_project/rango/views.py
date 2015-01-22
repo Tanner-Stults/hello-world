@@ -409,7 +409,7 @@ def profile(request):
     if request.method == 'GET':
         # If the request was not a POST, display the form to enter details.
         form = WorkExperienceForm()
-        context_dict['form'] = form
+        context_dict['eForm'] = form
 
         eduForm = EducationForm()
         context_dict['eduForm'] = eduForm
@@ -664,6 +664,8 @@ def save_workExperience(request, id):
                 print "hi"
                 workExperience.picture = request.FILES['picture']
             workExperience.save()
+        else:
+            print form.errors
         user = User.objects.get(username = request.user)
         update_profile(user)
     return HttpResponseRedirect("/cornell/profile/")

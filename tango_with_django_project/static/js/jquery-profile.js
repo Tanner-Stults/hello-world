@@ -46,20 +46,17 @@ $(document).ready(function() {
     });
     $(".education_delete").click( function(event) {
         formNum = $(this).attr("id");
-        window.location.href = "/rango/delete_education/"+formNum;
+        window.location.href = "/cornell/delete_education/"+formNum;
     });
     $(".work_experience_delete").click( function(event) {
         formNum = $(this).attr("id");
-        window.location.href = "/rango/delete_workExperience/"+formNum;
+        window.location.href = "/cornell/delete_workExperience/"+formNum;
     });
     $(".work_experience_save").click( function(event) {
         formNum = $(this).attr("id");
         $("#editWorkExperience_form"+formNum).submit(); 
     });
-    $(".education_save").click( function(event) {
-        formNum = $(this).attr("id");
-        $("#editEducation_form"+formNum).submit(); 
-    });
+
     
     $(".work_experience_cancel").click( function(event) {
         expNum = $(this).attr('id');

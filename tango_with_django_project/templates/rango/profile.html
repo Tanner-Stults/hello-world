@@ -263,6 +263,9 @@
 	    filter: alpha(opacity=95);
 	    cursor: pointer;
 	}
+	.ui-datepicker-calendar{
+	    display: none;
+	}
 	</style>
 {% endblock %}
 
@@ -371,8 +374,8 @@
 			    <button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning education_edit">Edit</button>
 			    <div class = "old-info">
 				<p class="name">{{ edu.school }}</p>
-				<p class="title">{{ edu.get_degree_display }} | {{edu.major}}</p>
-				<p class="date">{{ edu.startDate|date:"m/Y" }} - {{ edu.endDate|date:"m/Y" }} ({{ edu.startDate|timesince:edu.endDate }})</p>
+				<p class="title">{% if edu.degree %}{{ edu.get_degree_display }} {% if edu.major %}| {% endif %} {% endif %}{{edu.major}}</p>
+				<p class="date">{{ edu.startDate|date:"m/Y" }} - {% if edu.current %} Current {% else %} {{ edu.endDate|date:"m/Y" }}{% endif %} ({{ edu.startDate|timesince:edu.endDate }})</p>
 				<p class="detail">{{ edu.info }}</p>
 			    </div>
 			</div>
@@ -385,14 +388,51 @@
 		    {% endif %}
 		    <div class="row">
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
-				<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning education_cancel">Cancel</button>
-
-			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success education_save">Save</button>
-
+				
 			    <form role="form" id="editEducation_form{% widthratio forloop.counter 1 1 %}" method="post" action="/cornell/save_education/{{edu.id}}/">
-			{% csrf_token %}
-			<br/>
-			{{ eduForm.as_p }}
+				{% csrf_token %}
+			    	<div class="form-button">
+				    <button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning education_cancel">Cancel</button>
+				    <button id= "{% widthratio forloop.counter 1 1 %}" type="sumbit" class="btn btn-success education_save">Save</button>
+				</div>
+				<br/>
+				<div class="form-group">
+				    <p class="required"><label>{{ eduForm.schoolType.label}}:</label>   
+				    {{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
+				    {{ eduForm.schoolType.errors}}
+				</div>
+					
+				<div class="form-group">
+				    <p class="required"> <label for="id_username">{{ eduForm.school.label}}:</label>
+				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
+				    {{ eduForm.school.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eduForm.degree.label}}:</label>   
+				    {{ eduForm.degree|attr:"class:form-control"}}
+				    {{ eduForm.degree.errors}}
+				</div>
+					
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eduForm.major.label}}:</label>
+				    {{ eduForm.major|attr:"class:form-control"|attr:"placeholder:Major" }}
+				    {{ eduForm.major.errors}}
+				</div>
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eduForm.minor.label}}:</label>
+				    {{ eduForm.minor|attr:"class:form-control"|attr:"placeholder:Minor" }}
+				    {{ eduForm.minor.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"><label>{{ eduForm.startDate.label}}:</label>   
+				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
+				    {{ eduForm.startDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp</label>{{ eduForm.current|attr:"class:edu" }}
+				    {{ eduForm.endDate.errors}}
+				</div>
 			    </form>
 			</div>
 		    </div>
@@ -410,36 +450,52 @@
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
 			    <form role="form" id="education_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
-				<p class="fill-form">Type of School:</p>
-				{{ eduForm.schoolType }}
-				<p class="fill-form">School:</p>
-				{{ eduForm.school }}
-				<p class="fill-form">Degree:</p>
-				{{ eduForm.degree }}
-				<p class="fill-form">Major:</p>
-				{{ eduForm.major }}
-				<p class="fill-form">Minor:</p>
-				{{ eduForm.minor }}
-				<p class="fill-form">Start Date:</p>
-				{{ eduForm.endDate }}
-				<p class="fill-form">End Date:</p>
-				{{ eduForm.startDate }}
+				<br/>
+				<div class="form-group">
+				    <p class="required"><label>{{ eduForm.schoolType.label}}:</label>   
+				    {{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
+				    {{ eduForm.schoolType.errors}}
+				</div>
+					
+				<div class="form-group">
+				    <p class="required"> <label for="id_username">{{ eduForm.school.label}}:</label>
+				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
+				    {{ eduForm.school.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eduForm.degree.label}}:</label>   
+				    {{ eduForm.degree|attr:"class:form-control"}}
+				    {{ eduForm.degree.errors}}
+				</div>
+					
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eduForm.major.label}}:</label>
+				    {{ eduForm.major|attr:"class:form-control"|attr:"placeholder:Major" }}
+				    {{ eduForm.major.errors}}
+				</div>
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eduForm.minor.label}}:</label>
+				    {{ eduForm.minor|attr:"class:form-control"|attr:"placeholder:Minor"}}
+				    {{ eduForm.minor.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"><label>{{ eduForm.startDate.label}}:</label>   
+				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
+				    {{ eduForm.startDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eduForm.endDate.label}}:</label>   
+				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp</label>{{ eduForm.current|attr:"class:edu" }}
+				    {{ eduForm.endDate.errors}}
+				</div>
+				<div class="form-button text-center education_submit">
+				    <button id="education_success" type="sumbit" name="submit" class="btn btn-success">Submit Education Experience</button>
+			    	    <button id="education_cancel" type="submit" class="btn btn-danger">Cancel</button>
+				</div>
 			    </form>
 			</div>
 		    </div>
 		</div>
-
-		<div class="text-center education_submit">
-		    <button id="education_success" type="submit" name="submit" class="btn btn-success">
-			Submit Education Experience
-		    </button>
-		    <button id="education_cancel" type="submit" name="submit" class="btn btn-danger">
-			Cancel
-		    </button>
-
-		</div>
-
-
 
 	    {% if zippedExp %}
 	    {% for we, eForm in zippedExp %}
@@ -456,7 +512,7 @@
 			    <div class = "old-info">
 				<p class="name">{{ we.company }}</p>
 				<p class="title">{{ we.jobTitle }}</p>
-				<p class="date">{{ we.startDate|date:"m/Y" }} - {{ we.endDate|date:"m/Y" }} ({{ we.startDate|timesince:we.endDate }}) | {{ we.location }}</p>
+				<p class="date">{{ we.startDate|date:"m/Y" }} - {% if we.current %} Current {% else %} {{ we.endDate|date:"m/Y" }}{% endif %} ({{ we.startDate|timesince:we.endDate }}) | {{ we.location }}</p>
 				<p class="detail">{{ we.info }}</p>
 			    </div>
 			</div>
@@ -471,14 +527,45 @@
 
 		    <div class="row">
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
-				<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning work_experience_cancel">Cancel</button>
-
-			    	<button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-success work_experience_save">Save</button>
-
+				
 			    <form role="form" id="editWorkExperience_form{% widthratio forloop.counter 1 1 %}" method="post" action="/cornell/save_workExperience/{{we.id}}/">
 			{% csrf_token %}
-			<br/>
-			{{ eForm.as_p }}
+				<div class="form-button">
+				    <button id= "{% widthratio forloop.counter 1 1 %}" type="button" class="btn btn-warning work_experience_cancel">Cancel</button>
+				    <button id= "{% widthratio forloop.counter 1 1 %}" type="sumbit" class="btn btn-success work_experience_save">Save</button>
+				</div>
+				<br/>
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
+				    {{ eForm.company.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"}}
+				    {{ eForm.jobTitle.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.location.label}}:</label>   
+				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location"}}
+				    {{ eForm.location.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}}
+				    {{ eForm.startDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label>or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
+				    {{ eForm.info.errors}}
+				</div>
+
 			    </form>
 			</div>
 		    </div>
@@ -494,30 +581,44 @@
 			<div class="col-sm-12 col-md-12 col-md-offset-0 col-sm-offset-0 text-left base-left">
 			    <form role="form" id="workExperience_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
-				<p class="fill-form">Company:</p>
-				{{ form.company }}
-				<p class="fill-form">Position:</p>
-				{{ form.jobTitle }}
-				<p class="fill-form">Start Date:</p>
-				{{ form.startDate }}
-				<p class="fill-form">End Date:</p>
-				{{ form.endDate }}
-				<p class="fill-form">Location:</p>
-				{{ form.location }}
-				<p class="fill-form">Description:</p>
-				{{ form.info }}
+				<br/>
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
+				    {{ eForm.company.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required" }}
+				    {{ eForm.jobTitle.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.location.label}}:</label>   
+				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location" }}
+				    {{ eForm.location.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
+				    {{ eForm.startDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
+				    {{ eForm.info.errors}}
+				</div>
+				<div class="form-button text-center work_experience_submit">
+				    <button id="work_experience_success" type="submit" name="submit" class="btn btn-success">Submit Work Experience</button>
+				    <button id="work_experience_cancel" type="submit" class="btn btn-danger">Cancel</button>
+				</div>
 			    </form>
 			</div>
 		    </div>
-		</div>
-
-		<div class="text-center work_experience_submit">
-		    <button id="work_experience_success" type="submit" name="submit" class="btn btn-success">
-			Submit Work Experience
-		    </button>
-		    <button id="work_experience_cancel" type="submit" name="submit" class="btn btn-danger">
-			Cancel
-		    </button>
 		</div>
 	    </div>
 
@@ -535,27 +636,43 @@
 			    <form role="form" id="initial_workExperience_form" method="post" action="/cornell/profile/">
 			{% csrf_token %}
 				<br/>
-				<p class="fill-form">Company:</p>
-				{{ form.company }}
-				<p class="fill-form">Position:</p>
-				{{ form.jobTitle }}
-				<p class="fill-form">Start Date:</p>
-				{{ form.startDate }}
-				<p class="fill-form">End Date:</p>
-				{{ form.endDate }}
-				<p class="fill-form">Location:</p>
-				{{ form.location }}
-				<p class="fill-form">Description:</p>
-				{{ form.info }}
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
+				    {{ eForm.company.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"  }}
+				    {{ eForm.jobTitle.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.location.label}}:</label>   
+				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location" }}
+				    {{ eForm.location.errors}}
+				</div>
+				<div class="form-group">
+				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
+				    {{ eForm.startDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate.errors}}
+				</div>
+				<div class="form-group">
+				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
+				    {{ eForm.info.errors}}
+				</div>
+				<div class="form-button text-center initial_work_experience_submit">
+				    <button id="initial_work_experience_success" type="submit" name="submit" class="btn btn-success">Submit Work Experience</button>
+				</div>
 			    </form>
 			    <br />
 			</div>
 		    </div>
-		</div>
-		<div class="text-center initial_work_experience_submit">
-		    <button id="initial_work_experience_success" type="submit" name="submit" class="btn btn-success">
-			Submit Work Experience
-		    </button>
 		</div>
     {% endif %}
 	</div>
@@ -573,7 +690,65 @@
     <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
         <script language="Javascript">
 	$(document).ready(function(){
-	$("select").combobox();
+	    
+	    var checkbox = function(){
+		console.log('click')
+		$.each($(':checkbox'), function(){
+		    if ($(this).is(':checked')){
+			console.log('checked')
+			$(this).siblings().removeAttr('required');
+			$(this).siblings().hide()
+			var edu = $(this).attr('class')
+			console.log(edu)
+			if (edu === 'edu') {
+			    $(this).before('<label id="clicked">Current Student:&nbsp</label>');
+			} else {
+			$(this).before('<label id="clicked">Currently Employed:&nbsp</label>');
+			}
+		    }else{
+			$(this).siblings().attr('required', 'true');
+			$(this).siblings().show();
+			$(this).siblings('#clicked').hide();
+		    };
+		});
+	    }
+	    $('button').click(checkbox);
+	    $(':checkbox').click(checkbox);
+	    var init_datepickers = function() {
+		/* Datepickers */
+	    $(".datepicker").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		/*inline: true,  
+		/*showOtherMonths: true,  
+		/*dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],*/
+		dateFormat: 'mm/yy',
+		onClose: function(dateText, inst) { 
+		    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		    $(this).datepicker('setDate', new Date(year, month, 1));
+		},
+		beforeShow: function() {
+		    if ((selDate = $(this).val()).length > 0){
+		       iYear = selDate.substring(selDate.length - 4, selDate.length);
+		       iMonth = selDate.substring(0, selDate.length - 5) - 1;
+		       $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+		    }
+		}
+	    });
+	  };
+	  //Define counter ("datepicker index" aka dpi)
+	  var dpi = 0;
+	  //Loop datepickers
+	  $.each($('input.datepicker'), function() {
+	    if(dpi > 0)
+	      $(this).attr("id", $(this).attr("id") + "_" + dpi); //Append the current count to the ID
+	    dpi++;
+	    //Check for last datepicker, and call init
+	    if(dpi == $('input.datepicker').length)
+	      init_datepickers();
+	  });
+	
 	});
 	var change_pic_resize = function() {
 	    var divSize = $('.base-left').width();

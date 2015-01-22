@@ -205,8 +205,8 @@
     {% endif %}
 {% endfor %}
 <h4>Add to Your Group:</h4>
- <form role="addForm" id="initial_workExperience_form" method="post">
-			{% csrf_token %}
+ <form onkeypress="return event.keyCode != 13;">
+	{% csrf_token %}
     {{ addForm.as_p }}
  </form>
     <div id='results'>
@@ -243,9 +243,11 @@
     <script src="{% static 'js/rango-jquery.js' %}"></script>
     <script language="Javascript">
     $(document).ready(function() {
-        $('#id_user_0').keyup(function(e) {
+        var ajax = function(e){
+        if ($(id_user_0).val() !== '' && $(id_user_0).val() !== ' ') {
+
             q = encodeURI($('#id_user_0').val());
-            console.log(q);
+            console.log('q: ' +q);
             $.ajax({
                 url : '{% url 'ajax_user_search' %}?q=' + q, // the endpoint
                 type : "GET", // http method
@@ -293,7 +295,14 @@
                     });
                 }
             });
-        });
+            } else {
+                console.log('in else');
+                $('#results').html('')
+            }
+    }
+
+    $('#id_user_0').bind("change keyup input", ajax);
+    $('#ui-id-1').bind("click", ajax);
     });
     $(document).ready(function() {
 
