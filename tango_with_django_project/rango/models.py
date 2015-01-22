@@ -82,7 +82,7 @@ class Education(models.Model):
 
 
     SCHOOL_CHOICES = (('1','High School'), ('2', 'Community College'), ('3', 'College'), ('4', 'Technical Institute'))
-    DEGREE_CHOICES = (('1', 'A.S.'),  ('2', 'A.A.'), ('3','A.A.S.'), ('4', 'B.A.'), ('3','B.S.'), ('4','B.F.A.'), ('5','B.B.A.'), ('6','B.Arch.'), ('7', 'M.F.A.'), ('8', 'M.A.'), ('9', 'M.S. '), ('10', 'M.A.'), ('11', 'M.Res.'), ('12', 'M.B.A.'), ('13', 'LL.M.'))
+    DEGREE_CHOICES = (('1', 'A.S.'),  ('2', 'A.A.'), ('3','A.A.S.'), ('4', 'B.A.'), ('5','B.S.'), ('6','B.F.A.'), ('7','B.B.A.'), ('8','B.Arch.'), ('9', 'M.F.A.'), ('10', 'M.A.'), ('11', 'M.S. '), ('12', 'M.A.'), ('13', 'M.Res.'), ('14', 'M.B.A.'), ('15', 'LL.M.'))
     # The additional attributes we wish to include.
     schoolType = models.CharField(max_length=200, choices=SCHOOL_CHOICES)
     school = models.CharField(max_length=200)
