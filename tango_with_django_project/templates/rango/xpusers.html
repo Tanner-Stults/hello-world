@@ -59,11 +59,14 @@
                     <img src= {% static 'images/unknown_person.jpg' %} class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
-                    {% if u|looking_for_group %}
-                    <h5>Looking for Group</h5>
+                    {% if u.is_staff or u.is_superuser %}
+                        <h5>Teacher's Assistant</h5>
                     {% else %}
-                    <h5>In group with: {{ u|get_group_names:request.user }}</h5>
-                    
+                        {% if u|looking_for_group %}
+                        <h5>Looking for Group</h5>
+                        {% else %}
+                        <h5>In group with: {{ u|get_group_names:request.user }}</h5>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
@@ -84,6 +87,10 @@
 			    <p class="detail"> Education: This user hasn't provided this information </p>
 			{% endif %}
                     <a href ="/cornell/pub-profile/{{u.id}}/">View Profile</a>
+                    {% if u.is_staff or u.is_superuser %}
+                        <h5>Teacher's Assistant</h5>
+                    {% else %}
+
                     {% if request.user|looking_for_group %}
                     {% else %}
                     {% if request.user|in_group:up.user %}
@@ -97,6 +104,7 @@
                                 <br />
                                 <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
                         {% endif %}
+                    {% endif %}
                     {% endif %}
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
 
@@ -142,12 +150,15 @@
                     <img src= {% static 'images/unknown_person.jpg' %} class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
                     {% endif %}
                     <h4>{{ up.firstName }} {{ up.lastName }}</h4>
-                {% if up.user|has_group %}
-                    <h5>In group with: {{ up.user|get_group_names:request.user }}</h5>
+                    {% if u.is_staff or u.is_superuser %}
+                        <h5>Teacher's Assistant</h5>
                     {% else %}
-                    <h5>Looking for Group</h5>
+                        {% if up.user|has_group %}
+                            <h5>In group with: {{ up.user|get_group_names:request.user }}</h5>
+                            {% else %}
+                            <h5>Looking for Group</h5>
+                        {% endif %}
                 {% endif %}
-                    
                 </div>
                 <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
                     {% if up.currentPosition %}
@@ -167,10 +178,27 @@
 			    <p class="detail"> Education: This user hasn't provided this information </p>
 			{% endif %}
                     <a href ="/cornell/pub-profile/{{u.id}}/">View Profile</a>
-                    {% if request.user|has_group %}
-                    <br />
-                    <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
+                    {% if u.is_staff or u.is_superuser %}
+                        <h5>Teacher's Assistant</h5>
+                    {% else %}
+
+                    {% if request.user|looking_for_group %}
+                    {% else %}
+                    {% if request.user|in_group:up.user %}
+                                <br />
+                                <p>{{up.firstName}} is already in your group.</p>
+                        {% else %}
+                            {% if request.user|full_group %}
+                                <br />
+                                <p>Your group is full. Remove a member from your group first.</p>
+                            {% else %}
+                                <br />
+                                <a href ="/cornell/send_email/{{u.id}}/">Add to Group</a>
+                        {% endif %}
+                    {% endif %}
+                    {% endif %}
                     <a href="mailto:{{u.email}}" class="email"><img src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/256/email-icon.png" class="button1" style="height:30px" /></a>
+
                     {% endif %}
 
                 </div>

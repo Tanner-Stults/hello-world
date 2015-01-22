@@ -55,6 +55,10 @@
 	    color: #474747;
 	    margin-top: 10px;
 	}
+    .success {
+        text-align: center;
+        font-size: 18px;
+    }
 
         </style>
 {% endblock %}
@@ -66,8 +70,19 @@
     <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
 {% endblock %}
 {% block body_block %}
+    {% if messages %}
+    
+
+{% endif %}
     <div class="page-header">
             <h1>Manage your group below</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            {% for message in messages %}
+            <p{% if message.tags == 'success' %} class="alert alert-success success"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
     </div>
 
     {% if group %}
@@ -209,6 +224,7 @@
 	{% csrf_token %}
     {{ addForm.as_p }}
  </form>
+
     <div id='results'>
 
     </div>
@@ -328,6 +344,7 @@
 	};
 	$(window).resize(change_pic_resize);
 	$(document).ready(change_pic_resize);
+    
 
 
     $(document).ajaxStart(function() {

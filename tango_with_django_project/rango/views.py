@@ -8,9 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
+from django.contrib import messages
 
 from datetime import datetime
 from django.conf import settings
+from django.template.loader import render_to_string
 import os, itertools
 
 from rango.bing_search import run_query
@@ -695,11 +697,14 @@ def send_email(request, id):
         url = url[:url.rfind('/', 0, (url.rfind('/', 0, -1)))]
         url = url+'/accept_invite/'+str(u2.id)+'?ou='+str(u.id)
         print url
+        print request.path
         print u.email
         print u2.email
         send_mail(up.firstName+' has invited you to join their group', up.firstName+' has invited you to join their group. Click here to accept the invite: '+url+'.' , u.email, [u2.email], fail_silently=False)
-
-    return HttpResponseRedirect("/cornell/users/")
+    #return_str = render_to_string( 'Invatation Email Sent!')
+    #return HttpResponse(return_str)
+        messages.success(request, 'Invitation Email Sent!')
+    return HttpResponseRedirect("/cornell/group/")
 
 @login_required
 def accept_invite(request, id):
@@ -865,7 +870,7 @@ def user_login(request):
         return render(request, 'registration/login.html', context_dict)
 
 def ajax_user_search(request):
-    from django.template.loader import render_to_string
+    
     print "in function!"
     context_dict = {}
     print "in ajax!"
