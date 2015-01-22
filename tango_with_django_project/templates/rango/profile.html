@@ -376,7 +376,7 @@
 				<p class="name">{{ edu.school }}</p>
 				<p class="title">{% if edu.degree %}{{ edu.get_degree_display }} {% if edu.major %}| {% endif %} {% endif %}{{edu.major}}</p>
 				<p class="date">{{ edu.startDate|date:"m/Y" }} - {% if edu.current %} Current {% else %} {{ edu.endDate|date:"m/Y" }}{% endif %} ({{ edu.startDate|timesince:edu.endDate }})</p>
-				<p class="detail">{{ edu.info }}</p>
+				<div class="detail">{{ edu.info|linebreaks }}</div>
 			    </div>
 			</div>
 		    </div>
@@ -523,7 +523,7 @@
 				<p class="name">{{ we.company }}</p>
 				<p class="title">{{ we.jobTitle }}</p>
 				<p class="date">{{ we.startDate|date:"m/Y" }} - {% if we.current %} Current {% else %} {{ we.endDate|date:"m/Y" }}{% endif %} ({{ we.startDate|timesince:we.endDate }}) | {{ we.location }}</p>
-				<p class="detail">{{ we.info }}</p>
+				<div class="detail">{{ we.info|linebreaks }}</div>
 			    </div>
 			</div>
 		    </div>

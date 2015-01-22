@@ -66,7 +66,7 @@ class WorkExperience(models.Model):
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today, null=True)
     current = models.BooleanField(blank=True)
-    info = models.CharField(max_length=1000, blank=True)
+    info = models.TextField(max_length=1000, blank=True)
 
     class Meta:
         ordering = ['user']
