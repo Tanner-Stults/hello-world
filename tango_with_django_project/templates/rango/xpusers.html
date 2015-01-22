@@ -67,7 +67,9 @@
                         <h5>In group with: {{ u|get_group_names:request.user }}</h5>
                             {% else %}
                             <h5>Looking for Group</h5>
-                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                     <h5>Looking for Group</h5>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -161,7 +163,9 @@
                         <h5>In group with: {{ u|get_group_names:request.user }}</h5>
                             {% else %}
                             <h5>Looking for Group</h5>
-                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                     <h5>Looking for Group</h5>
                         {% endif %}
                     {% endif %}
                 </div>

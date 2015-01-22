@@ -704,21 +704,24 @@
 	    var checkbox = function(){
 		console.log('click')
 		$.each($(':checkbox'), function(){
-		    if ($(this).is(':checked')){
-			console.log('checked')
-			$(this).siblings().removeAttr('required');
-			$(this).siblings().hide()
-			var edu = $(this).attr('class')
-			console.log(edu)
-			if (edu === 'edu') {
-			    $(this).before('<label id="clicked">Current Student:&nbsp</label>');
-			} else {
-			$(this).before('<label id="clicked">Currently Employed:&nbsp</label>');
-			}
+		    if ($(this).attr('id') === 'picture-clear_id') {
 		    }else{
-			$(this).siblings().attr('required', 'true');
-			$(this).siblings().show();
-			$(this).siblings('#clicked').hide();
+			if ($(this).is(':checked')){
+			    console.log('checked')
+			    $(this).siblings().removeAttr('required');
+			    $(this).siblings().hide()
+			    var edu = $(this).attr('class')
+			    console.log(edu)
+			    if (edu === 'edu') {
+				$(this).before('<label id="clicked">Current Student:&nbsp</label>');
+			    } else {
+			    $(this).before('<label id="clicked">Currently Employed:&nbsp</label>');
+			    }
+			}else{
+			    $(this).siblings().attr('required', 'true');
+			    $(this).siblings().show();
+			    $(this).siblings('#clicked').hide();
+			};
 		    };
 		});
 	    }

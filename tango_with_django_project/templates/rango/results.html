@@ -22,6 +22,7 @@
 		</div>
 	    </a>
             <h4>{{ up.firstName }} {{ up.lastName }}</h4>
+
                     {% if u.is_staff or u.is_superuser %}
                         <h5>Teacher's Assistant</h5>
                     {% else %}
@@ -31,6 +32,8 @@
                             {% else %}
                             <h5>Looking for Group</h5>
                             {% endif %}
+                        {% else %}
+                     <h5>Looking for Group</h5>
                         {% endif %}
                     {% endif %}
             </div>
