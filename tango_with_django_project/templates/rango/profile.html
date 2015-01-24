@@ -409,12 +409,12 @@
 				    </div>
 					    
 				    <div class="form-group">
-					<label for="id_username">{{ eduForm.major.label}}:</label>
+					<label>{{ eduForm.major.label}}:</label>
 					{{ eduForm.major|attr:"class:form-control"|attr:"placeholder:Major" }}
 					{{ eduForm.major.errors}}
 				    </div>
 				    <div class="form-group">
-					<label for="id_username">{{ eduForm.minor.label}}:</label>
+					<label>{{ eduForm.minor.label}}:</label>
 					{{ eduForm.minor|attr:"class:form-control"|attr:"placeholder:Minor" }}
 					{{ eduForm.minor.errors}}
 				    </div>
@@ -495,7 +495,7 @@
 				    </div>
 				    <div class="form-button text-center education_submit">
 					<button id="education_success" type="sumbit" name="submit" class="btn btn-success">Submit Education Experience</button>
-					<button id="education_cancel" type="submit" class="btn btn-danger">Cancel</button>
+					<button id="education_cancel" type="button" class="btn btn-danger">Cancel</button>
 				    </div>
 				</form>
 			    </div>
@@ -617,7 +617,7 @@
 				    </div>
 				    <div class="form-button text-center work_experience_submit">
 					<button id="work_experience_success" type="submit" name="submit" class="btn btn-success">Submit Work Experience</button>
-					<button id="work_experience_cancel" type="submit" class="btn btn-danger">Cancel</button>
+					<button id="work_experience_cancel" type="button" class="btn btn-danger">Cancel</button>
 				    </div>
 				</form>
 			    </div>
