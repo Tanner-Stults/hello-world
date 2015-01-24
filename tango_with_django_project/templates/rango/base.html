@@ -46,11 +46,8 @@
                 <!--<a href="/rango/"><img style="height:47px; margin-top:3px" src="/static/images/web_con.png" /></a>-->
             </ul>
         </div>
-
         <div class="navbar-collapse collapse">
-
             <ul class="nav navbar-nav navbar-right">
-
             {% if user.is_authenticated %}
                 <!--<li><a href="{% url 'restricted' %}">Restricted Page</a></li>-->
                 <li><a href="{% url 'profile' %}">My Profile</a></li>
@@ -66,7 +63,6 @@
 
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <!--<li><a href="{% url 'about' %}">About</a></li>-->
-
             </ul>
         </div>
       </div>
@@ -89,17 +85,17 @@
          <div id="cats">
         </div>
                 {% get_category_list category %}
-                -->{% endblock %}
+                
 
         </div>
+        -->{% endblock %}
         {% block body_width %}
         <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
-        <div class="col-sm-11 col-sm-offset-1 col-md-11 col-md-offset-1">
+    <div class="col-sm-11 col-sm-offset-1 col-md-11 col-md-offset-1">
         {% endblock %}
-                {% block body_block %}{% endblock %}
-        </div>
-      </div>
+        {% block body_block %}{% endblock %}
     </div>
+  </div>
     {% block footer %}
     <!-- <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container" style="width:100%">
@@ -118,7 +114,7 @@
     <script src="{% static 'js/js/init.js' %}"></script>
     <script src="{% static 'js/js/bootstrap.min.js' %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="{% static 'js/viewport-bug-workaround.js' %}"></script>
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
 
 
