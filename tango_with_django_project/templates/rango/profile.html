@@ -773,10 +773,7 @@
 	var showScroll = function() {
 	    console.log('show')
 	    $(document.body).css({'overflow-y':'scroll'})
-	    $('#cropHolder').animate({
-		opacity: 1 }, 400, function () {
-		$('.modalDialog').css({'z-index':'-1'})
-	    })
+	   setTimeout(function(){jQuery('.modalDialog').css({'z-index':'-1'})}, 400)
 	    
 	    
 	};
