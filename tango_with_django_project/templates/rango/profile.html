@@ -450,7 +450,7 @@
 			    {% csrf_token %}
 				    <br/>
 				    <div class="form-group">
-					<label class="required">{{ eduForm.schoolType.label}}:</label></p>   
+					<label class="required">{{ eduForm.schoolType.label}}:</label>   
 					{{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
 					{{ eduForm.schoolType.errors}}
 				    </div>
