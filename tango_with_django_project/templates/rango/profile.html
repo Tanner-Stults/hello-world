@@ -490,7 +490,7 @@
 				</div>
 				<div class="form-group">
 				    <p><label>{{ eduForm.endDate.label}}:</label>   
-				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp</label>{{ eduForm.current|attr:"class:edu" }}
+				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp;</label>{{ eduForm.current|attr:"class:edu" }}
 				    {{ eduForm.endDate.errors}}
 				</div>
 				<div class="form-group">
@@ -693,7 +693,7 @@
     {% block footer %}
 
     {% endblock %}
-
+{% endblock %}
 {% block scripts %}
     {{ eduForm.media.js }}
     <script src="{% static 'js/jquery-profile.js' %}"></script>
@@ -842,4 +842,3 @@
             $('#id_coords').val( c.x.toFixed(2)+" " + c.y.toFixed(2) +" " + c.x2.toFixed(2) +" " + c.y2.toFixed(2) +" ");
             };
         </script>
-{% endblock %}
