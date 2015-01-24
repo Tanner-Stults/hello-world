@@ -219,7 +219,7 @@
 	    bottom: 0;
 	    left: 0;
 	    background: rgba(0,0,0,0.8);
-	    z-index: 99;
+	    z-index: 99999;
 	    opacity:0;
 	    -webkit-transition: opacity 400ms ease-in;
 	    -moz-transition: opacity 400ms ease-in;
@@ -229,6 +229,9 @@
 	.modalDialog:target {
 	    opacity:1;
 	    pointer-events: auto;
+	}
+	#openModal{
+	    overflow-y: scroll;
 	}
 	.modalDialog > div {
 	    width: 90%;
@@ -261,6 +264,9 @@
 	}
 	.ui-datepicker-calendar{
 	    display: none;
+	}
+	body{
+	    overflow-y: scroll;
 	}
 	</style>
 {% endblock %}
