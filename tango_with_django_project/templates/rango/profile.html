@@ -394,44 +394,44 @@
 				</div>
 				<br/>
 				<div class="form-group">
-				    <p class="required"><label>{{ eduForm.schoolType.label}}:</label>   
+				    <label>{{ eduForm.schoolType.label|attr:"class:required"}}:</label>  
 				    {{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eduForm.schoolType.errors}}
 				</div>
 					
 				<div class="form-group">
-				    <p class="required"> <label for="id_username">{{ eduForm.school.label}}:</label>
+				    <label>{{ eduForm.school.label|attr:"class:required"}}:</label>
 				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
 				    {{ eduForm.school.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eduForm.degree.label}}:</label>   
+				    <label>{{ eduForm.degree.label}}:</label> 
 				    {{ eduForm.degree|attr:"class:form-control"}}
 				    {{ eduForm.degree.errors}}
 				</div>
 					
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.major.label}}:</label>
+				    <label for="id_username">{{ eduForm.major.label}}:</label>
 				    {{ eduForm.major|attr:"class:form-control"|attr:"placeholder:Major" }}
 				    {{ eduForm.major.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.minor.label}}:</label>
+				    <label for="id_username">{{ eduForm.minor.label}}:</label>
 				    {{ eduForm.minor|attr:"class:form-control"|attr:"placeholder:Minor" }}
 				    {{ eduForm.minor.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"><label>{{ eduForm.startDate.label}}:</label>   
+				    <label>{{ eduForm.startDate.label|attr:"class:required"}}:</label>
 				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eduForm.startDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    <label>{{ eForm.endDate.label}}:</label>
 				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp;</label>{{ eduForm.current|attr:"class:edu" }}
 				    {{ eduForm.endDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.info.label}}:</label>
+				    <label>{{ eduForm.info.label}}:</label>
 				    {{ eduForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your time at this school"}}
 				    {{ eduForm.info.errors}}
 				</div>
@@ -454,44 +454,44 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <p class="required"><label>{{ eduForm.schoolType.label}}:</label>   
+				    <label>{{ eduForm.schoolType.label|attr:"class:required"}}:</label></p>   
 				    {{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eduForm.schoolType.errors}}
 				</div>
 					
 				<div class="form-group">
-				    <p class="required"> <label for="id_username">{{ eduForm.school.label}}:</label>
+				    <label>{{ eduForm.school.label|attr:"class:required"}}:</label>
 				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
 				    {{ eduForm.school.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eduForm.degree.label}}:</label>   
+				    <label>{{ eduForm.degree.label}}:</label>
 				    {{ eduForm.degree|attr:"class:form-control"}}
 				    {{ eduForm.degree.errors}}
 				</div>
 					
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.major.label}}:</label>
+				    <label>{{ eduForm.major.label}}:</label>
 				    {{ eduForm.major|attr:"class:form-control"|attr:"placeholder:Major" }}
 				    {{ eduForm.major.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.minor.label}}:</label>
+				    <label>{{ eduForm.minor.label}}:</label>
 				    {{ eduForm.minor|attr:"class:form-control"|attr:"placeholder:Minor"}}
 				    {{ eduForm.minor.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"><label>{{ eduForm.startDate.label}}:</label>   
+				    <label>{{ eduForm.startDate.label|attr:"class:required"}}:</label>   
 				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eduForm.startDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eduForm.endDate.label}}:</label>   
+				    <label>{{ eduForm.endDate.label}}:</label> 
 				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp;</label>{{ eduForm.current|attr:"class:edu" }}
 				    {{ eduForm.endDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eduForm.info.label}}:</label>
+				    <label>{{ eduForm.info.label}}:</label>
 				    {{ eduForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your at this school"}}
 				    {{ eduForm.info.errors}}
 				</div>
@@ -543,32 +543,32 @@
 				</div>
 				<br/>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    <label for="id_username">{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"}}
 				    {{ eForm.jobTitle.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.location.label}}:</label>   
+				    <label>{{ eForm.location.label}}:</label>   
 				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location"}}
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}}
 				    {{ eForm.startDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    <label>{{ eForm.endDate.label}}:</label>   
 				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label>or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    <label>{{ eForm.info.label}}:</label>
 				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
 				    {{ eForm.info.errors}}
 				</div>
@@ -590,32 +590,32 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    <label>{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required" }}
 				    {{ eForm.jobTitle.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.location.label}}:</label>   
+				    <label>{{ eForm.location.label}}:</label>   
 				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location" }}
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eForm.startDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    <label>{{ eForm.endDate.label}}:</label>   
 				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    <label>{{ eForm.info.label}}:</label>
 				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
 				    {{ eForm.info.errors}}
 				</div>
@@ -644,32 +644,32 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.company.label}}:</label>   
+				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"> <label for="id_username">{{ eForm.jobTitle.label}}:</label>
+				    <label>{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"  }}
 				    {{ eForm.jobTitle.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.location.label}}:</label>   
+				    <label>{{ eForm.location.label}}:</label>   
 				    {{ eForm.location|attr:"class:form-control"|attr:"placeholder:Location" }}
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <p class="required"><label>{{ eForm.startDate.label}}:</label>   
+				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eForm.startDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p><label>{{ eForm.endDate.label}}:</label>   
+				    <label>{{ eForm.endDate.label}}:</label>   
 				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
-				    <p> <label for="id_username">{{ eForm.info.label}}:</label>
+				    <label>{{ eForm.info.label}}:</label>
 				    {{ eForm.info|attr:"class:form-control"|attr:"placeholder:Write a few sentences describing your resposibilites at this job"}}
 				    {{ eForm.info.errors}}
 				</div>
