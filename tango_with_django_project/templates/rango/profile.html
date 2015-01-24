@@ -271,9 +271,6 @@
 
 {% block title %} - My Profile{% endblock %}
 
-{% block side_block %}
-{% endblock %}
-
 {% block body_block %}
 
     <div class="page-header">
@@ -690,10 +687,7 @@
     <!--<div id="fadeout">
     </div>-->
     {% endblock %}
-    {% block footer %}
 
-    {% endblock %}
-{% endblock %}
 {% block scripts %}
     {{ eduForm.media.js }}
     <script src="{% static 'js/jquery-profile.js' %}"></script>
@@ -842,3 +836,4 @@
             $('#id_coords').val( c.x.toFixed(2)+" " + c.y.toFixed(2) +" " + c.x2.toFixed(2) +" " + c.y2.toFixed(2) +" ");
             };
         </script>
+{% endblock %}
