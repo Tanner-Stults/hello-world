@@ -775,10 +775,12 @@
 	$(window).resize(change_pic_resize);
 	$(document).ready(change_pic_resize);
 	var hideScroll = function() {
+	    console.log('hide')
 	    $(document.body).css({'overflow-y':'hidden'})
 	};
-	$('#openModal').click(hideScroll);
+	$('.change_pic').click(hideScroll);
 	var showScroll = function() {
+	    console.log('show')
 	    $(document.body).css({'overflow-y':'scroll'})
 	};
 	$('.close').click(showScroll);
