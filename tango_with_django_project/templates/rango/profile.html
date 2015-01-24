@@ -430,7 +430,7 @@
 				</div>
 				<div class="form-group">
 				    <p><label>{{ eForm.endDate.label}}:</label>   
-				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp</label>{{ eduForm.current|attr:"class:edu" }}
+				    {{ eduForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label> or {{ eduForm.current.label }}:&nbsp;</label>{{ eduForm.current|attr:"class:edu" }}
 				    {{ eduForm.endDate.errors}}
 				</div>
 				<div class="form-group">
@@ -567,7 +567,7 @@
 				</div>
 				<div class="form-group">
 				    <p><label>{{ eForm.endDate.label}}:</label>   
-				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label>or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}} <label>or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
@@ -614,7 +614,7 @@
 				</div>
 				<div class="form-group">
 				    <p><label>{{ eForm.endDate.label}}:</label>   
-				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
@@ -668,7 +668,7 @@
 				</div>
 				<div class="form-group">
 				    <p><label>{{ eForm.endDate.label}}:</label>   
-				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp</label>{{ eForm.current }}
+				    {{ eForm.endDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }} <label> or {{ eForm.current.label }}:&nbsp;</label>{{ eForm.current }}
 				    {{ eForm.endDate.errors}}
 				</div>
 				<div class="form-group">
@@ -713,9 +713,9 @@
 			    var edu = $(this).attr('class')
 			    console.log(edu)
 			    if (edu === 'edu') {
-				$(this).before('<label id="clicked">Current Student:&nbsp</label>');
+				$(this).before('<label id="clicked">Current Student:&nbsp;</label>');
 			    } else {
-			    $(this).before('<label id="clicked">Currently Employed:&nbsp</label>');
+			    $(this).before('<label id="clicked">Currently Employed:&nbsp;</label>');
 			    }
 			}else{
 			    $(this).siblings().attr('required', 'true');
