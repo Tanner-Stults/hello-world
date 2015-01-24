@@ -42,37 +42,34 @@
           <a class="navbar-brand" href="/cornell/">NBA3000</a>
         </div>
         <div class="hidden-xs">
-            <ul class="nav navbar-nav navbar-left">
-                <!--<a href="/rango/"><img style="height:47px; margin-top:3px" src="/static/images/web_con.png" /></a>-->
-            </ul>
+          <ul class="nav navbar-nav navbar-left">
+              <!--<a href="/rango/"><img style="height:47px; margin-top:3px" src="/static/images/web_con.png" /></a>-->
+          </ul>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-                <!--<li><a href="{% url 'restricted' %}">Restricted Page</a></li>-->
-                <li><a href="{% url 'profile' %}">My Profile</a></li>
-                <li><a href="{% url 'users' %}">Users</a></li>
-                <li><a href="{% url 'group' %}">Groups</a></li>
-                <li><a href="{% url 'auth_logout' %}?next=/cornell/">Logout</a></li>
-                <!--<li><a href="{% url 'paintings' %}">Paintings</a></li>-->
-            {% else %}
-                <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
-                <li><a href="{% url 'user_login' %}">Login</a></li>
-            {% endif %}
-                <!-- <li><a href="{% url 'search' %}">Search</a></li> -->
-
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <!--<li><a href="{% url 'about' %}">About</a></li>-->
-            </ul>
+          <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+            <!--<li><a href="{% url 'restricted' %}">Restricted Page</a></li>-->
+            <li><a href="{% url 'profile' %}">My Profile</a></li>
+            <li><a href="{% url 'users' %}">Users</a></li>
+            <li><a href="{% url 'group' %}">Groups</a></li>
+            <li><a href="{% url 'auth_logout' %}?next=/cornell/">Logout</a></li>
+            <!--<li><a href="{% url 'paintings' %}">Paintings</a></li>-->
+          {% else %}
+            <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
+            <li><a href="{% url 'user_login' %}">Login</a></li>
+          {% endif %}
+            <!-- <li><a href="{% url 'search' %}">Search</a></li> -->
+            <li><a href="{% url 'index' %}">Home</a></li>
+              <!--<li><a href="{% url 'about' %}">About</a></li>-->
+          </ul>
         </div>
       </div>
     </div>
         {% block side_block %}
     <!--<div class="container-fluid">
       <div class="row">
-
         <div class="col-sm-3 col-md-2 sidebar">
-
                 {% load rango_extras %}
             <ul class="nav nav-list">
                 <li class="nav-header">Find a Category</li>
@@ -81,12 +78,10 @@
                     <li><input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
                 </form>
             </ul>
-
          <div id="cats">
         </div>
                 {% get_category_list category %}
                 
-
         </div>
         -->{% endblock %}
         {% block body_width %}
@@ -95,7 +90,6 @@
         {% endblock %}
         {% block body_block %}{% endblock %}
     </div>
-  </div>
     {% block footer %}
     <!-- <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container" style="width:100%">
