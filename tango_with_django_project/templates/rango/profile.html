@@ -400,7 +400,7 @@
 				</div>
 					
 				<div class="form-group">
-				    <label>{{ eduForm.school.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eduForm.school.label}}:</label>
 				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
 				    {{ eduForm.school.errors}}
 				</div>
@@ -421,7 +421,7 @@
 				    {{ eduForm.minor.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eduForm.startDate.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eduForm.startDate.label}}:</label>
 				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eduForm.startDate.errors}}
 				</div>
@@ -454,13 +454,13 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <label>{{ eduForm.schoolType.label|attr:"class:required"}}:</label></p>   
+				    <label class="required">{{ eduForm.schoolType.label}}:</label></p>   
 				    {{ eduForm.schoolType|attr:"class:form-control"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eduForm.schoolType.errors}}
 				</div>
 					
 				<div class="form-group">
-				    <label>{{ eduForm.school.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eduForm.school.label}}:</label>
 				    {{ eduForm.school|attr:"class:form-control"|attr:"placeholder:School Name"|attr:"required"  }}
 				    {{ eduForm.school.errors}}
 				</div>
@@ -481,7 +481,7 @@
 				    {{ eduForm.minor.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eduForm.startDate.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eduForm.startDate.label}}:</label>   
 				    {{ eduForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eduForm.startDate.errors}}
 				</div>
@@ -543,12 +543,12 @@
 				</div>
 				<br/>
 				<div class="form-group">
-				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.company.label}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <label for="id_username">{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eForm.jobTitle.label}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"}}
 				    {{ eForm.jobTitle.errors}}
 				</div>
@@ -558,7 +558,7 @@
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.startDate.label}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker"}}
 				    {{ eForm.startDate.errors}}
 				</div>
@@ -590,12 +590,12 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.company.label}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eForm.jobTitle.label}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required" }}
 				    {{ eForm.jobTitle.errors}}
 				</div>
@@ -605,7 +605,7 @@
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.startDate.label}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eForm.startDate.errors}}
 				</div>
@@ -644,12 +644,12 @@
 			{% csrf_token %}
 				<br/>
 				<div class="form-group">
-				    <label>{{ eForm.company.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.company.label}}:</label>   
 				    {{ eForm.company|attr:"class:form-control"|attr:"placeholder:Company Name"|attr:"autofocus:''"|attr:"required" }}
 				    {{ eForm.company.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eForm.jobTitle.label|attr:"class:required"}}:</label>
+				    <label class="required">{{ eForm.jobTitle.label}}:</label>
 				    {{ eForm.jobTitle|attr:"class:form-control"|attr:"placeholder:Job Title"|attr:"required"  }}
 				    {{ eForm.jobTitle.errors}}
 				</div>
@@ -659,7 +659,7 @@
 				    {{ eForm.location.errors}}
 				</div>
 				<div class="form-group">
-				    <label>{{ eForm.startDate.label|attr:"class:required"}}:</label>   
+				    <label class="required">{{ eForm.startDate.label}}:</label>   
 				    {{ eForm.startDate|attr:"class:datepicker"|attr:"required"|attr:"id:datepicker" }}
 				    {{ eForm.startDate.errors}}
 				</div>
