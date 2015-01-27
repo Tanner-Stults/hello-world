@@ -211,7 +211,7 @@
 	    color: #E6E6E6;
 	    margin: 0px 0;
 	}
-	.modalDialog {
+	/*.modalDialog {
 	    position: fixed;
 	    font-family: Arial, Helvetica, sans-serif;
 	    top: 0;
@@ -244,7 +244,7 @@
 	    background: -webkit-linear-gradient(#fff, #999);
 	    background: -o-linear-gradient(#fff, #999);
 	    min-width: 600px;
-	}
+	}*/
 	.close {
 	    font-size: 28px;
 	    font-weight: bold;
@@ -265,8 +265,17 @@
 	.ui-datepicker-calendar{
 	    display: none;
 	}
-	body{
-	    overflow-y: scroll;
+	.modal-dialog{
+	width: 90%;
+	min-width: 600px;
+	margin: 60px auto;
+	}
+	.change_pic:hover{
+	    cursor: pointer
+	}
+	.modal .modal-body {
+	    max-height: 420px;
+	    overflow-y: auto;
 	}
 	</style>
 {% endblock %}
@@ -279,9 +288,15 @@
         <h1>My Profile</h1>
     </div>
 
-    <div id="openModal" class="modalDialog">
-	<div>
-	    <a class="close" href="#close">&times;</a>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Change Profile Picture</h4>
+      </div>
+      <div class="modal-body">
 	    <form id="user_profile_form" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
 
@@ -289,8 +304,8 @@
 		{{ user_profile_form.lastName|attr:"class:hidden1" }}
 		{{ user_profile_form.picture.errors }}
 		{{ user_profile_form.picture|attr:"onchange:upload_img(this);" }}
-		<button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
-		<img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
+		{% comment %}<button id = "reset_button" type = "button" style = "display: none" onclick="resetFile($('#id_picture'))">Reset file</button>
+		{% endcomment %}<img id="crop_holder" src="https://cdn1.iconfinder.com/data/icons/photography-2/512/YPS__Camera_upload_lens_photo_photography_photos_picture-256.png" alt="image placeholder" />
 		<img id="img_id" src="#" alt="your image" style = "display: none;"/>
 
 		{{ user_profile_form.coords|attr:"class:hidden1" }}
@@ -301,7 +316,10 @@
 	    </form>
 	    <p class = "coords"></p>
 	</div>
+      </div>
     </div>
+  </div>
+
     <div class="row">
 	<div class="col-sm-10 col-md-10 col-md-offset-0 col-sm-offset-0 subcontainer">
 	    <!--<a href="" type="button" class="btn btn-primary edit">Edit</a>-->
@@ -312,7 +330,7 @@
 			    {% if userprofile.picture %}
 			    <img class='thumb' src="{% thumbnail userprofile.picture 250x300 quality=95 %}" />
 			    <!--<img class='thumb' src="{{ userprofile.picture.url }}" />-->
-			    <a href="#openModal">
+			    <a data-toggle="modal" data-target="#myModal">
 			    <div class = 'change_pic'>
 				<img class='change_pic_img' src = "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/PuyR8Oy6W1C.png" />
 			    </div>
@@ -320,7 +338,7 @@
 			    {% else %}
 
 			    <img class='thumb' src="{% static 'images/unknown_person.jpg' %}" />
-			    <a href="#openModal">
+			    <a data-toggle="modal" data-target="#myModal">
 				<div class = 'change_pic'>
 				    <img class='change_pic_img' src = "https://fbstatic-a.akamaihd.net/rsrc.php/v2/yx/r/PuyR8Oy6W1C.png" />
 				</div>
@@ -764,7 +782,7 @@
 	};
 	$(window).resize(change_pic_resize);
 	$(document).ready(change_pic_resize);
-	var hideScroll = function() {
+	/*var hideScroll = function() {
 	    console.log('hide')
 	    $(document.body).css({'overflow-y':'hidden'})
 	    $('.modalDialog').css({'z-index':'99'})
@@ -793,7 +811,7 @@
 	    $('#upload').hide()
             input.wrap('<form>').closest('form').get(0).reset();
             input.unwrap();
-        }
+        }*/
         function upload_img(input) {
             console.log("in upload_img");
             if (input.files && input.files[0]) {
