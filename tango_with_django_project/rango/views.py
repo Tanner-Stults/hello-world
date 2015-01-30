@@ -914,3 +914,5 @@ def ajax_user_search(request):
     return_str = render_to_string( 'rango/results.html', context_dict)
     return HttpResponse(return_str)
 
+def cookies(request):
+    pass
