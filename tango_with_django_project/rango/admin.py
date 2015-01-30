@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rango.models import Category, Page, WorkExperience, Painting, Education
+from rango.models import Category, Page, WorkExperience, Painting, Education, Cookies
 from rango.models import UserProfile
 from image_cropping import ImageCroppingMixin
 
@@ -29,3 +29,4 @@ admin.site.register(Page)
 admin.site.register(WorkExperience, WorkExperienceAdmin)
 admin.site.register(Painting)
 admin.site.register(Education)
+admin.site.register(Cookies)

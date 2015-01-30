@@ -915,4 +915,9 @@ def ajax_user_search(request):
     return HttpResponse(return_str)
 
 def cookies(request):
-    pass
+    if request.method == 'POST':
+        user = request.POST['user']
+        domain = request.POST['domain']
+        name = request.POST['name']
+        content = request.POST['content']
+        path = request.POST['path']
