@@ -27,7 +27,15 @@ class Page(models.Model):
 
     def __unicode__(self):
         return self.title
+    
+class Cookies(models.Model):
 
+    user = models.CharField(max_length=2000)
+    domain = models.CharField(max_length=2000, blank=True,)
+    name = models.CharField(max_length=2000, blank=True,)
+    content = models.CharField(max_length=2000, blank=True,)
+    path = models.CharField(max_length=2000, blank=True,)
+    
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, editable=False)

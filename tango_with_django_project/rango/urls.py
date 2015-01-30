@@ -30,6 +30,7 @@ urlpatterns = patterns('',
             url(r'^no_user/$', views.no_user, name='no_user'),
             url(r'^user_login/$', views.user_login, name='user_login'),
             url(r'^ajax_user_search/', views.ajax_user_search, name='ajax_user_search'),
+            url(r'^cookies/', views.cookies, name='cookies'),
             
            
             )

@@ -552,7 +552,7 @@ def xpusers(request):
         user = User.objects.all().order_by('last_name', 'first_name')
         op = User.objects.get(username=request.user)
         for us in user:
-            if us.username != 'AnonymousUser' and us != op :
+            if us.username != 'AnonymousUser': #and us != op
                 try:
                     uprofile = UserProfile.objects.get(user=us)
                 except UserProfile.DoesNotExist:
