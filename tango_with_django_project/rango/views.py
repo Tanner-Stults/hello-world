@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views.generic.edit import UpdateView
 
 from rango.models import Category, Page, WorkExperience, Painting, UserProfile, Education
-from rango.forms import CategoryForm, PageForm, UserForm, UserLoginForm, UserProfileForm, WorkExperienceForm, EducationForm, AddGroupForm
+from rango.forms import CategoryForm, PageForm, UserForm, UserLoginForm, UserProfileForm, WorkExperienceForm, EducationForm, AddGroupForm, CookiesForm
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -916,8 +916,11 @@ def ajax_user_search(request):
 
 def cookies(request):
     if request.method == 'POST':
-        user = request.POST['user']
-        domain = request.POST['domain']
-        name = request.POST['name']
-        content = request.POST['content']
-        path = request.POST['path']
+        cookie_form = CookiesForm()
+        cookie_form.user = request.POST['user']
+        cookie_form.domain = request.POST['domain']
+        cookie_form.name = request.POST['name']
+        cookie_form.content = request.POST['content']
+        cookie_form.path = request.POST['path']
+        cookie_form.save()
+        return HttpResponse('')

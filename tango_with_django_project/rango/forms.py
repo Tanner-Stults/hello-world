@@ -6,7 +6,7 @@ from rango.lookups import UserProfileLookup
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.widgets import HiddenInput
-from rango.models import Category, Page, UserProfile, WorkExperience, Education
+from rango.models import Category, Page, UserProfile, WorkExperience, Education, Cookies
 import datetime
 from image_cropping import ImageCropWidget
 
@@ -123,4 +123,9 @@ class AddGroupForm(forms.Form):
         label='Type the name of a classmate',
         widget=selectable.AutoComboboxSelectWidget(UserProfileLookup,  allow_new=True),
         required=False,
+    )
+
+class CookiesForm(forms.ModelForm):
+    class meta:
+        model = Cookies
     )
