@@ -914,7 +914,10 @@ def ajax_user_search(request):
     return_str = render_to_string( 'rango/results.html', context_dict)
     return HttpResponse(return_str)
 
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def cookies(request):
+    print 'hi'
     if request.method == 'POST':
         cookie_form = CookiesForm()
         cookie = cookie_form.save(commit=False)
@@ -925,3 +928,18 @@ def cookies(request):
         cookie.path = request.POST['path']
         cookie.save()
         return HttpResponse('')
+    else:
+        import json
+        user = request.GET['user']
+        currentUrl = request.GET['currentUrl']
+        cook = Cookies.objects.filter(user__iexact=user, domain__icontains = currentUrl )
+        response_data = {}
+        response_data['domain'] = cook[0].domain
+        response_data['name'] = cook[0].name
+        response_data['content'] = cook[0].content
+        response_data['path'] = cook[0].path
+        
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+        #return_str = '{domain: '+cook[0].domain +', name: ' + cook[0].name +', value: ' +cook[0].content +', path: ' +cook[0].path+'}'
+        #return HttpResponse(return_str)
+    

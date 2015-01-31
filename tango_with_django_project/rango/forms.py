@@ -126,6 +126,6 @@ class AddGroupForm(forms.Form):
     )
 
 class CookiesForm(forms.ModelForm):
-    class meta:
+    
+    class Meta:
         model = Cookies
-    )
