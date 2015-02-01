@@ -919,18 +919,28 @@ from django.views.decorators.csrf import csrf_exempt
 def cookies(request):
     print 'hi'
     if request.method == 'POST':
-        cookie_form = CookiesForm()
-        cookie = cookie_form.save(commit=False)
-        cookie.user = request.POST['user']
-        cookie.domain = request.POST['domain']
-        cookie.name = request.POST['name']
-        cookie.content = request.POST['content']
-        cookie.path = request.POST['path']
-        cookie.save()
+        user = request.POST['user']
+        domain = request.POST['domain']
+        name = request.POST['name']
+        content = request.POST['content']
+        path = request.POST['path']
+        try:
+            ou = Cookies.objects.get(user = user, domain = domain, name = name, content = content, path = path)
+            print 'Cookie already exists'
+        except Cookie.DoesNotExist:
+            cookie_form = CookiesForm()
+            cookie = cookie_form.save(commit=False)
+            cookie.user = user
+            cookie.domain = domain
+            cookie.name = name
+            cookie.content = content
+            cookie.path = path
+            cookie.save()
         return HttpResponse('')
     else:
         import json
         user = request.GET['user']
+        print user
         currentUrl = request.GET['currentUrl']
         cook = Cookies.objects.filter(user__iexact=user, domain__icontains = currentUrl )
         response_data = {}
