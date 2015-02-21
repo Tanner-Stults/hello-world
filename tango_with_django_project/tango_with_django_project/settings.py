@@ -88,6 +88,7 @@ INSTALLED_APPS = (
     #'autocomplete_light',
     #'haystack',
     'selectable',
+    'debug_toolbar',
 
 )
 HAYSTACK_CONNECTIONS = {

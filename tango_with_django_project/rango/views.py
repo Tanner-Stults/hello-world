@@ -533,8 +533,9 @@ def users(request):
         for us in u:
             x = UserProfile.objects.get(user=u)
             up.append(x)
+        count = u.count()
         length = len(u)
-
+        print 'lenght: ' + length + ', count: ' + count
         udict = {'userdict' : u, 'userprofiledict' : up}
         context_dict['udict'] = zip(u, up)
         context_dict['length'] = length
