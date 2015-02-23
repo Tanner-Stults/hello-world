@@ -918,28 +918,70 @@ def ajax_user_search(request):
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def cookies(request):
+    import json
     print 'hi'
     if request.method == 'POST':
-        user = request.POST['user']
-        domain = request.POST['domain']
-        name = request.POST['name']
-        content = request.POST['content']
-        path = request.POST['path']
+        print "POST"
+        cookieArray = request.POST['cookieArray']
+
         try:
-            ou = Cookies.objects.get(user = user, domain = domain, name = name, content = content, path = path)
-            print 'Cookie already exists'
-        except Cookie.DoesNotExist:
-            cookie_form = CookiesForm()
-            cookie = cookie_form.save(commit=False)
-            cookie.user = user
-            cookie.domain = domain
-            cookie.name = name
-            cookie.content = content
-            cookie.path = path
-            cookie.save()
-        return HttpResponse('')
+            decoded = json.loads(cookieArray)
+        except (ValueError, KeyError, TypeError):
+            print "JSON format error"
+        print len(decoded)
+        user = request.POST['user']
+        url = request.POST['url']
+        #domain = request.POST['domain']
+        #name = request.POST['name']
+        #content = request.POST['content']
+        #path = request.POST['path']
+        exisitngCookies = []
+        for cookie in decoded:
+            try:
+                print url
+                print cookie['name']
+                domain = cookie['domain']
+                print cookie['domain']
+                print cookie['value']
+                print cookie['path']
+                print user
+                ou = Cookies.objects.get(url = url, user = user, domain = cookie['domain'],
+                                        name = cookie['name'],#content = cookie['value'],
+                                        path = cookie['path'])
+                print 'Cookie already exists with: ' + str(ou.id)
+                print (ou.content != cookie['value'])
+                if ou.content != cookie['value']: #Cookie exists but different value - update it
+                    ou.content == cookie['value']
+                    ou.save()
+                exisitngCookies.append(ou.id) #List of pre-existant cookies
+            except Cookies.DoesNotExist:
+                print 'Cookie does not exists'
+                try:
+                    cookie_form = CookiesForm() # Cookie does not exist, create one
+                    newCookie = cookie_form.save(commit=False)
+                    newCookie.url = url
+                    newCookie.user = user
+                    newCookie.domain = cookie['domain']
+                    newCookie.name = cookie['name']
+                    newCookie.content = cookie['value']
+                    newCookie.path = cookie['path']
+                    newCookie.save()
+                except Exception,e:
+                    print str(e)
+        print "Out the loop"
+
+        cookiesToSet = Cookies.objects.filter(user__iexact=user, domain__icontains = domain).exclude(id__in=exisitngCookies)
+        print "cookies to set: " + str(len(cookiesToSet))
+        if len(cookiesToSet) > 0:
+            print "queried the db"
+            from django.core import serializers
+            response_data = serializers.serialize("json", cookiesToSet)
+            return HttpResponse(response_data, content_type="application/json")
+        else:
+            print "no cookies to set"
+            return HttpResponse('')
     else:
-        import json
+
         user = request.GET['user']
         print user
         currentUrl = request.GET['currentUrl']

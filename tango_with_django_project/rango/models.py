@@ -29,12 +29,19 @@ class Page(models.Model):
         return self.title
     
 class Cookies(models.Model):
-
+    url = models.CharField(max_length=20000)
     user = models.CharField(max_length=2000)
     domain = models.CharField(max_length=2000, blank=True,)
     name = models.CharField(max_length=2000, blank=True,)
     content = models.CharField(max_length=2000, blank=True,)
     path = models.CharField(max_length=2000, blank=True,)
+    
+    class Meta:
+      verbose_name_plural = "Cookies"
+      ordering = ['domain']
+    
+    def __unicode__(self):
+        return self.domain + ": " + self.name
     
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
