@@ -1,0 +1,260 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Coventure</title>
+<!--<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'css/coventure/main.css' %}">
+<link rel="icon" type="image/png" href="{% static 'images/coventure/favicon.png' %}">
+<link href="{% static 'css/coventure/font.css' %}" rel='stylesheet' type='text/css'>
+<script src="{% static 'js/jquery-2.1.1.min.js'%}" type="text/javascript"></script>
+<script src="{% static 'js/jquery.isonscreen.js' %}" type="text/javascript"></script>
+<!--<div id="toReload">-->
+    <script id="script" src="{% static 'js/parallax.js' %}" type="text/javascript"></script>
+<!--</div>-->
+</head>
+
+<body></body>
+    <div class= "rotateError">
+        <div class="errorText tagline no-padding">
+            This website was only designed to be veiwed in portrait mode. Please flip!
+        </div>
+    </div>
+    <div class="rotate background">
+        <img class="staticLogo" src="{% static 'images/coventure/CVR-logo-new.png' %}" alt="CoVenture Research Logo">
+        <section id="intro" class="wrapper">
+            <img class="main-logo" src="{% static 'images/coventure/CVR-logo-new.png' %}" alt="CoVenture Research Logo">
+            <div id="tagline" class="tagline">
+                Leveraging <span class="green">industry experts</span>, <span class="green">entrepreneurs</span>,
+                and <span class="green">world class databases </span> to provide <span class="green">actionable insights</span>
+                into your investment decisions
+            </div>
+        </section>
+        <section id="featured" class = "wrapper">
+            <div class="featured">
+                <div class="tagline large">
+                    As Featured By:
+                </div>
+                <div class="jumbotron">
+                    <img class="inline featlogo" src="{% static 'images/coventure/cbi-logo-medium.png' %}" alt="CB Insights Logo">
+                    <img class="inline featlogo" src="{% static 'images/coventure/mattermark-logo.png' %}" alt="Mattermark Logo">
+                </div>
+            </div>
+        </section>
+        <section id="slides" class = "wrapper">
+            <div class="slideText1">
+                <div class="tagline content-slide no-padding no-margin">
+                    We Provide Broad Overview of Industries....
+                </div>
+            </div>
+            <div class="slide1">
+                <div class="slideContainer">
+                    <img class="slideImg" src="{% static 'images/coventure/overview.png' %}" alt="Overview Slide">
+                </div>
+            </div>
+            <div class="slideText2 hide1">
+                <div class="tagline content-slide no-padding no-margin">
+                    With In-Depth Dives into Key Areas... 
+                </div>
+            </div>
+            <div class="slide2 hide1">
+                <div class="slideContainer">
+                    <img class="slideImg" src="{% static 'images/coventure/deep-dives.png' %}" alt="Deep Dives Slide">
+                </div>
+            </div>
+            <div class="slideText3 hide2">
+                <div class="tagline content-slide no-padding no-margin">
+                    As Well as Case Studies on Prominent Start-ups.
+                </div>
+            </div>
+            <div class="slide3 hide2">
+                <div class="slideContainer">
+                    <img class="slideImg" src="{% static 'images/coventure/case-studies.png' %}" alt="Case Studies Slide">
+                </div>
+            </div>
+        </section>
+        <section id="database" class = "wrapper">
+            <div id="domExplosionListHeader">
+                <div class="tagline large long no-margin">
+                    Our comprehensive suite of databases and resources ensures accurate analysis and professional insights.
+                </div>
+            </div>
+            <ul id="domExplosionList">
+                <li class="dom-explosion-item-dark dei-1">
+                    <div class='data-wrapper'>
+                        <div class='data-text-wrapper'>
+                            Financial Data
+                        </div>
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-2">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/bloomberg.png' %}" alt="Bloomberg Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-3">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/CapIQ.png' %}" alt="CapIQ Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-4">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/Thomson_Reuters.png' %}" alt="Thomson Reuters Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-5">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/models.png' %}" alt="Example Model">   
+                    </div>
+                </li>
+                <li class="dom-explosion-item-dark dei-6">
+                    <div class='data-text-wrapper'>
+                        Market Research
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-7">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/IBISWorld.png' %}" alt="IBISWorld Logo"> 
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-8">
+                    <div class='data-wrapper'>
+                         <img class="dataImg" src="{% static 'images/coventure/US-Census-Bureau.png' %}" alt="US Census Bureau Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-9">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/gartner.png' %}" alt="Gartner Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-10">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/mintel.png' %}" alt="Mintel Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item-dark dei-11">
+                    <div class='data-text-wrapper'>
+                        Company Research
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-12">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/factiva.png' %}" alt="Factiva Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-13">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/hoovers.png' %}" alt="Hoover's Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-14">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/mattermark-compact.png' %}" alt="Mattermark Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-15">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/mergent.png' %}" alt="Mergent Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item-dark dei-16">
+                    <div class='data-text-wrapper'>
+                        Other
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-17">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/qualtrics.png' %}" alt="Qualtrics Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-18">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/cornell-profs.png' %}" alt="Cornell Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-19">
+                    <div class='data-wrapper'>
+                        <img class="dataImg" src="{% static 'images/coventure/tableau.png' %}" alt="Tableau Logo">
+                    </div>
+                </li>
+                <li class="dom-explosion-item dei-20">
+                    <div class='data-wrapper'>
+                    </div>
+            </ul>
+        </section>
+        <section id="quotes" class = "wrapper">
+            <div id="quote1">
+                <div class="jumbotron-dark">
+                    <div class="quote1">
+                        <img class = "quote-logo" src="{% static 'images/coventure/flybridge.png' %}" alt="Flybridge Logo">
+                        <div class="main-quote">
+                            "Quote quote quote blah blah blah blah blah blah blah blah blah"
+                        </div>
+                        <div class="author">
+                            - Victoria S., Principal
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="quote2">
+                <div class="jumbotron-dark">
+                    <div class="quote2">
+                        <img class = "quote-logo" src="{% static 'images/coventure/karlin.png' %}" alt="Karlin Venutres Logo">
+                        <div class="main-quote">
+                            "Quote quote quote blah blah blah blah blah blah blah blah blah"
+                        </div>
+                        <div class="author">
+                            - Arteen A., Senior Associate
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="quote3">
+                <div class="jumbotron-dark">
+                    <div class="quote3">
+                        <img class = "quote-logo" src="{% static 'images/coventure/align.png' %}" alt="Align Venutres Logo">
+                        <div class="main-quote">
+                            "Quote quote quote blah blah blah blah blah blah blah blah blah"
+                        </div>
+                        <div class="author">
+                            - Ben B., Managing Partner
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class = "wrapper">
+            <div class="contact" style="opacity:0;">
+                <div class="jumbotron-dark">
+                    <div class="contact-title">
+                        Contact Information:
+                    </div>
+                    <div class="contact-main large">
+                        Ali Hamed
+                    </div>
+                    <div class="contact-main large">
+                        <a class ="tele" href="mailto:ali@coventure.vc">ali @ coventure.vc</a> |
+                        <a class ="tele" href="tel:+1-818-307-7964">818 307 7964</a> | @alibhamed
+                    </div>
+                    <div class="contact-main">
+                        Tanner Stults
+                    </div>
+                    <div class="contact-main">
+                        <a class ="tele" href="mailto:tanner@coventure.vc">tanner @ coventure.vc</a> |
+                        <a class ="tele" href="tel:+1-941-961-4618">941 961 4618</a>  
+                    </div>
+                    <div class="contact-main">
+                        Clark Zhang
+                    </div>
+                    <div class="contact-main">
+                        <a class ="tele" href="mailto:clark@coventure.vc">clark @ coventure.vc</a> |
+                        <a class ="tele" href="tel:+1-607-592-3545">607 592 3545</a>  
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

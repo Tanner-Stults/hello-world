@@ -1,0 +1,192 @@
+{% extends "rango/base.html" %}
+
+{% load static %}
+{% load rango_extras %}
+{% load thumbnail %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users.css' %}" type="text/css" />
+	
+    <style type="text/css">
+        @media (max-width: 767px) {
+	    .body {
+		margin-left: 0px;
+	    margin-right: 0px;
+	    min-width: 700px;
+	    }
+        }
+        .title {
+	    font-size: 22px;
+	}
+
+	.detail {
+	    font-size: 18px;
+	    color: #474747;
+	    margin-top: 10px;
+	}
+	.shop{
+	    background-color: LIGHTBLUE;
+	}
+	.shop h4{
+	    text-align:center;
+	}
+	.shop img{
+	    margin-top: 40px;
+	    border-radius: 20px;
+	}
+	    .panel {
+      display: none;
+      width: 220px;
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+      box-shadow: inset 0 0 5px 5px #222;
+    }
+    </style>
+{% endblock %}
+
+{% block title %} - Find Colleagues{% endblock %}
+
+{% block side_block %}
+{% endblock %}
+{% block body_width %}
+    <div class="body col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0">
+{% endblock %}
+{% block body_block %}
+
+        <div class="page-header">
+        <h1>Shop</h1>
+    </div>
+	{% if firstName %}
+	    <h3 id = "HC">Hello: {{firstName}}!</h3>
+	{% else %}
+	<h3 class="nametag">Hello</h3>
+	{% endif %}
+	<h3>Your Shopping Cart:</h3>
+	{% if cookies %}
+    <div class= "row shop">
+    {% for cookie in cookies %}
+            <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-3' 4 1 %}">
+                <div class="col-xs-6 col-sm-3">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if cookie.picture %}
+                    <img src= "{{ cookie.picture.url }}" alt=" {{ cookie.name }}" style = "height:150px;"/> 
+                    
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ cookie.name }}</h4>
+                </div>
+            </div>
+                
+        {% if forloop.last %}
+    </div>
+    {% endif %}
+{% endfor %}
+{% endif %}
+        <div class="hidden-row row row-centered desk" id ="row0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+	<hr>
+        <div class="row placeholders desk">
+            {% for item in items %}
+
+            <div class="userProfile desk {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-3' 4 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if item.picture %}
+                    <img src= "{{ item.picture.url }}"  class="img-responsive" alt=" {{ item.name }}" style = "height:150px;"/> 
+                    
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ item.name }}</h4>
+                </div>
+                {% if item.info %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ item.info }}</p>
+                    <a class="shopping_list" data-sl="{{ item.name }}" onclick="setCookie(this)">Add to Shopping List</a>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"4" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row desk" id="row{% widthratio forloop.counter 4 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders desk">
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+        
+        <div class="hidden-row row row-centered mobile" id ="mobilerow0" style="margin-bottom:30px"> <!--This is the row to put big profiles in-->
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        </div>
+        <div class="row placeholders mobile">
+            {% for item in items2 %}
+            <div class="userProfile mobile {% widthratio forloop.counter 1 1 %}" id="{% widthratio forloop.counter|add:'-2' 2 1 %}">
+                <div class="col-xs-6 col-sm-3 placeholder inactive">
+                    <!--This adds the row number to the id, becuase widthratio rounds, we need to offset it by 2-->
+                    {% if item.picture %}
+                    <img src= "{{ item.picture.url }}"  class="img-responsive" alt=" {{ item.name }}" style = "height:150px;"/> 
+                    
+                    {% else %}
+                    <img src= "http://www.nsacct.org/images/nsa-blog/question-mark.jpg?sfvrsn=0" class="img-responsive" alt=" {{ u.username }} Profile Picture" style = "height:150px;"/> 
+                    {% endif %}
+                    <h4>{{ item.name }}</h4>
+                </div>
+                {% if item.info %}
+                <div class="col-xs-6 col-md-6 col-md-offset-0 myhide">
+                    <p>{{ item.info }}</p>
+                                        <a class="shopping_list" data-sl="{{ item.name }}" onclick="setCookie(this)">Add to Shopping List</a>
+                </div>
+                {% endif %}
+            </div>
+                
+        {% if forloop.last %}
+        </div> <!--end row-->
+        {% else %}
+        {% if forloop.counter|divisibleby:"2" %} <!-- this take the forloop count and see's it is divisible by 4, if so create a new row -->
+        </div>
+        <div class="hidden-row row-centered row mobile" id="mobilerow{% widthratio forloop.counter 2 1 %}">
+            <div class="hideClose">
+                <a class="close">&times;</a>
+            </div>
+        <!--This sets the id of the div to the row number-->
+        </div>
+        <div class="row placeholders mobile">
+        {% endif %}
+
+    {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+
+{% block scripts %}
+    
+    
+    <script language="Javascript">
+        $(document).ready(function(){
+            console.log("doc ready");
+            var userId = "{{user.userID}}"
+            localStorage.setItem("UserId", userId);
+            var test = localStorage.getItem('UserId');
+            console.log(test);
+        });
+    </script>
+{% endblock %}

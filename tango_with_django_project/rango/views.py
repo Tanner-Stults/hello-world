@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views.generic.edit import UpdateView
 
-from rango.models import Category, Page, WorkExperience, Painting, UserProfile, Education, Cookies
+from rango.models import Category, Page, WorkExperience, Painting, UserProfile, Education, Cookies, Items, HCUser
 from rango.forms import CategoryForm, PageForm, UserForm, UserLoginForm, UserProfileForm, WorkExperienceForm, EducationForm, AddGroupForm, CookiesForm
 
 from django.contrib.auth.decorators import login_required
@@ -816,14 +816,18 @@ def user_login(request):
         print password
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
+        nextUrl = ''
+        referrer = request.META.get('HTTP_REFERER')
+        print referrer
 
-        if request.GET.get('next', False):
-            nextUrl = request.GET['next']
+        if referrer and not "/cornell/user_login" in referrer:
+            nextUrl = referrer[referrer.rfind('=')+1:]
             print nextUrl
         else:
+            print "did not get next"
             nextUrl = "/cornell/profile/"
         user = authenticate(username=username, password=password)
-
+    
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
@@ -833,6 +837,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
+
                 return HttpResponseRedirect(nextUrl)
             else:
                 # An inactive account was used - no logging in!
@@ -871,6 +876,36 @@ def user_login(request):
             print redirect
         return render(request, 'registration/login.html', context_dict)
 
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def android_login(request):
+    print 'in android_login'
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
+        print username
+        print password
+
+        user = authenticate(username=username, password=password)
+        userProfile = UserProfile.objects.get(user=user)
+        print userProfile.firstName
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                login(request, user)
+                #if request.POST.get('android'):
+                #    print "in android"
+                print (userProfile.firstName + userProfile.lastName)
+                return HttpResponse((userProfile.firstName + " " + userProfile.lastName))
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your account is disabled.")
+
+@csrf_exempt
 def ajax_user_search(request):
     
     print "in function!"
@@ -915,7 +950,6 @@ def ajax_user_search(request):
     return_str = render_to_string( 'rango/results.html', context_dict)
     return HttpResponse(return_str)
 
-from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def cookies(request):
     import json
@@ -995,4 +1029,114 @@ def cookies(request):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
         #return_str = '{domain: '+cook[0].domain +', name: ' + cook[0].name +', value: ' +cook[0].content +', path: ' +cook[0].path+'}'
         #return HttpResponse(return_str)
+
+@csrf_exempt
+def shop(request):
+    print "in shop"
+    context_dict = {}
+    cookies = []
+    currentCookies = []
+    if request.COOKIES.get('shopping_list'):
+        currentCookies = request.COOKIES.get('shopping_list').split()
+    if request.method == 'POST':
+        currentCookies.append(request.POST['value'])
+    for name in currentCookies:
+        print name
+        cookies.append(Items.objects.get(name=name))
+    items = []
+    items2 = []
+    itemQuery = Items.objects.all()
+    for item in itemQuery:
+        items.append(item)
+        items2.append(item)
+    context_dict['items'] = items
+    context_dict['items2'] = items2
+    context_dict['cookies'] = cookies
+    if request.method == "GET" and request.GET.get("HC"):
+        userId = request.GET['HC']
+        print userId
+        user = HCUser.objects.get(userID = userId)
+        print user.firstName
+        context_dict['firstName'] = user.firstName
+    #return render(request, 'rango/shop.html', context_dict)
+    #return HttpResponse(userId);
+    response = render(request, 'rango/shop.html', context_dict)
+    if request.method == 'POST':
+        print "in post"
+        key = request.POST['key']
+        print key
+        orignialValue = request.POST['value']
+        if request.COOKIES.get('shopping_list'):
+            oldValue = request.COOKIES.get('shopping_list')
+            orignialValue = oldValue + " " + orignialValue
+        print orignialValue
+        set_cookie(response, key, orignialValue)
+        print "set Cookie"
+    return response
+
+def set_cookie(response, key, value, days_expire = 100):
+    import datetime
+
+    print "in setCookie"
+    if days_expire is None:
+        max_age = 365 * 24 * 60 * 60  #one year
+    else:
+        max_age = days_expire * 24 * 60 * 60
+    print max_age
+    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+    print expires
+    print key, value
+    try:
+        response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
+                        secure=settings.SESSION_COOKIE_SECURE or None)
+    except Exception,e:
+        print str(e)
+
+def set_cookie_response(response, key, value, days_expire = 100):
+    import datetime
+
+    print "in setCookie"
+    if days_expire is None:
+        max_age = 365 * 24 * 60 * 60  #one year
+    else:
+        max_age = days_expire * 24 * 60 * 60
+    print max_age
+    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+    print expires
+    print key, value
+    try:
+        response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
+                        secure=settings.SESSION_COOKIE_SECURE or None)
+    except Exception,e:
+        print str(e)
+
+@login_required
+def checkCookies(request):
+    print "in check"
+    context_dict = {}
+    if request.method == 'POST':
+        #return response
+            
+        print "getting the cookie"
+        cookieID = request.COOKIES.get('id') 
+        if cookieID:
+            print "Got the id: " + cookieID
+            #from django.core import serializers
+            #response_data = serializers.serialize("json", cookieID)
+            return HttpResponse(cookieID)
+        else:
+            print "No id"
+            return HttpResponse('')
+    else:
+        user = HCUser.objects.get(user = request.user)
+        print user.firstName
+        context_dict['user'] = user
+        print "setting test cookie"
+        response = render(request, 'rango/checkCookies.html', context_dict)
+        set_cookie(response, "id", "testUser")
+        print "test cookie set"
+        return response
+
+def coVenture(request):
+    return render(request, 'rango/coventure.html')
     

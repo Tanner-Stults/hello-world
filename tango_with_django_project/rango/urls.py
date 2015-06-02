@@ -29,8 +29,12 @@ urlpatterns = patterns('',
             #url(r'^join_group/(?P<id>\d+)/', views.join_group, name='join_group'),
             url(r'^no_user/$', views.no_user, name='no_user'),
             url(r'^user_login/$', views.user_login, name='user_login'),
+            url(r'^android_login/$', views.android_login, name='android_login'),
             url(r'^ajax_user_search/', views.ajax_user_search, name='ajax_user_search'),
             url(r'^cookies/$', views.cookies, name='cookies'),
+            url(r'^shop/$', views.shop, name='shop'),
+            url(r'^checkCookies/$', views.checkCookies, name='checkCookies'),
+            url(r'^coventure/$', views.coVenture, name='coVenture'),
             
            
             )

@@ -42,7 +42,20 @@ class Cookies(models.Model):
     
     def __unicode__(self):
         return self.domain + ": " + self.name
+
+class Items(models.Model):
+    name = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to='profile_images', blank=True,)
+    info = models.TextField(max_length=1000, blank=True)
     
+    
+    class Meta:
+      verbose_name_plural = "Items"
+      ordering = ['name']
+    
+    def __unicode__(self):
+        return self.name
+
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, editable=False)
@@ -118,6 +131,29 @@ class Education(models.Model):
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.school
+
+class HCUser(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+    userID = models.CharField(max_length=200)
+    firstName = models.CharField(max_length=200)
+    shoppinglist = models.CharField(max_length=2000, blank = True)
+    #siteVisits = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+    lastSiteVisit = models.CharField(max_length=200, blank = True)
+    #storeVisits = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+    lastStoreVisit = models.CharField(max_length=200, blank = True)
+    #siteTime = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+    #lastSiteTime = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+    #storeTime = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+    #lastStoreTime = models.CharField(max_length=200, choices = DEGREE_CHOICES, blank = True)
+
+    class Meta:
+        verbose_name_plural = "HCUsers"
+        ordering = ['userID']
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __unicode__(self):
+        return self.userID
 
 class Painting(models.Model):
 
