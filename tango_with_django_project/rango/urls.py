@@ -35,6 +35,7 @@ urlpatterns = patterns('',
             url(r'^shop/$', views.shop, name='shop'),
             url(r'^checkCookies/$', views.checkCookies, name='checkCookies'),
             url(r'^coventure/$', views.coVenture, name='coVenture'),
+            url(r'^hotwire/$', views.hotwire, name='hotwire'),
             
            
             )

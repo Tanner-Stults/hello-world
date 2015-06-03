@@ -1139,4 +1139,7 @@ def checkCookies(request):
 
 def coVenture(request):
     return render(request, 'rango/coventure.html')
+
+def hotwire(request):
+    return render(request, 'rango/hotwire/coventure.html')
     
