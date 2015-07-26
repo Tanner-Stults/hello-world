@@ -1142,4 +1142,7 @@ def coVenture(request):
 
 def hotwire(request):
     return render(request, 'rango/hotwire/test.html')
+
+def visualize(request):
+    return render(request, 'rango/visualize/visualize.html')
     

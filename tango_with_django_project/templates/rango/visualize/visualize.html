@@ -1,0 +1,927 @@
+<html>
+    <head>
+        <script src="{% static 'js/visualize/jquery-2.1.1.min.js' %}"></script>
+        <script src="{% static 'js/visualize/TweenMax.min.js' %}"></script>
+        <script src="{% static 'js/visualize/color-thief.js' %}"></script>
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+        
+        <style>
+            .player {
+                margin: 0 auto;
+                width: 318px;
+                position: relative;
+                overflow: hidden;
+                background: #222;
+            }
+            .player-info {
+                text-align: center;
+            }
+            .player-song-name {
+                margin: 0;
+                color: #fff;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 22px;
+                font-weight: 200;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+              .player-artist {
+                font-weight: 600;
+                margin: 5px 0 0 0;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .player-info-text {
+                padding: 20px 0;
+                background: rgba(255, 255, 255, 0.2);
+                margin-bottom: 25px;
+            }
+              .player-cover {
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                border-radius: 50%;
+                width: 200px;
+                height: 200px;
+                z-index: 3;
+            }
+            .player-spectrum {
+                -webkit-filter: url("#goo-no-comp");
+                filter: url("../codrops.html#goo-no-comp");
+                transform: translateZ(0);
+                position: relative;
+                height: 180px;
+                margin-top: -45px;
+                z-index: 2;
+                white-space: nowrap;
+            }
+            .player-spectrum-bars {
+                font-size: 0;
+                position: absolute;
+                bottom: 0;
+                -webkit-backface-visibility: hidden;
+            }
+            .player-spectrum-bar {
+                display: inline-block;
+                width: 20px;
+                height: 150px;
+                -webkit-transform-origin: 50% 100%;
+                transform-origin: 50% 100%;
+            }
+            .player-drops {
+                position: relative;
+                -webkit-filter: url("#goo-drops");
+                filter: url("../codrops.html#goo-drops");
+                transform: translateZ(0);
+            }
+            .player-drop {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                margin-top: -10px;
+                border-radius: 50%;
+            }
+            .player-spectrum-floor {
+                width: 100%;
+                height: 30px;
+                position: absolute;
+                bottom: -30px;
+            }
+            .player-controls,
+            .player-buttons {
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-flex-wrap: wrap;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                -webkit-align-items: center;
+                align-items: center;
+            }
+            
+            .player-controls {
+                position: relative;
+                height: 50px;
+                line-height: 50px;
+                z-index: 5;
+            }
+            
+            .player-buttons {
+                padding: 0 10px;
+            }
+            
+            .player-button {
+                padding: 0;
+                margin: 0 5px;
+                padding: 0 5px;
+                background: transparent;
+                border: none;
+                color: #841E21;
+                font-size: 18px;
+                -webkit-transition: color 0.2s;
+                transition: color 0.2s;
+            }
+            
+            .player-button:hover {
+                color: #fff;
+            }
+            
+            .player-slider {
+                position: relative;
+                display: inline-block;
+                width: 180px;
+                height: 6px;
+                margin-left: 10px;
+                background: #841E21;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            .player-slider::before,
+            .player-slider::after {
+                content: '';
+                position: absolute;
+            }
+            .player-drop,
+            .player-spectrum-floor,
+            .player-controls,
+            .player-spectrum-bar {
+                background: #ad2a2a;
+            }
+            #infoImage{
+                width: 200px;
+            }
+            a{
+                text-decoration: none;
+                color: inherit;
+            }
+            #player{
+                display: none;
+            }
+            #input {
+                margin-top: 20px;
+                font-size: 20px;
+                padding: 8px;
+                width: 80%;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 690px;
+                color: white;
+                background-color: #EBEBEB;
+                color: #333;
+                border: 1px solid #111;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+            body{
+                font-family: 'Raleway', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                color: #a8a8a8;
+            }
+
+
+        </style>
+    </head>
+
+    <body>
+        <div class="player">
+            <div class="player-info">
+                <div class="player-info-text">
+                    <h2 id="infoTrack" class="player-song-name"><a href="http://soundcloud.com/djruen/good-life-ruen-melker-project">Kanye West -Good Life (Ruen &amp; Melker Project Remix)</a></h2>
+                    <h3 id="infoArtist" class="player-artist"><a href="http://soundcloud.com/djruen">RUEN</a></h3>
+                </div>
+                <div class="player-cover">
+                    <img id="infoImage" src="img/glassanimals.jpg" crossorigin="anonymous">
+                </div>
+            </div>
+            <div class="player-spectrum">
+                <div class="player-spectrum-bars">
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                    <div class="player-spectrum-bar" data-scale="0.1" style="transform: matrix(1, 0, 0, 0.1, 0, 0);"></div>
+                </div>
+                <div class="player-spectrum-floor"></div>
+            </div>
+            <div class="player-drops"></div>
+            <div class="player-controls">
+                <div class="player-buttons">
+                    <button class="player-button">
+                        <i class="fa fa-step-backward"></i> 
+                    </button>
+                    <button class="player-button play-pause-button">
+                        <i class="fa fa-pause"></i> 
+                    </button>
+                    <button class="player-button">
+                        <i class="fa fa-step-forward"></i> 
+                    </button>
+                </div>
+                <input class="player-slider" type="range" min="0" max="100" value="50" oninput="changeVolume(this);">
+            </div>
+        </div>
+        <form id="form">
+            <input id="input" placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)">
+            <button type="submit" id="submit"><i class="icon-play"></i></button><br>
+        </form>
+        <audio id="player" controls="" autoplay="" preload="" autobuffer="" crossorigin="anonymous"></audio>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="0px">
+            <defs>
+                <filter id="goo">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+                </filter>
+                <filter id="goo-no-comp">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo"></feColorMatrix>
+                </filter>
+                <filter id="goo-drops">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"></feGaussianBlur>
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+                </filter>
+            </defs>
+          </svg>
+        
+        
+    </body>
+
+    <script>
+        /****** Audio Set-Up ******/
+    //var trackUrl = "https://soundcloud.com/wearegalantis/runaway-u-i-dillon-francis-remix"//"https://soundcloud.com/djruen/good-life-ruen-melker-project"
+    var analyser, streamData, undf, paused = false, domColor = "#ad2a2a", started = false, gainNode
+    window.onload = function init() {
+
+    var visualizer = new Visualizer();
+    var player =  document.getElementById('player');
+    var uiUpdater = new UiUpdater();
+    var loader = new SoundcloudLoader(player,uiUpdater);
+    
+    var audioSource = new SoundCloudAudioSource(player, visualizer);
+    var form = document.getElementById('form');
+    var loadAndUpdate = function(trackUrl) {
+        loader.loadStream(trackUrl,
+            function() {
+                uiUpdater.clearInfoPanel();
+                audioSource.playStream(loader.streamUrl());
+                uiUpdater.update(loader);
+                //setTimeout(uiUpdater.toggleControlPanel, 3000); // auto-hide the control panel
+                if (!started) {
+                    started = !started
+                    visualizer.start();
+                }else{
+                    visualizer.toggle();
+                }
+                
+            },
+            function() {
+                //uiUpdater.displayMessage("Error", loader.errorMessage);
+            });
+    };
+
+    /*visualizer.init({
+        containerId: 'visualizer',
+        audioSource: audioSource
+    });*/
+
+
+    //uiUpdater.toggleControlPanel();
+    // on load, check to see if there is a track token in the URL, and if so, load that automatically
+    if (window.location.hash) {
+        var trackUrl = 'https://soundcloud.com/' + window.location.hash.substr(1);
+        loadAndUpdate(trackUrl);
+    }
+
+
+    // handle the form submit event to load the new URL
+    $("input").keypress(function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            loader.directStream('toggle');
+            visualizer.toggle();
+            console.log('sumbiting')
+            setTimeout(function(){
+                //loader.directStream('toggle');
+                var trackUrl = document.getElementById('input').value;
+                loadAndUpdate(trackUrl);
+                //visualizer.toggle();
+            }, 2000)
+        }
+    });
+    var toggleButton = $('.fa-pause')[0]
+    toggleButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        //uiUpdater.toggleControlPanel();
+        loader.directStream('toggle');
+        visualizer.toggle();
+    });
+    /*var aboutButton = document.getElementById('credit');
+    aboutButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        var message = document.getElementById('info').innerHTML;
+        uiUpdater.displayMessage("About", message);
+    });*/
+
+    window.addEventListener("keydown", keyControls, false);
+     
+    function keyControls(e) {
+        switch(e.keyCode) {
+            case 32:
+                // spacebar pressed
+                loader.directStream('toggle');
+                visualizer.toggle();
+                break;
+            case 37:
+                // left key pressed
+                loader.directStream('backward');
+                break;
+            case 39:
+                // right key pressed
+                loader.directStream('forward');
+                break;
+        } 
+    }
+
+
+};
+        
+var SoundcloudLoader = function(player,uiUpdater) {
+    var self = this;
+    var client_id = "d149ae40140fb1859616ca1e05100ec3"; // to get an ID go to http://developers.soundcloud.com/
+    this.sound = {};
+    this.streamUrl = "";
+    this.errorMessage = "";
+    this.player = player;
+    this.uiUpdater = uiUpdater;
+    player.crossOrigin = "anonymous";
+    /**
+     * Loads the JSON stream data object from the URL of the track (as given in the location bar of the browser when browsing Soundcloud),
+     * and on success it calls the callback passed to it (for example, used to then send the stream_url to the audiosource object).
+     * @param track_url
+     * @param callback
+     */
+    this.loadStream = function(track_url, successCallback, errorCallback) {
+        SC.initialize({
+            client_id: client_id
+        });
+        SC.get('/resolve', { url: track_url }, function(sound) {
+            if (sound.errors) {
+                self.errorMessage = "";
+                for (var i = 0; i < sound.errors.length; i++) {
+                    self.errorMessage += sound.errors[i].error_message + '<br>';
+                }
+                self.errorMessage += 'Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track';
+                errorCallback();
+            } else {
+
+                if(sound.kind=="playlist"){
+                    self.sound = sound;
+                    self.streamPlaylistIndex = 0;
+                    self.streamUrl = function(){
+                        return sound.tracks[self.streamPlaylistIndex].stream_url + '?client_id=' + client_id;
+                    }
+                    successCallback();
+                }else{
+                    self.sound = sound;
+                    self.streamUrl = function(){ return sound.stream_url + '?client_id=' + client_id; };
+                    successCallback();
+                }
+            }
+        });
+    };
+
+
+    this.directStream = function(direction){
+        if(direction=='toggle'){
+            if (this.player.paused) {
+                this.player.play();
+            } else {
+                this.player.pause();
+            }
+        }
+        else if(this.sound.kind=="playlist"){
+            if(direction=='coasting') {
+                this.streamPlaylistIndex++;
+            }else if(direction=='forward') {
+                if(this.streamPlaylistIndex>=this.sound.track_count-1) this.streamPlaylistIndex = 0;
+                else this.streamPlaylistIndex++;
+            }else{
+                if(this.streamPlaylistIndex<=0) this.streamPlaylistIndex = this.sound.track_count-1;
+                else this.streamPlaylistIndex--;
+            }
+            if(this.streamPlaylistIndex>=0 && this.streamPlaylistIndex<=this.sound.track_count-1) {
+               this.player.setAttribute('src',this.streamUrl());
+               this.uiUpdater.update(this);
+               this.player.play();
+            }
+        }
+    }
+
+
+};
+    var SoundCloudAudioSource = function(player, visualizer) {
+        var self = this;
+        
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 32;
+        var source = audioCtx.createMediaElementSource(player);
+        source.connect(analyser);
+        gainNode = audioCtx.createGain();
+        // Connect the source to the gain node.
+        analyser.connect(gainNode);
+        // Connect the gain node to the destination.
+        gainNode.connect(audioCtx.destination);
+        analyser.connect(audioCtx.destination);
+        var sampleAudioStream = function() {
+            analyser.getByteTimeDomainData(self.streamData);
+            // calculate an overall volume value
+            var total = 0;
+            for (var i = 0; i < 80; i++) { // get the volume from the first 80 bins, else it gets too loud with treble
+                total += self.streamData[i];
+            }
+            self.volume = total;
+        };
+        setInterval(sampleAudioStream, 20);
+        // public properties and methods
+        this.volume = 0;
+        this.streamData = new Uint8Array(128);
+        streamData = this.streamData
+        this.playStream = function(streamUrl) {
+            audio = new Audio(),
+            // get the input stream from the audio element
+            player.addEventListener('ended', function(){
+                visualizer.toggle()
+                //self.directStream('coasting');
+            });
+            player.setAttribute('src', streamUrl);
+            player.play();
+        }
+    };
+  
+        /*function init() {
+            try {
+                // Fix up for prefixing
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                loadAudio(audioUrl)
+            }
+            catch(e) {
+                alert('Web Audio API is not supported in this browser');
+            }
+        }
+        
+        //window.addEventListener('load', init, false);
+            
+        function loadAudio(url) {
+            console.log(url)
+            var request = new XMLHttpRequest();
+            stream = new Audio();
+                client_id = '?client_id=d4ab52d80ed2e7790c3a243495b30093';
+            request.open('GET', 'http://api.soundcloud.com/tracks/204082098.json' + client_id);
+            request.onload = function(){
+                var track = JSON.parse(request.responseText);
+                stream.src = track.stream_url + client_id;
+                source = audioCtx.createMediaElementSource(stream);
+                document.querySelector('#myaudio').appendChild(stream);
+                //buf = stream
+                audioAnalysis();
+                /*.decodeAudioData(stream, function(buffer) {
+                    console.log(buffer)
+                    buf = buffer;
+                    
+                })
+              
+              stream.play();
+            };
+            request.send();
+            /*var request = new XMLHttpRequest();
+            request.open('GET', url, true);
+            request.responseType = 'arraybuffer';
+          
+            // Decode asynchronously
+            request.onload = function() {
+              audioCtx.decodeAudioData(request.response, function(buffer) {
+                console.log(buffer)
+                buf = buffer;
+                audioAnalysis();
+              }, function(){
+                console.log("Error", oXHR.statusText);
+                });
+            }
+            request.send();
+        }
+        
+        function audioAnalysis(){
+            console.log("Analyzing")
+            analyser = audioCtx.createAnalyser();
+
+            analyser.fftSize = 32;
+            var bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+            startTime = audioCtx.currentTime;
+            play()
+            //draw()
+            
+        }
+            
+        function play() {
+            console.log("Playing")
+            stream.play()
+            
+            //source = audioCtx.createBufferSource();
+            // Connect graph
+            //source.buffer = buf;
+            //source.loop = true;
+            //source.connect(audioCtx.destination);
+            // Start playback, but make sure we stay in bound of the buffer.
+            //source.play()
+            //source.start(0, startOffset);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
+            gainNode = audioCtx.createGain();
+            // Connect the source to the gain node.
+            source.connect(gainNode);
+            // Connect the gain node to the destination.
+            gainNode.connect(audioCtx.destination);
+            //start();
+            
+            source.onended = function() {
+                console.log('Your audio has finished playing');
+                paused=true;
+            }
+        }*/
+        
+        function changeVolume(el) {
+            var volume = el.value;
+            var fraction = (parseInt(el.value)-parseInt(el.max)) / parseInt(el.max);
+            // Let's use an x*x curve (x-squared) since simple linear (x) does not
+            // sound as good.
+            console.log(fraction)
+            gainNode.gain.value = fraction //* fraction;
+        };
+
+        var UiUpdater = function() {
+            //var controlPanel = document.getElementById('controlPanel');
+            //var trackInfoPanel = document.getElementById('trackInfoPanel');
+            var infoImage = document.getElementById('infoImage');
+            var infoArtist = document.getElementById('infoArtist');
+            var infoTrack = document.getElementById('infoTrack');
+            //var messageBox = document.getElementById('messageBox');
+        
+            this.clearInfoPanel = function() {
+                // first clear the current contents
+                infoArtist.innerHTML = "";
+                infoTrack.innerHTML = "";
+                //trackInfoPanel.className = 'hidden';
+            };
+            this.update = function(loader) {
+                //update the track and artist into in the controlPanel
+                var artistLink = document.createElement('a');
+                artistLink.setAttribute('href', loader.sound.user.permalink_url);
+                artistLink.innerHTML = loader.sound.user.username;
+                var trackLink = document.createElement('a');
+               
+                trackLink.setAttribute('href', loader.sound.permalink_url);
+        
+                if(loader.sound.kind=="playlist"){
+                    trackLink.innerHTML = "<p>" + loader.sound.tracks[loader.streamPlaylistIndex].title + "</p>" + "<p>"+loader.sound.title+"</p>";
+                }else{
+                    trackLink.innerHTML = loader.sound.title;
+                }
+        
+                
+                //infoImage = new Image;
+                infoImage.onload = function() {
+                    var colorThief = new ColorThief();
+                    var color = colorThief.getColor(infoImage);
+                    var palette = colorThief.getPalette(infoImage, 4);
+                    console.log(palette)
+                    domColor = 'rgb('+palette[0][0]+','+palette[0][1]+','+palette[0][1]+')'
+                    //domColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')'
+                    $('.player-drop,.player-spectrum-floor,.player-controls,.player-spectrum-bar,.player-info-text')
+                    .css({'background':domColor})
+                    $('body')
+                    .css({'background':'rgb('+palette[1][0]+','+palette[1][1]+','+palette[1][2]+')'})
+                    $('.player-song-name, .player-artist')
+                    .css({'color':'rgb('+palette[1][0]+','+palette[1][1]+','+palette[1][2]+')'})
+                    
+                    console.log(color[0]+","+color[1]+","+color[2])
+                    var hsl =rgbToHsl(color[0],color[1],color[2])
+                    console.log(hsl)
+                    var h = hsl[0]*360, s = hsl[1]*100, l = hsl[2]*100
+                    var triad = ['hsl('+h+', '+s+'%, '+l+'%)',
+                                 'hsl('+(h + 120) % 360+', '+s+'%, '+l+'%)',
+                                 'hsl('+(h + 240) % 360+', '+s+'%, '+l+'%)']
+                    console.log(triad[2])
+                    //$('.player-button').css({'color':triad[2]})
+                    //$('.player').css({'background':triad[1]})
+                    $('.player-button').css({'color':'rgb('+palette[2][0]+','+palette[2][1]+','+palette[2][2]+')'})
+                    $('.player').css({'background':'rgb('+palette[3][0]+','+palette[3][1]+','+palette[3][2]+')'})
+                   
+                }
+                
+                image = loader.sound.artwork_url ? loader.sound.artwork_url : loader.sound.user.avatar_url; // if no track artwork exists, use the user's avatar.
+                console.log(image + ' - ' + $(infoImage))
+                infoImage.setAttribute('src', image.replace("large","t300x300"));
+                
+                infoArtist.innerHTML = '';
+                infoArtist.appendChild(artistLink);
+        
+                infoTrack.innerHTML = '';
+                infoTrack.appendChild(trackLink);
+        
+                // display the track info panel
+                //trackInfoPanel.className = '';
+        
+                // add a hash to the URL so it can be shared or saved
+                var trackToken = loader.sound.permalink_url.substr(22);
+                window.location = '#' + trackToken;
+            };
+            this.toggleControlPanel = function() {
+                if (controlPanel.className.indexOf('hidden') === 0) {
+                    controlPanel.className = '';
+                } else {
+                    controlPanel.className = 'hidden';
+                }
+            };
+            this.displayMessage = function(title, message) {
+                messageBox.innerHTML = ''; // reset the contents
+        
+                var titleElement = document.createElement('h3');
+                titleElement.innerHTML = title;
+        
+                var messageElement = document.createElement('p');
+                messageElement.innerHTML = message;
+        
+                var closeButton = document.createElement('a');
+                closeButton.setAttribute('href', '#');
+                closeButton.innerHTML = 'close';
+                closeButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    messageBox.className = 'hidden';
+                });
+        
+                messageBox.className = '';
+                // stick them into the container div
+                messageBox.appendChild(titleElement);
+                messageBox.appendChild(messageElement);
+                messageBox.appendChild(closeButton);
+            };
+            function rgbToHsl(r, g, b){
+                r /= 255, g /= 255, b /= 255;
+                var max = Math.max(r, g, b), min = Math.min(r, g, b);
+                var h, s, l = (max + min) / 2;
+            
+                if(max == min){
+                    h = s = 0; // achromatic
+                }else{
+                    var d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch(max){
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                return [h, s, l];
+            }
+        };
+
+        /****** Gooey Visualizer ******/
+        var Visualizer = function() {
+            var $cover=$(".player-cover")
+                ,$bars=$(".player-spectrum-bar")
+                ,$drops=$(".player-drops")
+                ,$spectrum=$(".player-spectrum")
+                ,barWidth=$bars.width()
+                ,barHeight=$bars.height()
+                
+                ,coverPos=$cover.position()
+                ,coverSize=$cover.width()
+                ,coverCenter=coverPos.left+(coverSize/2)
+                ,coverCenterTop=coverPos.top+($cover.height()/2)
+                ,coverRadius=coverSize/2
+                
+                ,spectrumPos=$spectrum.position().top
+                ,spectrumMargin=parseFloat($spectrum.css("marginTop"))
+                ,dropsPos=$drops.position()
+                ,distanceCoverFromDrops=dropsPos.top-coverPos.top-coverSize
+                
+                ,max = 200
+                
+            $.fn.animBar=function(v, num){
+                var $bar=$(this);
+                var min=0.1;
+                var setV=true
+                if(typeof v=="undefined"){
+                    analyser.getByteTimeDomainData(streamData);
+                    var data = streamData[num-1]
+                    if (data > max) {
+                        max = streamData[num-1]
+                    }
+                    v = data/max;
+                    v = v*(1.5-(1-v))*1.1 - .25
+                    if (v<.1) {
+                        v = .1
+                    }
+                    setV=false;
+                }
+                
+                if(v>parseFloat($bar.attr("data-scale")) && v>min){
+                    TweenMax.to($bar,v*(setV?1.1:.5),{
+                        scaleY:v,
+                        attr:{
+                            "data-scale":v
+                        },
+                        ease:(setV?Quad.easeIn:Quad.easeOut),
+                        onComplete:function(){
+                            
+                            TweenMax.to($bar,v*1.05,{  
+                                scaleY: v*.1,
+                                attr:{
+                                    "data-scale":v*.1
+                                },
+                                ease:Quad.easeIn,
+                                onComplete:function(){
+                                    $bar.animBar(v*.7, num)
+                                }
+                            });
+                        },
+                        onUpdate:function(){
+                            $bar.checkCoverDrops()
+                        }
+                    });
+                    
+                }
+                if(!setV && !paused){
+                    setTimeout(function(){
+                        $bar.animBar(undf, num)
+                    },Math.random()*50);
+                }else{
+                    wrapUp()
+                }
+            }
+            
+            function wrapUp(){
+                $(".player-spectrum-bar").each(function(){
+                    
+                    var $cur=$(this);
+                    var $curPos = $cur.attr("data-scale")
+                    //console.log($cur.attr("data-scale"))
+                    setTimeout(function () {
+                        $cur.attr("data-scale",0.1);
+                        TweenMax.to($cur,.4 ,{
+                            scaleY:0,
+                            attr:{
+                                "data-scale":.1
+                            },
+                            ease:Quint.easeIn,
+                            onComplete:function(){
+                                TweenMax.to($cur,.6,{
+                                    scaleY: $curPos/4+.3,
+                                    attr:{
+                                        "data-scale":0
+                                    },
+                                    ease:Quad.easeOut,
+                                    onComplete:function(){
+                                        TweenMax.to($cur,.6,{
+                                        scaleY:.1,
+                                        attr:{
+                                            "data-scale":.1
+                                        },
+                                        ease:Quad.easeIn
+                                        });
+                                    },
+                                })
+                            }
+                        });
+                    }, Math.random()*500)  
+                })
+            }
+            
+            $.fn.checkCoverDrops=function(){
+                var $bar=$(this);
+                var barPos=$bar.position();
+                
+                if(barPos.left+(barWidth/2)>=coverPos.left && barPos.left-(barWidth/2)<=coverPos.left+coverSize){
+                    var scale=parseFloat($bar.attr("data-scale"));
+                    var size=scale*barHeight;
+                    if(size>=distanceCoverFromDrops){
+                        var peak={
+                            top:size-distanceCoverFromDrops,
+                            left:barPos.left+(barWidth/2)
+                        }
+                        var dx=peak.left-coverCenter;
+                        var dy=peak.top-coverRadius;
+                        var distance=Math.sqrt((dx*dx)+(dy*dy));
+                        if(distance<coverRadius-5){
+                            addDrop(barPos.left)
+                        }
+                    }
+                }
+            }
+            
+            function addDrop(x){
+                var drop = dropTopPos(x)
+                var $drop=$("<div/>")
+                    .addClass("player-drop")
+                    .css({
+                        left:x,
+                        top:drop,
+                        background: domColor
+                    })
+                    .appendTo(".player-drops");
+                    
+                var distanceFromCenter=coverCenter-(x+(barWidth/2));
+                TweenMax.to($drop,Math.abs(distanceFromCenter)*0.01,{
+                    x:distanceFromCenter*1/7,
+                    y:-(dropsPos.top-coverPos.top-coverSize+drop)*3/7,
+                    ease:Linear.easeIn,
+                    force3D:true,
+                    onComplete:function(){
+                        TweenMax.to($drop,Math.abs(distanceFromCenter)*0.015,{
+                            x:distanceFromCenter*3/7,
+                            y:-(dropsPos.top-coverPos.top-coverSize+drop)*5/7,
+                            ease:Linear.easeNone,
+                            force3D:true,
+                            onComplete:function(){
+                                TweenMax.to($drop,Math.abs(distanceFromCenter)*0.015,{
+                                    x:distanceFromCenter,
+                                    y:-(dropsPos.top-coverPos.top-coverSize+drop),
+                                    ease:Sine.easeOut,
+                                    force3D:true,
+                                    onComplete:function(){
+                                        $drop.addClass('player-drop-ready')
+                                        TweenMax.to($drop,1,{
+                                            scaleY:1.5,
+                                            ease:Quad.easeInOut
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+            
+            function dropDrops(){
+                var $readyDrops=$(".player-drop-ready");
+                TweenMax.to($readyDrops,0.4,{
+                    delay:0.2,
+                    y:distanceCoverFromDrops,
+                    scaleY:4,
+                    scaleX:0.5,
+                    force3D:true,
+                    ease:Quint.easeIn,
+                    onComplete:function(){
+                        $readyDrops.remove();
+                    }
+                })
+            }
+            setInterval(dropDrops,1000);
+            
+            function dropTopPos(left){
+                left = left + barWidth/2;
+                var x = Math.sqrt(Math.pow(coverRadius,2) - Math.pow(left- coverCenter,2))+ coverCenterTop
+                var cor =Math.abs(left-coverCenter)/10
+                return -dropsPos.top+x-cor
+            }
+            
+            this.start = function() {
+                var num = 0;
+                $bars.each(function(){
+                    var $cur=$(this);
+                    num++;
+                    $cur.attr("data-scale",0.5);
+                    TweenMax.set($cur,{
+                        scaleY:.2
+                    });
+                    $cur.animBar(undf, num);
+                })
+            }
+            this.toggle = function() {
+            paused = !paused
+            if (!paused) {
+                this.start()
+            }
+        }
+
+    }
+  
+    </script>
+</html>
