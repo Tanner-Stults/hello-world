@@ -613,10 +613,10 @@ var SoundcloudLoader = function(player,uiUpdater) {
                     console.log(palette)
                     domColor = 'rgb('+palette[0][0]+','+palette[0][1]+','+palette[0][1]+')'
                     //domColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')'
-                    $('.player-drop,.player-spectrum-floor,.player-controls,.player-spectrum-bar,.player-info-text')
+                    $('.player-drop,.player-spectrum-floor,,.player-spectrum-bar,.player-info-text')
                     .css({'background':domColor})
                     $('body')
-                    .css({'background':'rgb('+palette[1][0]+','+palette[1][1]+','+palette[1][2]+')'})
+                    .css({'background, .player-controls':'rgb('+palette[1][0]+','+palette[1][1]+','+palette[1][2]+')'})
                     $('.player-song-name, .player-artist')
                     .css({'color':'rgb('+palette[1][0]+','+palette[1][1]+','+palette[1][2]+')'})
                     
